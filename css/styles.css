@@ -13,7 +13,7 @@ body {
 }
 
 .container {
-    max-width: 1400px;
+    max-width: 1920px;
     margin: 0 auto;
     padding: 0 15px;
     width: 100%;
@@ -35,7 +35,7 @@ img {
 
 /* Header styles */
 header {
-    padding: 20px 0;
+    padding: 28px 0px 0px;
     background-color: #F8F9FA;
     width: 100%;
 }
@@ -47,30 +47,30 @@ header .container {
     position: relative;
 }
 
-/* Floating oval navigation */
+/* Floating navigation */
 .floating-nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
     background-color: #ffffff;
     border-radius: 40px;
-    padding: 10px 25px;
+    padding: 20px 25px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
     z-index: 10;
     width: 100%;
-    max-width: 900px;
+    max-width: 1296px;
 }
 
 .logo {
     display: flex;
     align-items: center;
     font-weight: bold;
-    font-size: 18px;
+    font-size: 20px;
 }
 
 .paw-icon {
-    width: 20px;
-    height: 20px;
+    width: 29px;
+    height: 25px;
     margin-right: 8px;
 }
 
@@ -81,7 +81,8 @@ header .container {
 
 .nav-links li a {
     transition: color 0.3s;
-    font-size: 15px;
+    font-size: 20px;
+    font-weight: medium;
     padding: 5px 0;
     display: block;
 }
@@ -124,4 +125,224 @@ header .container {
     height: 8px;
     background-color: #FF8A2B;
     border-radius: 50%;
+}
+
+/* Hero section styles */
+
+.hero-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 100px 312px;
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    gap: 20px;
+}
+
+.orange-blob {
+    position: absolute;
+    z-index: -1;
+}
+
+.orange-blob img {
+    width: 100%;
+    height: 100%;
+}
+
+.top-blob {
+    width: 200px;
+    height: 200px;
+    left: 493px;
+    top: -45px;
+}
+
+.bottom-blob {
+    width: 160px;
+    height: 165px;
+    left: 600px;
+    bottom: -12px;
+}
+
+.hero-content {
+    max-width: 645px;
+    z-index: 1;
+    flex: 1;
+}
+
+.hero-content h1 {
+    font-size: 54px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    line-height: auto;
+}
+
+.hero-content p {
+    color: #666;
+    font-size: 18px;
+    margin-bottom: 30px;
+    line-height: 1.6;
+    max-width: 479px;
+}
+
+.adopt-btn {
+    background-color: #000;
+    color: #fff;
+    height: 60px;
+    width: 195px;
+    border: none;
+    padding: 17px 40px;
+    border-radius: 12px;
+    cursor: pointer;    
+    font-style: semi-bold;
+    font-size: 20px;
+    transition: background-color 0.3s;
+}
+
+.adopt-btn:hover {
+    background-color: #333;
+}
+
+.hero-image {
+    position: relative;
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.bird-silhouette {
+    position: relative;
+    width: 204px;
+    height: 204px;
+    left: -150px;
+    top: -120px;
+    opacity: 0.7;
+}
+
+.bird-silhouette img {
+    width: 100%;
+    height: 100%;
+}
+
+.pets-silhouette {
+    position: relative;
+    width: 400px;
+    height: 400px;
+}
+
+.pets-group {
+    position: absolute;
+    width: 600px;
+    height: 600px;
+    right: 0px;
+    top: -180px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.pets-group img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+footer {
+    background-color: #E9E9E9;
+    padding: 72px 312px;
+    position: relative;
+
+    width: 100%;
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 225px;
+}
+
+.footer-logo {
+    max-width: 350px;
+    flex: 1;
+}
+
+.footer-logo span {
+    font-weight: bold;
+    font-size: 20px;
+    margin-bottom: 50px;
+}
+
+.footer-logo p {
+    color: #666;
+    font-size: 14px;
+    line-height: 1.6;
+    padding: 20px 0;
+}
+
+.social-icons {
+    display: flex;
+    gap: 15px;
+}
+
+.social-icons a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    background-color: #eee;
+    border-radius: 50%;
+    transition: background-color 0.3s;
+}
+
+.social-icons a img {
+    width: 24px;
+    height: 24px;
+}
+
+.social-icons a:hover {
+    background-color: #FF8A2B;
+}
+
+.footer-links {
+    display: flex;
+    gap: 225px;
+    flex: 1;
+    justify-content: center;
+}
+
+.footer-column h3 {
+    margin-bottom: 20px;
+    font-size: 18px;
+}
+
+.footer-column ul li {
+    margin-bottom: 10px;
+}
+
+.footer-column ul li a {
+    color: #666;
+    transition: color 0.3s;
+}
+
+.footer-column ul li a:hover {
+    color: #FF8A2B;
+}
+
+.paw-patterns {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0px;
+    left: 230px;
+    z-index: 0;
+    overflow: hidden;
+}
+
+.paw-patterns img {
+    width: 827px;
+    height: 368px;
+    opacity: 0.7;
+    position: absolute;
 }
