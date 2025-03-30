@@ -251,12 +251,13 @@ footer {
     background-color: #E9E9E9;
     padding: 72px 312px;
     position: relative;
-
     width: 100%;
+    z-index: 1;
 }
 
 .footer-content {
     display: flex;
+    z-index: 2;
     justify-content: space-between;
     flex-wrap: wrap;
     gap: 225px;
@@ -294,11 +295,14 @@ footer {
     background-color: #eee;
     border-radius: 50%;
     transition: background-color 0.3s;
+    cursor: pointer;
+    pointer-events: auto;
 }
 
 .social-icons a img {
     width: 24px;
     height: 24px;
+    pointer-events: none;
 }
 
 .social-icons a:hover {
@@ -336,8 +340,9 @@ footer {
     height: 100%;
     top: 0px;
     left: 230px;
-    z-index: 0;
+    z-index: 1;
     overflow: hidden;
+    pointer-events: none;
 }
 
 .paw-patterns img {
@@ -345,4 +350,160 @@ footer {
     height: 368px;
     opacity: 0.7;
     position: absolute;
+}
+
+/* Media Queries */
+
+@media screen and (max-width: 1366px) {
+    .hero-section {
+        padding: 100px 250px;
+    }
+
+    .hero-content h1 {
+        font-size: 48px;
+    }
+
+    .top-blob {
+        width: 180px;
+        height: 180px;
+        left: 450px; 
+        top: -35px;
+    }
+
+    .bottom-blob {
+        width: 140px;
+        height: 145px;
+        left: 550px; 
+        bottom: -10px;
+    }
+
+    .bird-silhouette {
+        width: 180px;
+        height: 180px;
+        left: -120px; 
+        top: -100px;
+    }
+
+    .pets-group {
+        width: 550px; 
+        height: 550px;
+        right: -50px; 
+        top: -150px;
+    }
+
+    footer {
+        padding: 72px 250px;
+    }
+
+    .footer-content {
+        gap: 100px;
+    }
+
+    .footer-links {
+        gap: 100px;
+    }
+
+    .footer-logo {
+        max-width: 300px;
+    }
+}
+
+@media screen and (max-width: 1200px) {
+    .hero-section {
+        padding: 100px 150px;
+    }
+
+    footer {
+        padding: 72px 150px;
+    }
+
+    .footer-content {
+        gap: 100px;
+    }
+}
+
+@media screen and (max-width: 992px) {
+    .floating-nav {
+        padding: 15px 20px;
+    }
+
+    .nav-links {
+        gap: 20px;
+    }
+
+    .nav-links li a {
+        font-size: 16px;
+    }
+
+    .hero-section {
+        flex-direction: column;
+        padding: 50px 20px;
+        text-align: center;
+    }
+
+    .hero-content h1 {
+        font-size: 40px;
+    }
+
+    .hero-content p {
+        margin: 0 auto 30px;
+    }
+
+    .footer-links {
+        gap: 100px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .floating-nav {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .nav-links {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .hero-content h1 {
+        font-size: 32px;
+    }
+
+    .footer-content {
+        flex-direction: column;
+        gap: 50px;
+    }
+
+    .footer-links {
+        flex-direction: column;
+        gap: 30px;
+    }
+
+    .paw-patterns {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 576px) {
+    .hero-content h1 {
+        font-size: 28px;
+    }
+
+    .hero-content p {
+        font-size: 16px;
+    }
+
+    .adopt-btn {
+        width: 100%;
+        max-width: 300px;
+    }
+
+    .pets-group {
+        width: 100%;
+        right: auto;
+    }
+
+    .bird-silhouette {
+        display: none;
+    }
 }
