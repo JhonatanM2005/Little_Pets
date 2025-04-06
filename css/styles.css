@@ -247,6 +247,8 @@ header .container {
     object-fit: contain;
 }
 
+/* Footer styles */
+
 footer {
     background-color: #E9E9E9;
     padding: 72px 312px;
@@ -352,7 +354,7 @@ footer {
     position: absolute;
 }
 
-/* Media Queries */
+/* Media Queries Nav, Foo & Contr Base */
 
 @media screen and (max-width: 1366px) {
     .hero-section {
@@ -466,7 +468,7 @@ footer {
     }
 
     .hero-content h1 {
-        font-size: 32px;
+        font-size: 32px; 
     }
 
     .footer-content {
@@ -506,4 +508,555 @@ footer {
     .bird-silhouette {
         display: none;
     }
+}
+
+/* About Us Styles */
+
+/* Container */
+.foundation-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 64px 16px;
+  }
+  
+  /* Introduction section */
+  .intro-section {
+    margin-bottom: 48px;
+  }
+  
+  .main-heading {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 24px;
+  }
+  
+  /* Two-column text layout */
+  .intro-text-columns {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 32px;
+    margin-bottom: 40px;
+  }
+  
+  .intro-text {
+    color: #666;
+  }
+  
+  /* Stats grid */
+  .stats-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 32px;
+    margin-bottom: 48px;
+  }
+  
+  .stat-number {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #f59e0b; 
+  }
+  
+  .stat-label {
+    color: #6b7280; 
+  }
+  
+  /* Profile section */
+  .profile-section {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 32px;
+    align-items: center;
+  }
+  
+  .profile-image-container {
+    background-color: #f3f4f6;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  
+  .profile-image {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+  }
+  
+  .profile-name {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+  
+  .profile-title {
+    color: #f59e0b; 
+    font-weight: 500;
+    margin-bottom: 16px;
+  }
+  
+  .profile-text {
+    color: #666;
+    margin-bottom: 16px;
+  }
+  
+  .signature-container {
+    margin-top: 16px;
+  }
+  
+  .signature-image {
+    height: 48px;
+    width: auto;
+  }
+
+  /* Testimonial section */
+.testimonial-section {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 64px 16px;
+}
+
+/* Testimonial container */
+.testimonial-container {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 40px;
+  position: relative;
+  min-height: 400px; /* Ensure consistent height */
+}
+
+/* Testimonial slider */
+.testimonial-slider {
+  position: relative;
+  z-index: 2;
+  flex: 1;
+}
+
+/* Testimonial slides */
+.testimonial-slide {
+  display: none;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.testimonial-slide.active {
+  display: block;
+  opacity: 1;
+}
+
+/* Testimonial content */
+.testimonial-content {
+  max-width: 600px;
+}
+
+.label {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #f97316; /* Orange color */
+  margin-bottom: 8px;
+  text-transform: uppercase;
+}
+
+.heading {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 24px;
+  color: #000;
+}
+
+.testimonial-text {
+  color: #666;
+  margin-bottom: 24px;
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+/* Author info */
+.testimonial-author {
+  margin-bottom: 24px;
+}
+
+.author-name {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.author-title {
+  font-size: 0.8rem;
+  color: #666;
+  text-transform: uppercase;
+}
+
+/* Navigation buttons */
+.testimonial-nav {
+  display: flex;
+  gap: 8px;
+  margin-top: 24px;
+}
+
+.nav-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 0.6rem;
+  color: #ccc;
+  padding: 4px;
+  transition: color 0.3s ease;
+}
+
+.nav-button.active {
+  color: #000;
+}
+
+.nav-button:hover {
+  color: #666;
+}
+
+/* Orange blob shape */
+.testimonial-shape {
+  display: none;
+  position: absolute;
+  right: 0;
+  top: -40px;
+  width: 300px;
+  height: 300px;
+  background-color: #f97316; 
+  border-radius: 50% 60% 70% 40% / 50% 60% 40% 50%;
+  z-index: 1;
+}
+
+/* Video container */
+.video-container {
+  width: 100%;
+  margin-top: 40px;
+}
+
+.video-wrapper {
+  position: relative;
+  width: 100%;
+  height: 0;
+  padding-bottom: 56.25%; 
+  border-radius: 12px;
+  overflow: hidden;
+  background-color: #f3f4f6;
+}
+
+.video-thumbnail {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.play-button {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 64px;
+  height: 64px;
+  background-color: #f97316; /* Orange color */
+  border: none;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 2;
+  color: white;
+  font-size: 1.5rem;
+}
+
+.play-button:hover {
+  background-color: #ea580c; /* Darker orange on hover */
+}
+  
+  /* Media Queries About Us */
+
+  /* Foundation */
+  @media (min-width: 768px) {
+    .foundation-container {
+      padding: 64px 24px;
+    }
+    
+    /* Two columns for intro text on larger screens */
+    .intro-text-columns {
+      grid-template-columns: 1fr 1fr;
+    }
+    
+    .stats-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+    
+    .profile-section {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .testimonial-container {
+      flex-direction: row;
+      align-items: center;
+    }
+    
+    .testimonial-content {
+      padding-right: 40px;
+    }
+    
+    .testimonial-shape {
+      display: block;
+    }
+  }
+  
+  @media (min-width: 1024px) {
+    .testimonial-shape {
+      width: 400px;
+      height: 400px;
+      right: 40px;
+    }
+  }
+
+/* Contact section styles */
+
+/* Contact section */
+.contact-section {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 64px 16px;
+}
+
+/* Contact container */
+.contact-container {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 40px;
+  margin-bottom: 40px;
+}
+
+/* Contact form */
+.contact-form-container {
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 32px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-group label {
+  font-weight: 500;
+  font-size: 0.9rem;
+  color: #4b5563;
+}
+
+.form-group input,
+.form-group textarea {
+  padding: 10px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
+  font-size: 1rem;
+  transition: border-color 0.2s;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: #f97316;
+}
+
+.submit-button {
+  background-color: #f97316;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 12px 20px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  margin-top: 8px;
+}
+
+.submit-button:hover {
+  background-color: #ea580c;
+}
+
+/* Contact info */
+.contact-info-container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.contact-heading {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #111827;
+}
+
+.contact-intro {
+  color: #6b7280;
+  margin-bottom: 16px;
+}
+
+.contact-details {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.contact-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.contact-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background-color: #fff;
+  border-radius: 50%;
+  color: #f97316;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.contact-text {
+  color: #4b5563;
+}
+
+/* Map container */
+.map-container {
+  width: 100%;
+  height: 420px;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.map-container iframe {
+  width: 100%;
+  height: 100%;
+}
+
+/* Media Queries Contact Us */
+@media (min-width: 768px) {
+  .contact-container {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* Log In Styles*/
+
+/* Login section */
+.login-section {
+  padding: 60px 0;
+  position: relative;
+}
+
+.login-form-wrapper {
+  max-width: 400px;
+  padding: 20px;
+}
+
+.login-form-wrapper h2 {
+  font-size: 1.8rem;
+  margin-bottom: 20px;
+  color: #000;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-group label {
+  font-weight: 500;
+  color: #000;
+}
+
+.form-group input {
+  padding: 12px 16px;
+  border: none;
+  border-radius: 30px;
+  background-color: #e5e5e5;
+  font-size: 1rem;
+  width: 100%;
+}
+
+.form-group input:focus {
+  outline: none;
+  background-color: #d9d9d9;
+}
+
+.form-links {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.forgot-link {
+  color: #666;
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+.forgot-link:hover {
+  text-decoration: underline;
+}
+
+.btn-login {
+  background-color: #000;
+  color: white;
+  border: none;
+  border-radius: 30px;
+  padding: 12px 20px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  width: 100%;
+  max-width: 150px;
+}
+
+.btn-login:hover {
+  background-color: #333;
+}
+
+.register-link {
+  margin-top: 10px;
+}
+
+.register-link a {
+  color: #000;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.register-link a:hover {
+  text-decoration: underline;
+}
+
+/* Media Queries Log In */
+@media (max-width: 768px) {
+  .login-form-wrapper {
+    margin: 0 auto;
+  }
 }
