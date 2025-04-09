@@ -241,10 +241,10 @@ header .container {
 
 .pets-group {
     position: absolute;
-    width: 600px;
-    height: 600px;
-    right: 0px;
-    top: -180px;
+    width: 650px;
+    height: 650px;
+    right: -80px;
+    top: -150px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -539,7 +539,7 @@ footer {
 
 @media screen and (max-width: 576px) {
   .hero-section {
-    padding-top: 180px;
+    padding-top: 210px;
     }
   
     .hero-content h1 {
@@ -1266,9 +1266,9 @@ footer {
 .form-group input[type="number"],
 .form-group textarea {
   padding: 10px 15px;
-  border: 1px solid #ddd;
+  border: 1px solid white;
   border-radius: 5px;
-  background-color: #f8f9fa;
+  background-color: white;
   font-size: 14px;
   transition: border-color 0.3s;
 }
@@ -1419,3 +1419,5 @@ footer {
       font-size: 14px;
   }
 }
+
+
