@@ -6,7 +6,7 @@
     <title>Little Pets</title>
     <link rel="icon" type="image/png" sizes="32x32" href="media/icons/favicon-32x32.png">
     <link rel="stylesheet" href="css/styles.css">
-    <link rel="stylesheet" href="css/login.css">
+    <link rel="stylesheet" href="css/account.css">
 </head>
 <body>
     <header>
@@ -18,12 +18,12 @@
                 </div>
                 
                 <ul class="nav-links">
-                    <li><a href="home.html">Home</a></li>
-                    <li><a href="#">Pets</a></li>
-                    <li><a href="about_us.html">About Us</a></li>
-                    <li><a href="contact_us.html">Contact Us</a></li>
-                    <li><a href="login.html" class="active">Log In</a></li>
-                </ul>
+                  <li><a href="home.html">Home</a></li>
+                  <li><a href="#">Pets</a></li>
+                  <li><a href="about_us.html">About Us</a></li>
+                  <li><a href="contact_us.html">Contact Us</a></li>
+                  <li><a href="account_user.html" class="active">Account</a></li>
+              </ul>
                 
                 <div class="heart-icon">
                     <img src="media/icons/heart.png" alt="Heart icon">
@@ -32,59 +32,46 @@
         </div>
     </header>
 
-    <main>
+    <main class="account-page">
         <div class="container">
-            <div class="hero-section">
-                <div class="orange-blob top-blob">
-                    <img src="media/images/blob1.png" alt="Orange blob">
-                </div>
-                <div class="orange-blob bottom-blob">
-                    <img src="media/images/blob2.png" alt="Orange blob">
-                </div>
-                
-                <section class="login-section">
-                    <div class="container">
-                      <div class="login-form-wrapper">
-                        <h2>Log In</h2>
-                        <form class="login-form">
-                          <div class="login-form-group">
-                            <label for="username">Username</label>
-                            <input type="text" id="username" name="username" placeholder="Username" required>
-                          </div>
-                          
-                          <div class="login-form-group">
-                            <label for="password">Password</label>
-                            <input type="password" id="password" name="password" placeholder="Password" required>
-                          </div>
-                          
-                          <div class="form-links">
-                            <a href="forgot_password.html" class="forgot-link">Forgot password?</a>
-                          </div>
-                          
-                          <button type="submit" class="btn-login">Log In</button>
-                          
-                          <div class="register-link">
-                            <a href="register.html">Register</a>
-                          </div>
-                        </form>
-                      </div>
+            <div class="account-content">
+                <div class="profile-section">
+                    <div class="profile-image-container">
+                        <div class="orange-blobi"></div>
+                        <div class="profile-image">
+                            <img src="media/images/profile_img.jpg" alt="Profile picture">
+                        </div>
                     </div>
-                  </section>
-                
-                <div class="hero-image">
-                    <div class="bird-silhouette">
-                        <img src="media/images/bird.png" alt="Bird silhouette">
-                    </div>
-                    <div class="pets-silhouette">
-                        <div class="pets-group">
-                            <img src="media/images/login_dog.png" alt="Pets silhouette">
+                    
+                    <div class="profile-details">
+                        <div class="profile-info">
+                            <h2>User</h2>
+                            <div class="info-field">
+                                <input type="text" value="Username" readonly>
+                            </div>
+                            
+                            <h3>First Name</h3>
+                            <div class="info-field">
+                                <input type="text" value="First name" readonly>
+                            </div>
+                            
+                            <h3>Last Name</h3>
+                            <div class="info-field">
+                                <input type="text" value="Last name" readonly>
+                            </div>
+                        </div>
+                        
+                        <div class="profile-actions">
+                            <button class="action-btn">Update Info</button>
+                            <button class="action-btn">Change Password</button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+        
+        <div class="orange-blob-corner"></div>
     </main>
-
     <footer>
         <div class="container">
             <div class="footer-content">
@@ -123,6 +110,5 @@
             <img src="media/images/paw-pattern.png" alt="Paw pattern">
         </div>
     </footer>
-    
 </body>
 </html>

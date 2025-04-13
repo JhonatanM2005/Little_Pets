@@ -6,6 +6,7 @@
     <title>Little Pets</title>
     <link rel="icon" type="image/png" sizes="32x32" href="media/icons/favicon-32x32.png">
     <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/account.css">
 </head>
 <body>
     <header>
@@ -18,10 +19,10 @@
                 
                 <ul class="nav-links">
                   <li><a href="home.html">Home</a></li>
-                  <li><a href="#" class="active">Pets</a></li>
+                  <li><a href="#">Pets</a></li>
                   <li><a href="about_us.html">About Us</a></li>
                   <li><a href="contact_us.html">Contact Us</a></li>
-                  <li><a href="login.html">Log In</a></li>
+                  <li><a href="account_user.html" class="active">Account</a></li>
               </ul>
                 
                 <div class="heart-icon">
@@ -31,8 +32,48 @@
         </div>
     </header>
 
-    <main></main>
-
+    <main class="account-page">
+        <div class="container">
+            <div class="account-content">
+                <div class="profile-section">
+                    <div class="profile-image-container">
+                        <div class="orange-blobi"></div>
+                        <div class="profile-image">
+                            <img src="media/images/profile_img.jpg" alt="Profile picture">
+                        </div>
+                    </div>
+                    
+                    <div class="profile-details">
+                        <div class="profile-info">
+                            <h2>User</h2>
+                            <div class="info-field">
+                                <input type="text" value="Username" readonly>
+                            </div>
+                            
+                            <h3>First Name</h3>
+                            <div class="info-field">
+                                <input type="text" value="First name" readonly>
+                            </div>
+                            
+                            <h3>Last Name</h3>
+                            <div class="info-field">
+                                <input type="text" value="Last name" readonly>
+                            </div>
+                        </div>
+                        
+                        <div class="profile-actions">
+                            <button class="action-btn">Manage Pets</button>
+                            <button class="action-btn">View Requests</button>
+                            <button class="action-btn">Update Info</button>
+                            <button class="action-btn">Change Password</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="orange-blob-corner"></div>
+    </main>
     <footer>
         <div class="container">
             <div class="footer-content">
@@ -71,6 +112,5 @@
             <img src="media/images/paw-pattern.png" alt="Paw pattern">
         </div>
     </footer>
-    <script src="js/pets.js"></script>
 </body>
 </html>
