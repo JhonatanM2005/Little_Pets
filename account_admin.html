@@ -67,7 +67,7 @@
                             <a href="manage_pets.html" class="action-btn">Manage Pets</a>
                             <a href="#" class="action-btn">View Requests</a>
                             <a href="#" class="action-btn">Update Info</a>
-                            <a href="#" class="action-btn">Change Password</a>
+                            <a href="#" class="action-btn" onclick="document.getElementById('passwordModal').style.display='block'">Change Password</a>
                         </div>
                     </div>
                 </div>
@@ -114,5 +114,25 @@
             <img src="media/images/paw-pattern.png" alt="Paw pattern">
         </div>
     </footer>
+
+    <div id="passwordModal" class="modal">
+        <div class="modal-content">
+        <span class="close" onclick="document.getElementById('passwordModal').style.display='none'">&times;</span>
+        <h2>Cambiar Contraseña</h2>
+        <form>
+            <label for="currentPassword">Contraseña actual</label>
+            <input type="password" id="currentPassword" required>
+    
+            <label for="newPassword">Nueva contraseña</label>
+            <input type="password" id="newPassword" required>
+    
+            <label for="confirmPassword">Confirmar nueva contraseña</label>
+            <input type="password" id="confirmPassword" required>
+    
+            <button type="submit" class="submit-btn">Actualizar</button>
+        </form>
+        </div>
+  </div>
+
 </body>
 </html>

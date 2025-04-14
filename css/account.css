@@ -132,6 +132,73 @@
     z-index: -1;
 }
 
+/* Estilos para el modal */
+.modal {
+    display: flex;
+    position: fixed;
+    z-index: 999;
+    left: 0; top: 0;
+    width: 100%; height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    align-items: flex-start;
+    justify-content: center;
+    padding-top: 150px;
+  }
+  
+  .modal-content {
+    background-color: white;
+    margin: 0 auto;
+    padding: 30px;
+    width: 90%;
+    max-width: 400px;
+    max-height: calc(100vh - 200px);
+    border-radius: 10px;
+    position: relative;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  }
+  
+  .modal-content h2 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    color: #333;
+  }
+  
+  .modal-content input {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    margin-bottom: 16px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+  }
+  
+  .submit-btn {
+    background-color: #f77b0b;
+    color: white;
+    border: none;
+    padding: 10px;
+    width: 100%;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+  
+  .submit-btn:hover {
+    background-color: #d66906;
+  }
+  
+  .close {
+    position: absolute;
+    right: 15px;
+    top: 10px;
+    font-size: 24px;
+    color: #888;
+    cursor: pointer;
+  }
+  
+  .close:hover {
+    color: black;
+  }  
+
 /* Media queries para responsividad */
 @media (max-width: 992px) {
     .profile-section {
@@ -158,6 +225,37 @@
     .profile-image-container {
         width: 200px;
         height: 200px;
+    }
+
+    .modal {
+        padding-top: 180px; /* Aumentamos el padding en tablets */
+    }
+
+    .modal-content {
+        width: 95%;
+        padding: 25px;
+        margin: 0 auto;
+    }
+
+    .modal-content h2 {
+        font-size: 18px;
+    }
+
+    .modal-content input {
+        padding: 8px;
+        margin-top: 8px;
+        margin-bottom: 12px;
+    }
+
+    .submit-btn {
+        padding: 12px;
+        font-size: 14px;
+    }
+
+    .close {
+        right: 12px;
+        top: 8px;
+        font-size: 20px;
     }
 
     .orange-blob-corner, 
@@ -203,6 +301,36 @@
         font-size: 16px;
     }
     
+     .modal {
+        padding-top: 250px;
+    }
+
+    .modal-content {
+        width: 90%;
+        padding: 20px;
+        margin: 0 auto;
+    }
+
+    .modal-content h2 {
+        font-size: 16px;
+        margin-bottom: 15px;
+    }
+
+    .modal-content input {
+        font-size: 14px;
+    }
+
+    .submit-btn {
+        padding: 10px;
+        font-size: 13px;
+    }
+
+    .close {
+        right: 10px;
+        top: 6px;
+        font-size: 18px;
+    }
+
     .action-btn {
         padding: 10px;
         font-size: 13px;
