@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Little Pets</title>
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="../media/icons/favicon-32x32.png"
+    />
+    <link rel="stylesheet" href="../css/styles.css" />
+    <link rel="stylesheet" href="../css/manage_users.css" />
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <nav class="floating-nav">
+          <div class="logo">
+            <a href="../index.html">
+              <img
+                src="../media/icons/paw.png"
+                alt="Paw icon"
+                class="paw-icon"
+              />
+              <span>Little Pets</span></a
+            >
+          </div>
+
+          <ul class="nav-links">
+            <li><a href="../index.html">Home</a></li>
+            <li><a href="#">Pets</a></li>
+            <li><a href="./about_us.html">About Us</a></li>
+            <li><a href="./contact_us.html">Contact Us</a></li>
+            <li><a href="./account_user.html" class="active">Account</a></li>
+          </ul>
+
+          <div class="heart-icon">
+            <img src="../media/icons/heart.png" alt="Heart icon" />
+          </div>
+        </nav>
+      </div>
+    </header>
+
+    <main class="manage-users-page">
+      <div class="container">
+        <div class="manage-users-content">
+          <!-- Formulario de edición de usuarios -->
+          <div class="user-form-section">
+            <div class="form-row">
+              <div class="form-column">
+                <div class="form-group">
+                  <label for="username">User</label>
+                  <input type="text" id="username" placeholder="Username" />
+                </div>
+
+                <div class="form-group">
+                  <label for="password">Password</label>
+                  <input type="password" id="password" placeholder="Password" />
+                </div>
+
+                <div class="form-group">
+                  <label for="email">Email Address</label>
+                  <input type="email" id="email" placeholder="E-mail address" />
+                </div>
+              </div>
+
+              <div class="form-column">
+                <div class="form-group">
+                  <label for="first-name">First Name</label>
+                  <input type="text" id="first-name" placeholder="First name" />
+                </div>
+
+                <div class="form-group">
+                  <label for="last-name">Last Name</label>
+                  <input type="text" id="last-name" placeholder="Last name" />
+                </div>
+
+                <div class="form-group">
+                  <label for="address">Address</label>
+                  <input type="text" id="address" placeholder="Address" />
+                </div>
+              </div>
+
+              <div class="form-column">
+                <div class="form-group">
+                  <label for="id-number">ID Number</label>
+                  <input type="text" id="id-number" placeholder="ID Number" />
+                </div>
+
+                <div class="form-group">
+                  <label for="phone">Phone Number</label>
+                  <input type="tel" id="phone" placeholder="Phone Number" />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Sección de búsqueda y tabla -->
+          <div class="search-table-section">
+            <div class="search-section">
+              <div class="search-group">
+                <input type="text" placeholder="Search for id" />
+                <button class="search-btn">
+                  <img src="../media/icons/search.png" alt="Search" />
+                </button>
+              </div>
+
+              <div class="search-group">
+                <input type="text" placeholder="Search for name" />
+                <button class="search-btn">
+                  <img src="../media/icons/search.png" alt="Search" />
+                </button>
+              </div>
+
+              <div class="search-group">
+                <input type="text" placeholder="Search for Email" />
+                <button class="search-btn">
+                  <img src="../media/icons/search.png" alt="Search" />
+                </button>
+              </div>
+
+              <div class="search-group">
+                <input type="text" placeholder="Search for id #" />
+                <button class="search-btn">
+                  <img src="../media/icons/search.png" alt="Search" />
+                </button>
+              </div>
+            </div>
+
+            <!-- Tabla de resultados -->
+            <div class="results-table">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Id</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Age</th>
+                    <th>Id #</th>
+                    <th>Password</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>id</td>
+                    <td>name</td>
+                    <td>email</td>
+                    <td>age</td>
+                    <td>id #</td>
+                    <td>password</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Botones de acción -->
+          <div class="action-buttons">
+            <button class="action-btn save-btn">Save</button>
+            <button class="action-btn delete-btn">Delete</button>
+            <button class="action-btn add-btn">Add</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Blobs decorativos -->
+      <div class="orange-blob blob-top"></div>
+      <div class="orange-blob blob-bottom"></div>
+    </main>
+
+    <footer>
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-logo">
+            <img src="../media/icons/paw.png" alt="Paw icon" class="paw-icon" />
+            <span>Little Pets</span>
+            <p>
+              Sed sagittis tortor sit amet urna faucibus, quis feugiat nulla
+              tristique. Fusce rutrum viverra dictumst amet sed justo convallis
+              vitae
+            </p>
+            <div class="social-icons">
+              <a href="https://www.facebook.com/"
+                ><img src="../media/icons/facebook.png" alt="Facebook"
+              /></a>
+              <a href="https://x.com/"
+                ><img src="../media/icons/x.png" alt="X"
+              /></a>
+              <a href="https://instagram.com/"
+                ><img src="../media/icons/instagram.png" alt="Instagram"
+              /></a>
+              <a href="https://youtube.com/"
+                ><img src="../media/icons/youtube.png" alt="YouTube"
+              /></a>
+            </div>
+          </div>
+
+          <div class="footer-links">
+            <div class="footer-column">
+              <h3>Company</h3>
+              <ul>
+                <li><a href="#">About Us</a></li>
+              </ul>
+            </div>
+
+            <div class="footer-column">
+              <h3>Customer Service</h3>
+              <ul>
+                <li><a href="#">Contact Us</a></li>
+                <li><a href="#">Adopt</a></li>
+                <li><a href="#">FAQ</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="paw-patterns">
+        <img src="../media/images/paw-pattern.png" alt="Paw pattern" />
+      </div>
+    </footer>
+  </body>
+</html>
