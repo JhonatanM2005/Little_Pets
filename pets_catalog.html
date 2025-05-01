@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Little Pets</title>
+  <link rel="icon" type="image/png" sizes="32x32" href="media/icons/favicon-32x32.png">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/Pets_catalog.css">
+  <script src="js/pest_catalog.js"></script>
+</head>
+<body>
+  <!-- 1. Encabezado -->
+  <header class="header">
+    <h1 class="title">Pets</h1>
+    <button class="back-button">
+      <a href="index.html"><img src="media/icons/back.ico" alt="Back" width="20"></a>
+    </button>
+  </header>
+
+  <!-- 2. Selector de categoría -->
+  <section class="category-selector">
+    <div class="category cat selected" onclick="switchCategory('cat')">
+      <img id="catImg" src="media/images/blob_cat.png" alt="Cat">
+      <p>Cat</p>
+    </div>
+    <div class="category dog" onclick="switchCategory('dog')">
+      <img id="dogImg" src="media/images/blob_dog_unselect.png" alt="Dog">
+      <p>Dog</p>
+    </div>
+  </section>
+
+  <!-- 3. Cuerpo principal -->
+  <main class="main-content">
+    <!-- Filtros -->
+    <aside class="filters">
+      <h3>Filter by breeds</h3>
+      <ul>
+        <li><input type="checkbox"> Cat breed 1 <span>(20)</span></li>
+        <li><input type="checkbox"> Cat breed 2 <span>(15)</span></li>
+        <li><input type="checkbox"> Cat breed 3 <span>(10)</span></li>
+        <li><input type="checkbox"> Cat breed 4 <span>(5)</span></li>
+        <li><input type="checkbox"> Cat breed 5 <span>(8)</span></li>
+        <li><input type="checkbox"> Cat breed 6 <span>(12)</span></li>
+      </ul>
+
+      <h3>Filter by Age</h3>
+      <input type="range" min="1" max="15" value="5" id="ageRange">
+      <p>Age: 5 - 10</p>
+      <button>Apply</button>
+    </aside>
+
+    <!-- Catálogo -->
+    <section class="catalog">
+      <div class="pet-card"> <p>Cat 1</p> <span>♡</span> </div>
+      <div class="pet-card"> <p>Cat 2</p> <span>♡</span> </div>
+      <div class="pet-card"> <p>Cat 3</p> <span>♡</span> </div>
+      <div class="pet-card"> <p>Cat 4</p> <span>♡</span> </div>
+      <div class="pet-card"> <p>Dog 5</p> <span>♡</span> </div>
+      <div class="pet-card"> <p>Cat 6</p> <span>♡</span> </div>
+    </section>
+  </main>
+
+  <!-- 4. Paginación -->
+  <footer class="pagination">
+    <button class="page-button active">1</button>
+    <button class="page-button">2</button>
+    <button class="next-button">Next ⟶</button>
+  </footer>
+
+</body>
+
+</html>
