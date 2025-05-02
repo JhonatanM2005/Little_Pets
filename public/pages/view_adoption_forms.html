@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Little Pets</title>
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="../media/icons/favicon-32x32.png"
+    />
+    <link rel="stylesheet" href="../css/styles.css" />
+    <link rel="stylesheet" href="../css/view_adoption_forms.css" />
+    <!-- PDF.js CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
+    <script src="../js/view_adoption_forms.js"></script>
+    </script>
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <nav class="floating-nav">
+          <div class="logo">
+            <a href="../index.html">
+              <img
+                src="../media/icons/paw.png"
+                alt="Paw icon"
+                class="paw-icon"
+              />
+              <span>Little Pets</span></a
+            >
+          </div>
+
+          <ul class="nav-links">
+            <li><a href="../index.html">Home</a></li>
+            <li><a href="./pets_catalog.html">Pets</a></li>
+            <li><a href="./about_us.html">About Us</a></li>
+            <li><a href="./contact_us.html" >Contact Us</a></li>
+            <li><a href="./account_user.html" class="active">Account</a></li>
+            </li>
+          </ul>
+
+          <div class="heart-icon">
+            <img src="../media/icons/heart.png" alt="Heart icon" />
+          </div>
+        </nav>
+      </div>
+    </header>
+
+    <main class="view-forms-page">
+        <div class="container">
+            <div class="view-forms-content">
+                <h1>Adoption Forms</h1>
+                <!-- Pestañas de estado -->
+                <div class="status-tabs">
+                    <button class="tab-btn active" data-status="pending">In Pending</button>
+                    <button class="tab-btn" data-status="rejected">Rejected</button>
+                    <button class="tab-btn" data-status="approved">Approved</button>
+                </div>
+                
+                <!-- Contenido principal -->
+                <div class="forms-container">
+                    <!-- Sección de búsqueda y tabla -->
+                    <div class="search-table-section">
+                        <div class="search-section">
+                            <div class="search-group">
+                                <input type="text" placeholder="Search for id number" id="search-id">
+                                <button class="search-btn" data-search="id">
+                                    <img src="../media/icons/search.png" alt="Search">
+                                </button>
+                            </div>
+                            
+                            <div class="search-group">
+                                <input type="text" placeholder="Search for name" id="search-name">
+                                <button class="search-btn" data-search="name">
+                                    <img src="../media/icons/search.png" alt="Search">
+                                </button>
+                            </div>
+                            
+                            <div class="search-group">
+                                <input type="text" placeholder="Search for Email" id="search-email">
+                                <button class="search-btn" data-search="email">
+                                    <img src="../media/icons/search.png" alt="Search">
+                                </button>
+                            </div>
+                            
+                            <div class="search-group">
+                                <input type="date" placeholder="Search for date" id="search-date">
+                                <button class="search-btn calendar-btn" data-search="date">
+                                    <img src="../media/icons/calendar.png" alt="Calendar">
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Tabla de resultados -->
+                        <div class="results-table">
+                            <table id="forms-table">
+                                <thead>
+                                    <tr>
+                                        <th>ID Number</th>
+                                        <th>Name</th>
+                                        <th>Email</th>
+                                        <th>Pet</th>
+                                        <th>Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Los datos se cargarán dinámicamente -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <!-- Visor de documentos -->
+                    <div class="document-viewer">
+                        <div class="document-toolbar">
+                            <div class="toolbar-left">
+                                <span class="page-indicator">1 / 1</span>
+                                <button class="toolbar-btn" id="zoom-out">
+                                   <img src="../media/icons/minus.png" alt="Zoom out">
+                                </button>
+                                <span class="zoom-level">100%</span>
+                                <button class="toolbar-btn" id="zoom-in">
+                                    <img src="../media/icons/plus.png" alt="Zoom in">
+                                </button>
+                            </div>
+                            
+                            <div class="toolbar-right">
+                                <button class="toolbar-btn" id="prev-page">
+                                    <img src="../media/icons/arrow-left.png" alt="Previous page">
+                                </button>
+                                <button class="toolbar-btn" id="next-page">
+                                    <img src="../media/icons/arrow-right.png" alt="Next page">
+                                </button>
+                                <button class="toolbar-btn" id="fit-width">
+                                    <img src="../media/icons/fit-width.png" alt="Fit to width">
+                                </button>
+                                <button class="toolbar-btn" id="download-pdf">
+                                    <img src="../media/icons/download.png" alt="Download">
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="document-content">
+                            <canvas id="pdf-canvas"></canvas>
+                            <div id="pdf-loader">Loading...</div>
+                            <div id="pdf-no-document" style="display: none;">No document selected</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-logo">
+            <img src="../media/icons/paw.png" alt="Paw icon" class="paw-icon" />
+            <span>Little Pets</span>
+            <p>
+              Sed sagittis tortor sit amet urna faucibus, quis feugiat nulla
+              tristique. Fusce rutrum viverra dictumst amet sed justo convallis
+              vitae
+            </p>
+            <div class="social-icons">
+              <a href="https://www.facebook.com/"
+                ><img src="../media/icons/facebook.png" alt="Facebook"
+              /></a>
+              <a href="https://x.com/"
+                ><img src="../media/icons/x.png" alt="X"
+              /></a>
+              <a href="https://instagram.com/"
+                ><img src="../media/icons/instagram.png" alt="Instagram"
+              /></a>
+              <a href="https://youtube.com/"
+                ><img src="../media/icons/youtube.png" alt="YouTube"
+              /></a>
+            </div>
+          </div>
+
+          <div class="footer-links">
+            <div class="footer-column">
+              <h3>Company</h3>
+              <ul>
+                <li><a href="./about_us.html">About Us</a></li>
+              </ul>
+            </div>
+
+            <div class="footer-column">
+              <h3>Customer Service</h3>
+              <ul>
+                <li><a href="./contact_us.html">Contact Us</a></li>
+                <li><a href="./pets_catalog.html">Adopt</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="paw-patterns">
+        <img src="../media/images/paw-pattern.png" alt="Paw pattern" />
+      </div>
+    </footer>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const loginLink = document.getElementById("login-link");
+        const accountLink = document.getElementById("account-link");
+        const isAuthenticated = localStorage.getItem("isAuthenticated");
+
+        if (isAuthenticated === "true") {
+          loginLink.style.display = "none";
+          accountLink.style.display = "block";
+        } else {
+          loginLink.style.display = "block";
+          accountLink.style.display = "none";
+        }
+      });
+    </script>
+    <script src="../js/view_adoption_forms.js"></script>
+  </body>
+</html>
