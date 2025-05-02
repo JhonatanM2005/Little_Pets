@@ -1,0 +1,290 @@
+.pets-catalog {
+    padding: 60px 0;
+}
+
+.pets-catalog h1 {
+    text-align: left;
+    margin-bottom: 40px;
+    font-size: 45px;
+    font-weight: 600;
+}
+
+/* Categorías de mascotas */
+
+.category-selector {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    margin-bottom: 40px;
+  }
+  
+  .category {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    transition: transform 0.3s;
+  }
+  
+  .category img {
+    width: 200px;
+    height: 200px;
+  }
+  
+  .main-content {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+
+/* Layout del catálogo */
+.catalog-layout {
+    display: flex;
+    gap: 30px;
+    margin-bottom: 40px;
+}
+
+/* Sidebar de filtros */
+.filters-sidebar {
+    width: 250px;
+    flex-shrink: 0;
+}
+
+.filter-section {
+    margin-bottom: 30px;
+}
+
+.filter-section h3 {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 15px;
+}
+
+.breed-list {
+    list-style: none;
+}
+
+.breed-list li {
+    margin-bottom: 10px;
+}
+
+.breed-list label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.breed-list input[type="checkbox"] {
+    margin-right: 10px;
+    accent-color: #FF8A2B;
+    width: 16px;
+    height: 16px;
+}
+
+.count {
+    margin-left: 5px;
+    color: #999;
+    font-size: 14px;
+}
+
+/* Slider de edad */
+.age-slider-container {
+    padding: 10px 0;
+}
+
+.age-slider {
+    width: 100%;
+    height: 5px;
+    background: #ddd;
+    outline: none;
+    -webkit-appearance: none;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.age-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #FF8A2B;
+    cursor: pointer;
+}
+
+.age-slider::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #FF8A2B;
+    cursor: pointer;
+    border: none;
+}
+
+.age-range {
+    font-size: 14px;
+    color: #666;
+}
+
+.apply-filters-btn {
+    background-color: #000;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    width: 100%;
+}
+
+.apply-filters-btn:hover {
+    background-color: #333;
+}
+
+/* Grid de mascotas */
+.pets-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    flex: 1;
+}
+
+.pet-card {
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s;
+}
+
+.pet-card:hover {
+    transform: translateY(-5px);
+}
+
+.pet-image {
+    height: 200px;
+    overflow: hidden;
+}
+
+.pet-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.pet-info {
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #fff;
+}
+
+.pet-info h3 {
+    font-size: 16px;
+    font-weight: 500;
+    margin: 0;
+}
+
+.favorite-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 5px 10px;
+}
+
+.favorite-btn img {
+    width: 20px;
+    height: 20px;
+    transition: transform 0.3s;
+}
+
+.favorite-btn:hover img {
+    transform: scale(1.5);
+}
+
+
+/* Media queries para responsividad */
+@media (max-width: 1200px) {
+    .pets-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 992px) {
+    .category-selector {
+        gap: 20px;
+    }
+
+    .category img {
+        width: 150px;
+        height: 150px;
+    }
+
+    .catalog-layout {
+        flex-direction: column;
+        padding: 0 15px;
+    }
+    
+    .filters-sidebar {
+        width: 100%;
+        margin-bottom: 30px;
+    }
+    
+    .filter-section {
+        margin-bottom: 20px;
+    }
+}
+
+@media (max-width: 768px) {
+    .pets-catalog {
+        padding: 150px 15px;
+    }
+
+    .category-selector {
+        gap: 15px;
+    }
+
+    .category img {
+        width: 120px;
+        height: 120px;
+    }
+
+    .pets-catalog h1 {
+        font-size: 28px;
+        margin-bottom: 30px;
+        padding: 0 15px;
+    }
+    
+    .pets-grid {
+        grid-template-columns: 1fr;
+        padding: 0 10px;
+    }
+}
+
+@media (max-width: 576px) {
+    
+    .category-selector {
+        gap: 10px;
+    }
+
+    .category img {
+        width: 100px;
+        height: 100px;
+    }
+
+    .category p {
+        font-size: 14px;
+    }
+    
+    .pets-catalog {
+        padding: 150px 10px;
+    }
+
+    .catalog-layout {
+        padding: 0 10px;
+    }
+}
