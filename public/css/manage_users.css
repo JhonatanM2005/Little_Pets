@@ -9,6 +9,14 @@
     margin: 0 auto;
 }
 
+.manage-users-content h1 {
+    text-align: left;
+    margin-bottom: 40px;
+    font-size: 40px;
+    font-weight: 600;
+    color: #000;
+}
+
 /* Formulario de edición de usuarios */
 .user-form-section {
     margin-bottom: 40px;

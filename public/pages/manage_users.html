@@ -46,13 +46,14 @@
     <main class="manage-users-page">
       <div class="container">
         <div class="manage-users-content">
+          <h1>Manage Users</h1>
           <!-- Formulario de edición de usuarios -->
           <div class="user-form-section">
             <div class="form-row">
               <div class="form-column">
                 <div class="form-group">
-                  <label for="username">User</label>
-                  <input type="text" id="username" placeholder="Username" />
+                  <label for="name">Name</label>
+                  <input type="text" id="name" placeholder="Name" />
                 </div>
 
                 <div class="form-group">
@@ -60,27 +61,6 @@
                   <input type="password" id="password" placeholder="Password" />
                 </div>
 
-                <div class="form-group">
-                  <label for="email">Email Address</label>
-                  <input type="email" id="email" placeholder="E-mail address" />
-                </div>
-              </div>
-
-              <div class="form-column">
-                <div class="form-group">
-                  <label for="first-name">First Name</label>
-                  <input type="text" id="first-name" placeholder="First name" />
-                </div>
-
-                <div class="form-group">
-                  <label for="last-name">Last Name</label>
-                  <input type="text" id="last-name" placeholder="Last name" />
-                </div>
-
-                <div class="form-group">
-                  <label for="address">Address</label>
-                  <input type="text" id="address" placeholder="Address" />
-                </div>
               </div>
 
               <div class="form-column">
@@ -90,9 +70,19 @@
                 </div>
 
                 <div class="form-group">
-                  <label for="phone">Phone Number</label>
-                  <input type="tel" id="phone" placeholder="Phone Number" />
+                  <label for="confirm password">Confirm Password</label>
+                  <input type="confirm password" id="confirm password" placeholder="Confirm password" />
                 </div>
+
+              </div>
+
+              <div class="form-column">
+
+                <div class="form-group">
+                  <label for="email">Email Address</label>
+                  <input type="email" id="email" placeholder="E-mail address" />
+                </div>
+            
               </div>
             </div>
           </div>
@@ -101,7 +91,7 @@
           <div class="search-table-section">
             <div class="search-section">
               <div class="search-group">
-                <input type="text" placeholder="Search for id" />
+                <input type="text" placeholder="Search for id number" />
                 <button class="search-btn">
                   <img src="../media/icons/search.png" alt="Search" />
                 </button>
@@ -121,12 +111,6 @@
                 </button>
               </div>
 
-              <div class="search-group">
-                <input type="text" placeholder="Search for id #" />
-                <button class="search-btn">
-                  <img src="../media/icons/search.png" alt="Search" />
-                </button>
-              </div>
             </div>
 
             <!-- Tabla de resultados -->
@@ -134,21 +118,17 @@
               <table>
                 <thead>
                   <tr>
-                    <th>Id</th>
+                    <th>ID Number</th>
                     <th>Name</th>
                     <th>Email</th>
-                    <th>Age</th>
-                    <th>Id #</th>
                     <th>Password</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
-                    <td>id</td>
+                    <td>id number</td>
                     <td>name</td>
                     <td>email</td>
-                    <td>age</td>
-                    <td>id #</td>
                     <td>password</td>
                   </tr>
                 </tbody>

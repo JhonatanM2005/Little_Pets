@@ -8,6 +8,13 @@
     max-width: 1200px;
     margin: 0 auto;
 }
+.manage-pets-content h1 {
+    text-align: left;
+    margin-bottom: 40px;
+    font-size: 40px;
+    font-weight: 600;
+    color: #000;
+}
 
 /* Formulario de edición de mascotas */
 .pet-form-section {
@@ -115,6 +122,7 @@
 .search-btn img {
     width: 16px;
     height: 16px;
+    filter: invert(1);
 }
 
 .filters-section {
@@ -126,7 +134,7 @@
 
 .filter-group h3 {
     font-size: 14px;
-    font-weight: 500;
+    font-weight: 600;
     margin: 0 0 5px;
 }
 
@@ -157,7 +165,7 @@
 }
 
 .results-table th {
-    font-weight: 500;
+    font-weight: 650;
     border-bottom: 1px solid #ddd;
 }
 
