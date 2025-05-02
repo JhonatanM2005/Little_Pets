@@ -1,0 +1,272 @@
+/* Contenedor principal */
+.pet-details-page {
+    padding: 120px 0 60px;
+    position: relative;
+    overflow: hidden;
+}
+
+.pet-details-content {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+
+/* Visor de imágenes con blob */
+.pet-image-container {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 30px;
+    height: 350px; /* Altura fija para el contenedor */
+}
+
+/* Blob naranja */
+.orange-blob {
+    position: absolute;
+    width: 80%;
+    max-width: 600px;
+    height: 300px;
+    background-color: #FF8A2B;
+    border-radius: 50%;
+    z-index: 1;
+}
+
+/* Contenedor de la imagen */
+.image-wrapper {
+    position: relative;
+    z-index: 2;
+    width: 220px;
+    height: 220px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.pet-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Botones de navegación */
+.nav-btn {
+    position: absolute;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    z-index: 3;
+}
+
+.nav-btn img {
+    width: 32px;
+    height: 32px;
+}
+
+.prev-btn {
+    left: 15%;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.next-btn {
+    right: 15%;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+/* Puntos de navegación */
+.nav-dots {
+    position: absolute;
+    top: 15px;
+    right: 20%;
+    display: flex;
+    gap: 8px;
+    z-index: 3;
+}
+
+.dot {
+    width: 10px;
+    height: 10px;
+    background-color: #000;
+    border-radius: 50%;
+    opacity: 0.5;
+    cursor: pointer;
+}
+
+.dot.active {
+    opacity: 1;
+}
+
+/* Botón de favorito */
+.favorite-section {
+    display: flex;
+    margin-bottom: 20px;
+}
+
+.favorite-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+}
+
+.heart-icon {
+    width: 24px;
+    height: 24px;
+}
+
+/* Información de la mascota */
+.pet-info-section {
+    margin-bottom: 40px;
+}
+
+.pet-name {
+    font-size: 20px;
+    font-weight: 500;
+    margin-bottom: 20px;
+}
+
+/* Atributos de la mascota */
+.pet-attributes {
+    margin-bottom: 30px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 20px;
+}
+
+.attributes-row {
+    display: flex;
+    margin-bottom: 20px;
+}
+
+.attribute-item {
+    flex: 1;
+    min-width: 120px;
+}
+
+.attribute-item h3 {
+    font-size: 14px;
+    font-weight: 500;
+    margin: 0 0 5px;
+    color: #777;
+}
+
+.attribute-item p {
+    font-size: 14px;
+    margin: 0;
+}
+
+/* Sección de personalidad */
+.pet-personality h3 {
+    font-size: 16px;
+    font-weight: 500;
+    margin: 0 0 10px;
+}
+
+.pet-personality p {
+    font-size: 14px;
+    line-height: 1.6;
+    color: #555;
+    margin: 0;
+}
+
+/* Botón de solicitud */
+.request-btn-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+.request-btn {
+    background-color: #FF8A2B;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 12px 30px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 650;
+    font-size: 18px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    text-transform: uppercase;
+}
+
+.request-btn:hover {
+    background-color: #e67a1e;
+}
+
+/* Media queries para responsividad */
+@media (max-width: 768px) {
+    .pet-image-container {
+        height: 300px;
+    }
+    
+    .orange-blob {
+        width: 90%;
+        height: 250px;
+    }
+    
+    .image-wrapper {
+        width: 180px;
+        height: 180px;
+    }
+    
+    .prev-btn {
+        left: 10%;
+    }
+    
+    .next-btn {
+        right: 10%;
+    }
+    
+    .nav-dots {
+        right: 10%;
+    }
+    
+    .attributes-row {
+        flex-wrap: wrap;
+    }
+    
+    .attribute-item {
+        flex: 0 0 50%;
+        margin-bottom: 15px;
+    }
+}
+
+@media (max-width: 576px) {
+    .pet-details-page {
+        padding: 30px 0;
+    }
+    
+    .pet-image-container {
+        height: 250px;
+    }
+    
+    .orange-blob {
+        height: 200px;
+    }
+    
+    .image-wrapper {
+        width: 150px;
+        height: 150px;
+    }
+    
+    .prev-btn {
+        left: 5%;
+    }
+    
+    .next-btn {
+        right: 5%;
+    }
+    
+    .nav-dots {
+        right: 5%;
+    }
+    
+    .attribute-item {
+        flex: 0 0 100%;
+    }
+}
