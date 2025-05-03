@@ -30,7 +30,9 @@
 
           <ul class="nav-links">
             <li><a href="../index.html">Home</a></li>
-            <li><a href="../pages/pets_catalog.html" class="active">Pets</a></li>
+            <li>
+              <a href="../pages/pets_catalog.html" class="active">Pets</a>
+            </li>
             <li><a href="../pages/about_us.html">About Us</a></li>
             <li><a href="../pages/contact_us.html">Contact Us</a></li>
             <li id="login-link"><a href="../pages/login.html">Log In</a></li>
@@ -47,152 +49,98 @@
     </header>
 
     <main class="pets-catalog">
-        <div class="container">
-            <h1>Pets</h1>
-            
-            <div class="category-selector">
-                <div class="category cat selected" onclick="switchCategory('cat')">
-                  <img id="catImg" src="../media/images/blob_cat_select.png" alt="Cat">
-                  <p>Cat</p>
-                </div>
-                <div class="category dog" onclick="switchCategory('dog')">
-                  <img id="dogImg" src="../media/images/blob_dog_unselect.png" alt="Dog">
-                  <p>Dog</p>
-                </div>
-            </div>
-            
-            <div class="catalog-layout">
-                <aside class="filters-sidebar">
-                    <div class="filter-section">
-                        <h3>Filter by Breeds</h3>
-                        <ul class="breed-list">
-                            <li>
-                                <label>
-                                    <input type="checkbox" name="breed" value="breed1">
-                                    <span>Cat Breed 1</span>
-                                    <span class="count">(8)</span>
-                                </label>
-                            </li>
-                            <li>
-                                <label>
-                                    <input type="checkbox" name="breed" value="breed2">
-                                    <span>Cat Breed 2</span>
-                                    <span class="count">(5)</span>
-                                </label>
-                            </li>
-                            <li>
-                                <label>
-                                    <input type="checkbox" name="breed" value="breed3">
-                                    <span>Cat Breed 3</span>
-                                    <span class="count">(7)</span>
-                                </label>
-                            </li>
-                            <li>
-                                <label>
-                                    <input type="checkbox" name="breed" value="breed4">
-                                    <span>Cat Breed 4</span>
-                                    <span class="count">(4)</span>
-                                </label>
-                            </li>
-                            <li>
-                                <label>
-                                    <input type="checkbox" name="breed" value="breed5">
-                                    <span>Cat Breed 5</span>
-                                    <span class="count">(6)</span>
-                                </label>
-                            </li>
-                        </ul>
-                    </div>
-                    
-                    <div class="filter-section">
-                        <h3>Filter by Age</h3>
-                        <div class="age-slider-container">
-                            <input type="range" min="0" max="15" value="15" class="age-slider" id="ageSlider">
-                            <div class="age-range">
-                                <span>Age: </span>
-                                <span id="ageValue">0 - 15</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <button class="apply-filters-btn">Apply</button>
-                </aside>
-                
-                <div class="pets-grid">
-                    <div class="pet-card" data-category="cat" data-breed="breed1" data-age="2">
-                        <div class="pet-image">
-                            <img src="media/images/pets/cat1.jpg" alt="Cat 1">
-                        </div>
-                        <div class="pet-info">
-                            <h3>Cat 1</h3>
-                            <button class="favorite-btn">
-                                <img src="../media/icons/heart.png" alt="Favorite">
-                            </button>
-                        </div>
-                    </div>
-                    
-                    <div class="pet-card" data-category="cat" data-breed="breed2" data-age="3">
-                        <div class="pet-image">
-                            <img src="media/images/pets/cat2.jpg" alt="Cat 2">
-                        </div>
-                        <div class="pet-info">
-                            <h3>Cat 2</h3>
-                            <button class="favorite-btn">
-                                <img src="../media/icons/heart.png" alt="Favorite">
-                            </button>
-                        </div>
-                    </div>
-                    
-                    <div class="pet-card" data-category="cat" data-breed="breed3" data-age="1">
-                        <div class="pet-image">
-                            <img src="media/images/pets/cat3.jpg" alt="Cat 3">
-                        </div>
-                        <div class="pet-info">
-                            <h3>Cat 3</h3>
-                            <button class="favorite-btn">
-                                <img src="../media/icons/heart.png" alt="Favorite">
-                            </button>
-                        </div>
-                    </div>
-                    
-                    <div class="pet-card" data-category="cat" data-breed="breed4" data-age="5">
-                        <div class="pet-image">
-                            <img src="media/images/pets/cat4.jpg" alt="Cat 4">
-                        </div>
-                        <div class="pet-info">
-                            <h3>Cat 4</h3>
-                            <button class="favorite-btn">
-                                <img src="../media/icons/heart.png" alt="Favorite">
-                            </button>
-                        </div>
-                    </div>
-                    
-                    <div class="pet-card" data-category="dog" data-breed="breed1" data-age="4">
-                        <div class="pet-image">
-                            <img src="media/images/pets/dog1.jpg" alt="Dog 1">
-                        </div>
-                        <div class="pet-info">
-                            <h3>Dog 1</h3>
-                            <button class="favorite-btn">
-                                <img src="../media/icons/heart.png" alt="Favorite">
-                            </button>
-                        </div>
-                    </div>
-                    
-                    <div class="pet-card" data-category="cat" data-breed="breed5" data-age="2">
-                        <div class="pet-image">
-                            <img src="media/images/pets/cat5.jpg" alt="Cat 5">
-                        </div>
-                        <div class="pet-info">
-                            <h3>Cat 5</h3>
-                            <button class="favorite-btn">
-                                <img src="../media/icons/heart.png" alt="Favorite">
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+      <div class="container">
+        <h1>Pets</h1>
+
+        <div class="category-selector">
+          <div class="category cat" onclick="filterPets('Cat')">
+            <img
+              id="catImg"
+              src="../media/images/blob_cat_unselect.png"
+              alt="Cat"
+            />
+            <p>Cat</p>
+          </div>
+          <div class="category dog" onclick="filterPets('Dog')">
+            <img
+              id="dogImg"
+              src="../media/images/blob_dog_unselect.png"
+              alt="Dog"
+            />
+            <p>Dog</p>
+          </div>
         </div>
+
+        <div class="catalog-layout">
+          <aside class="filters-sidebar">
+            <div class="filter-section">
+              <h3>Filter by Breeds</h3>
+              <ul class="breed-list">
+                <li>
+                  <label>
+                    <input type="checkbox" name="breed" value="breed1" />
+                    <span>Cat Breed 1</span>
+                    <span class="count">(8)</span>
+                  </label>
+                </li>
+                <li>
+                  <label>
+                    <input type="checkbox" name="breed" value="breed2" />
+                    <span>Cat Breed 2</span>
+                    <span class="count">(5)</span>
+                  </label>
+                </li>
+                <li>
+                  <label>
+                    <input type="checkbox" name="breed" value="breed3" />
+                    <span>Cat Breed 3</span>
+                    <span class="count">(7)</span>
+                  </label>
+                </li>
+                <li>
+                  <label>
+                    <input type="checkbox" name="breed" value="breed4" />
+                    <span>Cat Breed 4</span>
+                    <span class="count">(4)</span>
+                  </label>
+                </li>
+                <li>
+                  <label>
+                    <input type="checkbox" name="breed" value="breed5" />
+                    <span>Cat Breed 5</span>
+                    <span class="count">(6)</span>
+                  </label>
+                </li>
+              </ul>
+            </div>
+
+            <div class="filter-section">
+              <h3>Filter by Age</h3>
+              <div class="age-slider-container">
+                <input
+                  type="range"
+                  min="0"
+                  max="15"
+                  value="15"
+                  class="age-slider"
+                  id="ageSlider"
+                />
+                <div class="age-range">
+                  <span>Age: </span>
+                  <span id="ageValue">0 - 15</span>
+                </div>
+              </div>
+            </div>
+
+            <button class="apply-filters-btn">Apply</button>
+            <button class="apply-filters-btn" onclick="resetFilters()">
+              Show all
+            </button>
+          </aside>
+
+          <div class="pets-grid"></div>
+        </div>
+      </div>
     </main>
 
     <footer>
@@ -260,6 +208,6 @@
         }
       });
     </script>
-    <script src="../js/category_selector_pets.js"></script>
+    <script src="../js/pets_catalog.js"></script>
   </body>
 </html>

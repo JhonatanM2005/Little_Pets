@@ -1,49 +1,87 @@
-const Mascota = require("../models/petModel");
+const Pet = require("../models/petModel");
 
-exports.obtenerMascotas = async (req, res) => {
+exports.getPets = async (req, res) => {
   try {
-    const mascotas = await Mascota.find();
-    res.json(mascotas);
+    const pets = await Pet.find();
+    res.json(pets);
   } catch (error) {
-    res.status(500).json({ mensaje: "Error al obtener mascotas" });
+    res.status(500).json({ mensaje: "Error al obtener pets" });
   }
 };
 
-exports.crearMascota = async (req, res) => {
-  const { nombre, tipo, edad, descripcion, imagenUrl } = req.body;
+exports.getPetById = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const pet = await Pet.findById(id);
+
+    if (!pet) {
+      return res.status(404).json({ mensaje: "Mascota no encontrada" });
+    }
+
+    res.json(pet);
+  } catch (error) {
+    console.error("Error al obtener la mascota por ID:", error);
+    if (error.kind === "ObjectId") {
+      return res.status(400).json({ mensaje: "ID de mascota no válido" });
+    }
+    res
+      .status(500)
+      .json({ mensaje: "Error del servidor al obtener la mascota" });
+  }
+};
+
+exports.createPet = async (req, res) => {
+  const {
+    name,
+    breed,
+    age,
+    size,
+    type,
+    gender,
+    vaccinated,
+    sterilized,
+    personality,
+    image,
+  } = req.body;
 
   try {
-    const nuevaMascota = new Mascota({
-      nombre,
-      tipo,
-      edad,
-      descripcion,
-      imagenUrl,
+    const newPet = new Pet({
+      name,
+      breed,
+      age,
+      size,
+      type,
+      gender,
+      vaccinated,
+      sterilized,
+      personality,
+      image,
     });
-    await nuevaMascota.save();
-    res.status(201).json(nuevaMascota);
+    await newPet.save();
+    res.status(201).json(newPet);
   } catch (error) {
+    console.error("Error al crear mascota:", error);
     res.status(500).json({ mensaje: "Error al crear mascota" });
   }
 };
 
-exports.actualizarMascota = async (req, res) => {
+exports.updatePet = async (req, res) => {
   const { id } = req.params;
   try {
-    const actualizada = await Mascota.findByIdAndUpdate(id, req.body, {
+    const updatedPet = await Pet.findByIdAndUpdate(id, req.body, {
       new: true,
     });
-    res.json(actualizada);
+    res.json(updatedPet);
   } catch (error) {
     res.status(500).json({ mensaje: "Error al actualizar mascota" });
   }
 };
 
-exports.eliminarMascota = async (req, res) => {
+exports.deletePet = async (req, res) => {
   const { id } = req.params;
   try {
-    await Mascota.findByIdAndDelete(id);
-    res.json({ mensaje: "Mascota eliminada" });
+    await Pet.findByIdAndDelete(id);
+    res.json({ mensaje: "Pet eliminada" });
   } catch (error) {
     res.status(500).json({ mensaje: "Error al eliminar mascota" });
   }

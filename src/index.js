@@ -1,9 +1,12 @@
 const express = require("express");
-const dotenv = require("dotenv").config();
 const dbConnect = require("./config/dbConnect");
+const dotenv = require("dotenv").config();
+const path = require("path");
+
+// Importar rutas
 const authRoutes = require("./routes/authRoutes");
 const userRoutes = require("./routes/userRoutes");
-const path = require("path");
+const petRoutes = require("./routes/petRoutes");
 
 // Conectar con la base de datos
 dbConnect();
@@ -18,10 +21,10 @@ app.use(express.static(path.join(__dirname, "../public")));
 // Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
+app.use("/api/pets", petRoutes);
 
 // Inicializar el servidor
 const PORT = process.env.PORT || 2000;
-console.log("ANTES de iniciar el servidor...");
 app.listen(PORT, () => {
   console.log(`El servidor se ha inicializado en http://localhost:${PORT}`);
 });
