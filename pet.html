@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Little Pets</title>
+  <link rel="icon" type="image/png" sizes="32x32" href="media/icons/favicon-32x32.png"/>
+  <link rel="stylesheet" href="css/pet.css">
+  <link rel="stylesheet" href="css/styles.css">
+  
+</head>
+<body>
+    <script src="js/pet.js"></script>
+  <!-- Encabezado -->
+  <header class="header">
+    <h1 class="title">Pets</h1>
+    <button class="back-button">
+      <a href="pets_catalog.html"><img src="media/icons/back.ico" alt="Back" width="20"/></a>
+    </button>
+  </header>
+
+  <!-- Contenido principal -->
+  <main class="main-content">
+    <div class="carousel">
+      <button class="left" onclick="prevSlide()">&#10094;</button>
+      <img src="media/images/blob2.png" class="active" alt="Pet 1">
+      <img src="media/images/signature_taylor.png" alt="Pet 2">
+      <img src="media/images/blob_cat_unselect.png" alt="Pet 3">
+      <button class="right" onclick="nextSlide()">&#10095;</button>
+    </div>
+  </main>
+  <section class="pet-info">
+    <h2 class="pet-name">Nombre: Luna</h2>
+    <ul class="pet-details">
+      <h3><strong>Personalidad</strong></h3>
+    <p class="pet-personality">
+      Luna es una perrita muy juguetona, cariñosa y le encanta estar rodeada de personas. Ideal para familias con niños.
+    </p>
+
+      <li><strong>Raza:</strong> Labrador Retriever</li>
+      <li><strong>Sexo:</strong> Hembra</li>
+      <li><strong>Edad:</strong> 3 años</li>
+      <li><strong>Tamaño:</strong> Grande</li>
+      <li><strong>Esterilizado:</strong> Sí</li>
+      <li><strong>Vacunado:</strong> Sí</li>
+    </ul>
+      
+    <button type="submit" class="submit-button">Adopt</button>
+  </section>
+  
+
+</body>
+</html>
