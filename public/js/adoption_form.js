@@ -156,7 +156,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 generatePdfPreview();
                 modal.style.display = 'block';
             } else {
-                alert('Por favor, acepta los términos y condiciones antes de continuar.');
+                alert('Please accept the terms and conditions before continuing.');
             }
         });
     }
@@ -177,7 +177,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
         
         if (!isValid) {
-            alert('Por favor, completa todos los campos obligatorios antes de continuar.');
+            alert('Please complete all required fields before continuing.');
         }
         
         return isValid;
@@ -192,9 +192,9 @@ document.addEventListener('DOMContentLoaded', function() {
         const personalSection = document.createElement('div');
         personalSection.className = 'review-section';
         personalSection.innerHTML = `
-            <h3><i class="fas fa-user"></i> Información Personal</h3>
+            <h3><i class="fas fa-user"></i> Personal Information</h3>
             <div class="review-item">
-                <div class="review-label">Nombre completo:</div>
+                <div class="review-label">Full Name:</div>
                 <div class="review-value">${document.getElementById('first-name').value} ${document.getElementById('last-name').value}</div>
             </div>
             <div class="review-item">
@@ -202,23 +202,23 @@ document.addEventListener('DOMContentLoaded', function() {
                 <div class="review-value">${document.getElementById('email').value}</div>
             </div>
             <div class="review-item">
-                <div class="review-label">Teléfono:</div>
+                <div class="review-label">Phone:</div>
                 <div class="review-value">${document.getElementById('phone').value}</div>
             </div>
             <div class="review-item">
-                <div class="review-label">Número de ID:</div>
+                <div class="review-label">ID Number:</div>
                 <div class="review-value">${document.getElementById('id-number').value}</div>
             </div>
             <div class="review-item">
-                <div class="review-label">Ocupación:</div>
+                <div class="review-label">Occupation:</div>
                 <div class="review-value">${document.getElementById('occupation').value || 'No especificado'}</div>
             </div>
             <div class="review-item">
-                <div class="review-label">Empresa:</div>
+                <div class="review-label">Company:</div>
                 <div class="review-value">${document.getElementById('company').value || 'No especificado'}</div>
             </div>
             <div class="review-item">
-                <div class="review-label">Horario laboral:</div>
+                <div class="review-label">Work Schedule:</div>
                 <div class="review-value">${document.getElementById('schedule').value || 'No especificado'}</div>
             </div>
         `;
@@ -228,25 +228,25 @@ document.addEventListener('DOMContentLoaded', function() {
         const housingSection = document.createElement('div');
         housingSection.className = 'review-section';
         housingSection.innerHTML = `
-            <h3><i class="fas fa-home"></i> Información de Vivienda</h3>
+            <h3><i class="fas fa-home"></i> Housing Information</h3>
             <div class="review-item">
-                <div class="review-label">Ciudad:</div>
+                <div class="review-label">City:</div>
                 <div class="review-value">${document.getElementById('city').value}</div>
             </div>
             <div class="review-item">
-                <div class="review-label">Dirección:</div>
+                <div class="review-label">Address:</div>
                 <div class="review-value">${document.getElementById('address').value}</div>
             </div>
             <div class="review-item">
-                <div class="review-label">Tipo de vivienda:</div>
+                <div class="review-label">Housing Type:</div>
                 <div class="review-value">${document.getElementById('housing').value}</div>
             </div>
             <div class="review-item">
-                <div class="review-label">Piso:</div>
+                <div class="review-label">Floor:</div>
                 <div class="review-value">${document.getElementById('floor').value || 'No especificado'}</div>
             </div>
             <div class="review-item">
-                <div class="review-label">Descripción:</div>
+                <div class="review-label">Description:</div>
                 <div class="review-value">${document.getElementById('house-description').value || 'No especificado'}</div>
             </div>
         `;
@@ -287,31 +287,31 @@ document.addEventListener('DOMContentLoaded', function() {
         // Crear contenido HTML para la vista previa
         pdfPreview.innerHTML = `
             <div class="pdf-header">
-                <h1>Formulario de Adopción</h1>
-                <p>Fecha: ${new Date().toLocaleDateString()}</p>
+                <h1>Adoption Form</h1>
+                <p>Date: ${new Date().toLocaleDateString()}</p>
             </div>
             
             <div class="pdf-section">
-                <h2>Información Personal</h2>
-                <p><strong>Nombre:</strong> ${document.getElementById('first-name').value} ${document.getElementById('last-name').value}</p>
+                <h2>Personal Information</h2>
+                <p><strong>Name:</strong> ${document.getElementById('first-name').value} ${document.getElementById('last-name').value}</p>
                 <p><strong>Email:</strong> ${document.getElementById('email').value}</p>
-                <p><strong>Teléfono:</strong> ${document.getElementById('phone').value}</p>
+                <p><strong>Phone:</strong> ${document.getElementById('phone').value}</p>
                 <p><strong>ID:</strong> ${document.getElementById('id-number').value}</p>
-                <p><strong>Ocupación:</strong> ${document.getElementById('occupation').value || 'No especificado'}</p>
+                <p><strong>Occupation:</strong> ${document.getElementById('occupation').value || 'Not specified'}</p>
             </div>
             
             <div class="pdf-section">
-                <h2>Información de Vivienda</h2>
-                <p><strong>Dirección:</strong> ${document.getElementById('address').value}, ${document.getElementById('city').value}</p>
-                <p><strong>Tipo de vivienda:</strong> ${document.getElementById('housing').value}</p>
-                <p><strong>Descripción:</strong> ${document.getElementById('house-description').value || 'No especificado'}</p>
+                <h2>Housing Information</h2>
+                <p><strong>Address:</strong> ${document.getElementById('address').value}, ${document.getElementById('city').value}</p>
+                <p><strong>Housing Type:</strong> ${document.getElementById('housing').value}</p>
+                <p><strong>Description:</strong> ${document.getElementById('house-description').value || 'Not specified'}</p>
             </div>
             
             <!-- Continuar con las demás secciones -->
             
             <div class="pdf-footer">
-                <p>Este documento es una solicitud de adopción y no garantiza la aprobación automática.</p>
-                <p>Little Pets - Todos los derechos reservados</p>
+                <p>This document is an adoption request and does not guarantee automatic approval.</p>
+                <p>Little Pets - All rights reserved</p>
             </div>
         `;
     }
@@ -329,10 +329,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 lastName: document.getElementById("last-name").value,
                 email: document.getElementById("email").value,
                 occupation: document.getElementById("occupation").value,
-                adoptBefore: document.querySelector('input[name="adopt-before"]:checked')?.value || 'No seleccionado',
-                committed: document.querySelector('input[name="committed"]:checked')?.value || 'No seleccionado',
-                maritalStatus: document.querySelector('input[name="marital-status"]:checked')?.value || 'No seleccionado',
-                haveKids: document.querySelector('input[name="have-kids"]:checked')?.value || 'No seleccionado',
+                adoptBefore: document.querySelector('input[name="adopt-before"]:checked')?.value || 'Not selected',
+                committed: document.querySelector('input[name="committed"]:checked')?.value || 'Not selected',
+                maritalStatus: document.querySelector('input[name="marital-status"]:checked')?.value || 'Not selected',
+                haveKids: document.querySelector('input[name="have-kids"]:checked')?.value || 'Not selected',
                 company: document.getElementById("company").value,
                 schedule: document.getElementById("schedule").value,
                 city: document.getElementById("city").value,
@@ -345,7 +345,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 ages: document.getElementById("ages").value,
                 many: document.getElementById("many").value,
                 // Nuevos campos
-                havePets: document.querySelector('input[name="have-pets"]:checked')?.value || 'No seleccionado',
+                havePets: document.querySelector('input[name="have-pets"]:checked')?.value || 'Not selected',
                 currentPets: document.getElementById("current-pets")?.value || '',
                 hoursAlone: document.getElementById("hours-alone")?.value || '',
                 vetName: document.getElementById("vet-name")?.value || '',
@@ -375,11 +375,11 @@ document.addEventListener('DOMContentLoaded', function() {
         doc.setTextColor(255, 255, 255);
         doc.setFontSize(24);
         doc.setFont("helvetica", "bold");
-        doc.text("Formulario de Adopción", 105, 20, { align: "center" });
+        doc.text("Adoption Form", 105, 20, { align: "center" });
         
         doc.setFontSize(10);
         doc.setFont("helvetica", "normal");
-        doc.text(`Fecha: ${new Date().toLocaleDateString()}`, 105, 30, { align: "center" });
+        doc.text(`Date: ${new Date().toLocaleDateString()}`, 105, 30, { align: "center" });
         
         // Función auxiliar para añadir campos
         let y = 50;
@@ -392,10 +392,10 @@ document.addEventListener('DOMContentLoaded', function() {
             doc.setFont("helvetica", "bold");
             doc.text(label, 20 + indent, y);
             doc.setFont("helvetica", "normal");
-            doc.text(value.toString() || "No especificado", 80 + indent, y);
+            doc.text(value || "Not specified", 80 + indent, y);
             y += 8;
             
-            // Si llegamos al final de la página, añadir una nueva
+            // If we reach the end of the page, add a new one
             if (y > 270) {
                 doc.addPage();
                 y = 20;
@@ -435,51 +435,51 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         
         // 1. Información Personal
-        addSection("Información Personal");
-        addField("Nombre completo:", `${data.firstName} ${data.lastName}`);
+        addSection("Personal Information");
+        addField("Full Name:", `${data.firstName} ${data.lastName}`);
         addField("Email:", data.email);
-        addField("Teléfono:", data.phone);
+        addField("Phone:", data.phone);
         addField("ID:", data.idNumber);
-        addField("Ocupación:", data.occupation);
-        addField("Empresa:", data.company);
-        addField("Horario laboral:", data.schedule);
-        addField("Estado civil:", data.maritalStatus);
+        addField("Occupation:", data.occupation);
+        addField("Company:", data.company);
+        addField("Work Schedule:", data.schedule);
+        addField("Marital Status:", data.maritalStatus);
         
         // 2. Información de Vivienda
-        addSection("Información de Vivienda");
-        addField("Ciudad:", data.city);
-        addField("Dirección:", data.address);
-        addField("Tipo de vivienda:", data.housing);
-        addField("Piso:", data.floor);
-        addLongText("Descripción de la vivienda:", data.houseDescription);
+        addSection("Housing Information");
+        addField("City:", data.city);
+        addField("Address:", data.address);
+        addField("Housing Type:", data.housing);
+        addField("Floor:", data.floor);
+        addLongText("Housing Description:", data.houseDescription);
         
         // 3. Información Familiar
-        addSection("Información Familiar");
-        addField("¿Tiene hijos?:", data.haveKids);
+        addSection("Family Information");
+        addField("Do you have children?:", data.haveKids);
         if (data.haveKids === "yes") {
-            addField("Cantidad de hijos:", data.many);
-            addField("Edades de los hijos:", data.ages);
+            addField("Number of children:", data.many);
+            addField("Children's ages:", data.ages);
         }
         
         // 4. Información sobre Mascotas
-        addSection("Información sobre Mascotas");
-        addField("¿Ha adoptado antes?:", data.adoptBefore);
-        addField("¿Tiene otras mascotas?:", data.havePets);
+        addSection("Pet Information");
+        addField("Have you adopted before?:", data.adoptBefore);
+        addField("Do you have other pets?:", data.havePets);
         if (data.havePets === "yes") {
-            addLongText("Mascotas actuales:", data.currentPets);
+            addLongText("Current pets:", data.currentPets);
         }
-        addField("Horas que la mascota estará sola:", data.hoursAlone);
-        addField("Nombre del veterinario:", data.vetName);
-        addField("¿Comprometido con el cuidado?:", data.committed);
+        addField("Hours the pet will be alone:", data.hoursAlone);
+        addField("Veterinarian's name:", data.vetName);
+        addField("Committed to care?:", data.committed);
         
         // 5. Motivo de Adopción
-        addSection("Motivo de Adopción");
-        addLongText("¿Por qué desea adoptar?:", data.whyAdopt);
+        addSection("Reason for Adoption");
+        addLongText("Why do you want to adopt?:", data.whyAdopt);
         
         // 6. Información Adicional
         if (data.additionalInfo) {
-            addSection("Información Adicional");
-            addLongText("Comentarios adicionales:", data.additionalInfo);
+            addSection("Additional Information");
+            addLongText("Additional comments:", data.additionalInfo);
         }
         
         // Pie de página
@@ -488,15 +488,15 @@ document.addEventListener('DOMContentLoaded', function() {
             doc.setPage(i);
             doc.setFontSize(10);
             doc.setTextColor(100, 100, 100);
-            doc.text(`Página ${i} de ${pageCount}`, 105, 290, { align: "center" });
-            doc.text("Little Pets - Formulario de Adopción", 105, 285, { align: "center" });
+            doc.text(`Page ${i} of ${pageCount}`, 105, 290, { align: "center" });
+            doc.text("Little Pets - Adoption Form", 105, 285, { align: "center" });
         }
     }
     
     // Función para enviar el formulario
     function submitForm() {
         // Aquí se implementaría la lógica para enviar el formulario al servidor
-        alert('¡Gracias! Tu solicitud de adopción ha sido enviada con éxito. Te contactaremos pronto.');
+        alert('Thank you! Your adoption request has been successfully submitted. We will contact you soon.');
         modal.style.display = 'none';
         
         // Redireccionar a la página de inicio o de confirmación

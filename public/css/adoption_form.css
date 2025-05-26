@@ -471,7 +471,7 @@
     background-color: #3d9140;
   }
   
-  /* Blobs decorativos */
+  /* Decorative blobs */
   .blob {
     position: absolute;
     background-color: #FF8A2B;
@@ -510,7 +510,7 @@
     right: 10%;
   }
   
-  /* Media queries para responsividad */
+  /* Media queries for responsiveness */
   @media (max-width: 1200px) {
     .form-grid {
         grid-template-columns: repeat(2, 1fr);
