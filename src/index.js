@@ -7,6 +7,8 @@ const path = require("path");
 const authRoutes = require("./routes/authRoutes");
 const userRoutes = require("./routes/userRoutes");
 const petRoutes = require("./routes/petRoutes");
+const contactRoutes = require('./routes/contactRoutes');
+
 
 // Conectar con la base de datos
 dbConnect();
@@ -22,6 +24,8 @@ app.use(express.static(path.join(__dirname, "../public")));
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/pets", petRoutes);
+app.use('/api/contact', contactRoutes);
+
 
 // Inicializar el servidor
 const PORT = process.env.PORT || 2000;
