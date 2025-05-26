@@ -3,11 +3,52 @@
   padding: 120px 0 60px;
   position: relative;
   overflow: hidden;
+  background-color: #f9f9f9;
 }
 
 .pet-details-content {
   max-width: 1200px;
   margin: 0 auto;
+}
+
+/* Breadcrumb */
+.breadcrumb {
+  margin-bottom: 20px;
+  font-size: 16px;
+}
+
+.breadcrumb a {
+  color: #555;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  width: fit-content;
+}
+
+.breadcrumb a:hover {
+  color: #ff8a2b;
+}
+
+.breadcrumb i {
+  margin-right: 8px;
+}
+
+/* Grid layout para detalles */
+.pet-details-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr;
+  gap: 40px;
+  background-color: #fff;
+  border-radius: 15px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+  padding: 30px;
+  margin-bottom: 40px;
+}
+
+/* Columna de galería */
+.pet-gallery-column {
+  display: flex;
+  flex-direction: column;
 }
 
 /* Visor de imágenes con blob */
@@ -16,27 +57,30 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: 30px;
-  height: 350px; /* Altura fija para el contenedor */
+  margin-bottom: 20px;
+  height: 350px;
+  border-radius: 15px;
+  overflow: hidden;
 }
 
 /* Blob naranja */
 .orange-blob {
   position: absolute;
-  width: 80%;
-  max-width: 600px;
-  height: 300px;
+  width: 100%;
+  height: 100%;
   background-color: #ff8a2b;
-  border-radius: 50%;
+  border-radius: 15px;
   z-index: 1;
+  opacity: 0.8;
+  transform: scale(1.1);
 }
 
 /* Contenedor de la imagen */
 .image-wrapper {
   position: relative;
   z-index: 2;
-  width: 220px;
-  height: 220px;
+  width: 280px;
+  height: 280px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -46,226 +90,379 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  border-radius: 5px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 15px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  transition: transform 0.3s ease;
 }
 
-/* Botones de navegación */
-.nav-btn {
-  position: absolute;
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 0;
-  z-index: 3;
+.pet-image:hover {
+  transform: scale(1.03);
 }
 
-.nav-btn img {
-  width: 32px;
-  height: 32px;
-}
-
-.prev-btn {
-  left: 15%;
-  top: 50%;
-  transform: translateY(-50%);
-}
-
-.next-btn {
-  right: 15%;
-  top: 50%;
-  transform: translateY(-50%);
-}
-
-/* Puntos de navegación */
-.nav-dots {
+/* Badge de estado */
+.image-badge {
   position: absolute;
   top: 15px;
-  right: 20%;
-  display: flex;
-  gap: 8px;
+  right: 15px;
+  background-color: #4CAF50;
+  color: white;
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 600;
   z-index: 3;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-.dot {
-  width: 10px;
-  height: 10px;
-  background-color: #000;
-  border-radius: 50%;
-  opacity: 0.5;
-  cursor: pointer;
-}
-
-.dot.active {
-  opacity: 1;
-}
-
-/* Botón de favorito */
-.favorite-section {
+/* Miniaturas de imágenes */
+.image-thumbnails {
   display: flex;
+  gap: 10px;
+  justify-content: center;
   margin-bottom: 20px;
 }
 
+.thumbnail {
+  width: 80px;
+  height: 80px;
+  border-radius: 10px;
+  overflow: hidden;
+  cursor: pointer;
+  opacity: 0.7;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+}
+
+.thumbnail img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.thumbnail.active {
+  opacity: 1;
+  border-color: #ff8a2b;
+  transform: scale(1.05);
+}
+
+.thumbnail:hover {
+  opacity: 0.9;
+}
+
+/* Columna de información */
+.pet-info-column {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Encabezado con nombre y favorito */
+.pet-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.pet-name {
+  font-size: 32px;
+  font-weight: 700;
+  color: #333;
+  margin: 0;
+}
+
+/* Información rápida */
+.pet-quick-info {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 25px;
+  background-color: #f8f8f8;
+  padding: 15px;
+  border-radius: 10px;
+}
+
+.quick-info-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.quick-info-item i {
+  color: #ff8a2b;
+  font-size: 18px;
+}
+
+.quick-info-item span {
+  font-weight: 500;
+  color: #444;
+}
+
+/* Botón de favorito */
 .favorite-btn {
   background: none;
   border: none;
   cursor: pointer;
-  padding: 0;
+  padding: 10px;
+  font-size: 24px;
+  color: #ccc;
+  transition: all 0.3s ease;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.heart-icon {
-  width: 24px;
-  height: 24px;
+.favorite-btn:hover {
+  background-color: rgba(255, 138, 43, 0.1);
+  color: #ff8a2b;
 }
 
-/* Información de la mascota */
-.pet-info-section {
-  margin-bottom: 40px;
+.favorite-btn.active {
+  color: #ff8a2b;
 }
 
-.pet-name {
-  font-size: 20px;
-  font-weight: 500;
-  margin-bottom: 20px;
+.favorite-btn i {
+  transition: transform 0.3s ease;
+}
+
+.favorite-btn:hover i {
+  transform: scale(1.1);
 }
 
 /* Atributos de la mascota */
 .pet-attributes {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
   margin-bottom: 30px;
-  border-bottom: 1px solid #eee;
-  padding-bottom: 20px;
-}
-
-.attributes-row {
-  display: flex;
-  margin-bottom: 20px;
+  padding: 20px;
+  background-color: #f8f8f8;
+  border-radius: 10px;
 }
 
 .attribute-item {
-  flex: 1;
-  min-width: 120px;
+  display: flex;
+  flex-direction: column;
 }
 
 .attribute-item h3 {
   font-size: 14px;
-  font-weight: 500;
-  margin: 0 0 5px;
-  color: #777;
+  font-weight: 600;
+  margin: 0 0 8px;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .attribute-item p {
-  font-size: 14px;
-  margin: 0;
-}
-
-/* Sección de personalidad */
-.pet-personality h3 {
   font-size: 16px;
+  margin: 0;
+  color: #333;
   font-weight: 500;
-  margin: 0 0 10px;
 }
 
-.pet-personality p {
-  font-size: 14px;
-  line-height: 1.6;
+/* Sección de descripción */
+.pet-description {
+  margin-bottom: 30px;
+}
+
+.pet-description h3 {
+  font-size: 20px;
+  font-weight: 600;
+  margin: 0 0 15px;
+  color: #333;
+}
+
+.pet-description p {
+  font-size: 16px;
+  line-height: 1.7;
   color: #555;
   margin: 0;
+  text-align: justify;
 }
 
-/* Botón de solicitud */
-.request-btn-container {
+/* Botones de acción */
+.adoption-actions {
   display: flex;
-  justify-content: center;
-  margin-top: 30px;
+  gap: 15px;
+  margin-bottom: 30px;
 }
 
-.request-btn {
+.adopt-btn {
+  flex: 2;
   background-color: #ff8a2b;
   color: white;
   border: none;
   border-radius: 10px;
-  padding: 12px 30px;
+  padding: 15px 30px;
   font-family: "Poppins", sans-serif;
-  font-weight: 650;
+  font-weight: 600;
   font-size: 18px;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: all 0.3s ease;
   text-transform: uppercase;
+  text-align: center;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.request-btn:hover {
+.adopt-btn:hover {
   background-color: #e67a1e;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(255, 138, 43, 0.3);
+}
+
+.contact-btn {
+  flex: 1;
+  background-color: #fff;
+  color: #555;
+  border: 2px solid #ddd;
+  border-radius: 10px;
+  padding: 15px 20px;
+  font-family: "Poppins", sans-serif;
+  font-weight: 600;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.contact-btn:hover {
+  border-color: #ff8a2b;
+  color: #ff8a2b;
+  background-color: rgba(255, 138, 43, 0.05);
+}
+
+/* Sección de compartir */
+.share-section {
+  margin-bottom: 20px;
+}
+
+.share-section h3 {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0 0 10px;
+  color: #666;
+}
+
+.social-share {
+  display: flex;
+  gap: 10px;
+}
+
+.share-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f0f0f0;
+  color: #555;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.share-btn:hover {
+  transform: translateY(-3px);
+}
+
+#share-facebook:hover {
+  background-color: #3b5998;
+  color: white;
+}
+
+#share-twitter:hover {
+  background-color: #1da1f2;
+  color: white;
+}
+
+#share-whatsapp:hover {
+  background-color: #25d366;
+  color: white;
+}
+
+#share-email:hover {
+  background-color: #ff8a2b;
+  color: white;
+}
+
+/* Sección de mascotas similares */
+.similar-pets-section {
+  margin-top: 40px;
+  padding: 30px;
+  background-color: #fff;
+  border-radius: 15px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+}
+
+.similar-pets-section h2 {
+  font-size: 24px;
+  font-weight: 600;
+  margin: 0 0 20px;
+  color: #333;
+}
+
+.similar-pets-container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
 }
 
 /* Media queries para responsividad */
+@media (max-width: 1024px) {
+  .similar-pets-container {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
 @media (max-width: 768px) {
+  .pet-details-grid {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+  
+  .similar-pets-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
   .pet-image-container {
     height: 300px;
   }
-
-  .orange-blob {
-    width: 90%;
-    height: 250px;
+  
+  .adoption-actions {
+    flex-direction: column;
   }
-
-  .image-wrapper {
-    width: 180px;
-    height: 180px;
-  }
-
-  .prev-btn {
-    left: 10%;
-  }
-
-  .next-btn {
-    right: 10%;
-  }
-
-  .nav-dots {
-    right: 10%;
-  }
-
-  .attributes-row {
-    flex-wrap: wrap;
-  }
-
-  .attribute-item {
-    flex: 0 0 50%;
-    margin-bottom: 15px;
+  
+  .pet-attributes {
+    grid-template-columns: 1fr;
   }
 }
 
 @media (max-width: 576px) {
   .pet-details-page {
-    padding: 30px 0;
+    padding: 100px 0 40px;
   }
-
-  .pet-image-container {
-    height: 250px;
+  
+  .similar-pets-container {
+    grid-template-columns: 1fr;
   }
-
-  .orange-blob {
-    height: 200px;
+  
+  .pet-quick-info {
+    flex-direction: column;
+    gap: 10px;
   }
-
-  .image-wrapper {
-    width: 150px;
-    height: 150px;
+  
+  .pet-name {
+    font-size: 24px;
   }
-
-  .prev-btn {
-    left: 5%;
+  
+  .image-thumbnails {
+    gap: 5px;
   }
-
-  .next-btn {
-    right: 5%;
-  }
-
-  .nav-dots {
-    right: 5%;
-  }
-
-  .attribute-item {
-    flex: 0 0 100%;
+  
+  .thumbnail {
+    width: 60px;
+    height: 60px;
   }
 }

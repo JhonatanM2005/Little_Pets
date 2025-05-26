@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Little Pets</title>
+        <title>Little Pets - Adoption Form</title>
         <link
           rel="icon"
           type="image/png"
@@ -12,7 +12,9 @@
         />
         <link rel="stylesheet" href="../css/styles.css" />
         <link rel="stylesheet" href="../css/adoption_form.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
       </head>
 <body>
     <header>
@@ -50,157 +52,366 @@
     <main class="adoption-page">
         <div class="container">
             <div class="adoption-form-container">
-                <h1>Adoption Form</h1>
-                <form class="adoption-form" action="#" method="post">
-                    <div class="form-grid">
-                        <!-- Column 1 -->
-                        <div class="form-column">
-
-                            <div class="form-group">
-                                <label for="id-number">ID Number</label>
-                                <input type="text" id="id-number" name="id-number" placeholder="ID Number" required>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label for="occupation">Occupation</label>
-                                <input type="text" id="occupation" name="occupation" placeholder="Occupation">
-                            </div>
-                            
-                            <div class="form-group">
-                                <label for="company">Company</label>
-                                <input type="text" id="company" name="company" placeholder="Company">
-                            </div>
-                            
-                            <div class="form-group">
-                                <label for="schedule">Schedule</label>
-                                <input type="text" id="schedule" name="schedule" placeholder="Schedule">
-                            </div>
-                            
+                <div class="form-header">
+                    <h1>Adoption Form</h1>
+                    <p class="form-description">Please complete this form to apply for pet adoption. All information will be kept confidential.</p>
+                </div>
+                
+                <!-- Progress bar -->
+                <div class="progress-container">
+                    <div class="progress-bar">
+                        <div class="progress" id="form-progress"></div>
+                    </div>
+                    <div class="steps-container">
+                        <div class="step active" data-step="1">
+                            <div class="step-number">1</div>
+                            <div class="step-label">Personal Info</div>
+                        </div>
+                        <div class="step" data-step="2">
+                            <div class="step-number">2</div>
+                            <div class="step-label">Housing</div>
+                        </div>
+                        <div class="step" data-step="3">
+                            <div class="step-number">3</div>
+                            <div class="step-label">Family</div>
+                        </div>
+                        <div class="step" data-step="4">
+                            <div class="step-number">4</div>
+                            <div class="step-label">Adoption</div>
+                        </div>
+                        <div class="step" data-step="5">
+                            <div class="step-number">5</div>
+                            <div class="step-label">Review</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <form class="adoption-form" id="adoptionForm" action="#" method="post">
+                    <!-- Step 1: Personal Information -->
+                    <div class="form-section" id="section-1">
+                        <div class="section-header">
+                            <h2><i class="fas fa-user"></i> Personal Information</h2>
                         </div>
                         
-                        <!-- Column 2 -->
-                        <div class="form-column">
-                            <div class="form-group">
-                                <label for="first-name">First Name</label>
-                                <input type="text" id="first-name" name="first-name" placeholder="First name" required>
+                        <div class="form-grid">
+                            <div class="form-column">
+                                <div class="form-group">
+                                    <label for="first-name">First Name</label>
+                                    <input type="text" id="first-name" name="first-name" placeholder="First name" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="email">Email Address</label>
+                                    <input type="email" id="email" name="email" placeholder="E-mail address" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="id-number">ID Number</label>
+                                    <input type="text" id="id-number" name="id-number" placeholder="ID Number" required>
+                                </div>
                             </div>
                             
-                            <div class="form-group">
-                                <label for="city">City</label>
-                                <input type="text" id="city" name="city" placeholder="City" required>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label for="address">Address</label>
-                                <input type="text" id="address" name="address" placeholder="Address" required>
-                            </div>
-                            
-                            
-                            <div class="form-group">
-                                <label for="floor">What floor do you live on?</label>
-                                <input type="number" id="floor" name="floor" placeholder="Number" min="0">
-                            </div>
-                            
-                            <div class="form-group">
-                                <label for="house-description">Describe your house</label>
-                                <textarea id="house-description" name="house-description" placeholder="Tell us..."></textarea>
+                            <div class="form-column">
+                                <div class="form-group">
+                                    <label for="last-name">Last Name</label>
+                                    <input type="text" id="last-name" name="last-name" placeholder="Last name" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="phone">Phone Number</label>
+                                    <input type="tel" id="phone" name="phone" placeholder="Phone Number" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label>Marital Status</label>
+                                    <div class="radio-group">
+                                        <label class="radio-label">
+                                            <input type="radio" name="marital-status" value="single"> Single
+                                        </label>
+                                        <label class="radio-label">
+                                            <input type="radio" name="marital-status" value="married"> Married
+                                        </label>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         
-                        <!-- Column 3 -->
-                        <div class="form-column">
-                            <div class="form-group">
-                                <label for="last-name">Last Name</label>
-                                <input type="text" id="last-name" name="last-name" placeholder="Last name" required>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label for="phone">Phone Number</label>
-                                <input type="tel" id="phone" name="phone" placeholder="Phone Number" required>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label for="housing">Type of Housing</label>
-                                <input type="text" id="housing" name="housing" placeholder="Type of housing" required>
-                            </div>
-                            <div class="form-group">
-                                <label>Have you adopt before?</label>
-                                <div class="radio-group">
-                                    <label class="radio-label">
-                                        <input type="radio" name="adopt-before" value="yes"> Yes
-                                    </label>
-                                    <label class="radio-label">
-                                        <input type="radio" name="adopt-before" value="no"> No
-                                    </label>
+                        <div class="form-grid">
+                            <div class="form-column">
+                                <div class="form-group">
+                                    <label for="occupation">Occupation</label>
+                                    <input type="text" id="occupation" name="occupation" placeholder="Occupation">
                                 </div>
                             </div>
                             
-                            <div class="form-group">
-                                <label>Is committed to care?</label>
-                                <div class="radio-group">
-                                    <label class="radio-label">
-                                        <input type="radio" name="committed" value="yes"> Yes
-                                    </label>
-                                    <label class="radio-label">
-                                        <input type="radio" name="committed" value="no"> No
-                                    </label>
+                            <div class="form-column">
+                                <div class="form-group">
+                                    <label for="company">Company</label>
+                                    <input type="text" id="company" name="company" placeholder="Company">
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label for="why-adopt">Why do you want adopt?</label>
-                                <textarea id="why-adopt" name="why-adopt" placeholder="Tell us..." required></textarea>
+                            
+                            <div class="form-column">
+                                <div class="form-group">
+                                    <label for="schedule">Work Schedule</label>
+                                    <input type="text" id="schedule" name="schedule" placeholder="e.g. 9am-5pm, Mon-Fri">
+                                </div>
                             </div>
-                            
-                            
                         </div>
                         
-                        <!-- Column 4 -->
-                        <div class="form-column">
-
-                            <div class="form-group">
-                                <label for="email">Email Address</label>
-                                <input type="email" id="email" name="email" placeholder="E-mail address" required>
-                            </div>
-
-                            <div class="form-group">
-                                <label>Marital Status</label>
-                                <div class="radio-group">
-                                    <label class="radio-label">
-                                        <input type="radio" name="marital-status" value="single"> Single
-                                    </label>
-                                    <label class="radio-label">
-                                        <input type="radio" name="marital-status" value="married"> Married
-                                    </label>
-                                </div>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label for="ages">Ages?</label>
-                                <input type="text" id="ages" name="ages" placeholder="Number > 5">
-                            </div>
-                            <div class="form-group">
-                                <label>Do you have kids?</label>
-                                <div class="radio-group">
-                                    <label class="radio-label">
-                                        <input type="radio" name="have-kids" value="yes"> Yes
-                                    </label>
-                                    <label class="radio-label">
-                                        <input type="radio" name="have-kids" value="no"> No
-                                    </label>
-                                </div>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label for="many">Many?</label>
-                                <input type="number" id="many" name="many" placeholder="Number" min="0">
-                            </div>
+                        <div class="form-navigation">
+                            <button type="button" class="next-btn">Next <i class="fas fa-arrow-right"></i></button>
                         </div>
                     </div>
                     
-                    <div class="form-submit">
-                        <button type="button" id="adoptButton" class="adopt-btn">Send</button>
+                    <!-- Step 2: Housing Information -->
+                    <div class="form-section" id="section-2" style="display: none;">
+                        <div class="section-header">
+                            <h2><i class="fas fa-home"></i> Housing Information</h2>
+                        </div>
+                        
+                        <div class="form-grid">
+                            <div class="form-column">
+                                <div class="form-group">
+                                    <label for="city">City</label>
+                                    <input type="text" id="city" name="city" placeholder="City" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="housing">Type of Housing</label>
+                                    <select id="housing" name="housing" required>
+                                        <option value="">Select housing type</option>
+                                        <option value="house">House</option>
+                                        <option value="apartment">Apartment</option>
+                                        <option value="condo">Condominium</option>
+                                        <option value="townhouse">Townhouse</option>
+                                        <option value="other">Other</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="form-column">
+                                <div class="form-group">
+                                    <label for="address">Address</label>
+                                    <input type="text" id="address" name="address" placeholder="Address" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="floor">What floor do you live on?</label>
+                                    <input type="number" id="floor" name="floor" placeholder="Number" min="0">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group full-width">
+                            <label for="house-description">Describe your living space</label>
+                            <textarea id="house-description" name="house-description" placeholder="Please describe your home environment, yard space, fencing, etc."></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Do you own or rent your home?</label>
+                            <div class="radio-group">
+                                <label class="radio-label">
+                                    <input type="radio" name="home-ownership" value="own"> Own
+                                </label>
+                                <label class="radio-label">
+                                    <input type="radio" name="home-ownership" value="rent"> Rent
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group" id="landlord-permission" style="display: none;">
+                            <label>If renting, do you have permission to have pets?</label>
+                            <div class="radio-group">
+                                <label class="radio-label">
+                                    <input type="radio" name="landlord-permission" value="yes"> Yes
+                                </label>
+                                <label class="radio-label">
+                                    <input type="radio" name="landlord-permission" value="no"> No
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div class="form-navigation">
+                            <button type="button" class="prev-btn"><i class="fas fa-arrow-left"></i> Previous</button>
+                            <button type="button" class="next-btn">Next <i class="fas fa-arrow-right"></i></button>
+                        </div>
+                    </div>
+                    
+                    <!-- Step 3: Family Information -->
+                    <div class="form-section" id="section-3" style="display: none;">
+                        <div class="section-header">
+                            <h2><i class="fas fa-users"></i> Family Information</h2>
+                        </div>
+                        
+                        <div class="form-grid">
+                            <div class="form-column">
+                                <div class="form-group">
+                                    <label>Do you have children?</label>
+                                    <div class="radio-group">
+                                        <label class="radio-label">
+                                            <input type="radio" name="have-kids" value="yes"> Yes
+                                        </label>
+                                        <label class="radio-label">
+                                            <input type="radio" name="have-kids" value="no"> No
+                                        </label>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group" id="kids-details" style="display: none;">
+                                    <label for="many">How many children?</label>
+                                    <input type="number" id="many" name="many" placeholder="Number" min="0">
+                                </div>
+                                
+                                <div class="form-group" id="kids-ages" style="display: none;">
+                                    <label for="ages">Ages of children</label>
+                                    <input type="text" id="ages" name="ages" placeholder="e.g. 5, 7, 10">
+                                </div>
+                            </div>
+                            
+                            <div class="form-column">
+                                <div class="form-group">
+                                    <label>Do you currently have other pets?</label>
+                                    <div class="radio-group">
+                                        <label class="radio-label">
+                                            <input type="radio" name="have-pets" value="yes"> Yes
+                                        </label>
+                                        <label class="radio-label">
+                                            <input type="radio" name="have-pets" value="no"> No
+                                        </label>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group" id="pets-details" style="display: none;">
+                                    <label for="current-pets">Please describe your current pets</label>
+                                    <textarea id="current-pets" name="current-pets" placeholder="Type, breed, age, temperament, etc."></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group full-width">
+                            <label>Is everyone in your household in agreement with adopting a pet?</label>
+                            <div class="radio-group">
+                                <label class="radio-label">
+                                    <input type="radio" name="household-agreement" value="yes"> Yes
+                                </label>
+                                <label class="radio-label">
+                                    <input type="radio" name="household-agreement" value="no"> No
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div class="form-navigation">
+                            <button type="button" class="prev-btn"><i class="fas fa-arrow-left"></i> Previous</button>
+                            <button type="button" class="next-btn">Next <i class="fas fa-arrow-right"></i></button>
+                        </div>
+                    </div>
+                    
+                    <!-- Step 4: Adoption Information -->
+                    <div class="form-section" id="section-4" style="display: none;">
+                        <div class="section-header">
+                            <h2><i class="fas fa-paw"></i> Adoption Information</h2>
+                        </div>
+                        
+                        <div class="form-group full-width">
+                            <label for="why-adopt">Why do you want to adopt a pet?</label>
+                            <textarea id="why-adopt" name="why-adopt" placeholder="Please share your reasons for wanting to adopt a pet..." required></textarea>
+                        </div>
+                        
+                        <div class="form-grid">
+                            <div class="form-column">
+                                <div class="form-group">
+                                    <label>Have you adopted before?</label>
+                                    <div class="radio-group">
+                                        <label class="radio-label">
+                                            <input type="radio" name="adopt-before" value="yes"> Yes
+                                        </label>
+                                        <label class="radio-label">
+                                            <input type="radio" name="adopt-before" value="no"> No
+                                        </label>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label>Are you committed to caring for this pet for its entire life?</label>
+                                    <div class="radio-group">
+                                        <label class="radio-label">
+                                            <input type="radio" name="committed" value="yes"> Yes
+                                        </label>
+                                        <label class="radio-label">
+                                            <input type="radio" name="committed" value="no"> No
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="form-column">
+                                <div class="form-group">
+                                    <label for="hours-alone">How many hours will the pet be alone each day?</label>
+                                    <input type="number" id="hours-alone" name="hours-alone" placeholder="Hours" min="0" max="24">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="vet-name">Do you have a veterinarian?</label>
+                                    <input type="text" id="vet-name" name="vet-name" placeholder="Veterinarian name (if applicable)">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group full-width">
+                            <label for="additional-info">Additional information you'd like to share</label>
+                            <textarea id="additional-info" name="additional-info" placeholder="Any other information that might help us process your application..."></textarea>
+                        </div>
+                        
+                        <div class="form-navigation">
+                            <button type="button" class="prev-btn"><i class="fas fa-arrow-left"></i> Previous</button>
+                            <button type="button" class="next-btn">Review Application <i class="fas fa-arrow-right"></i></button>
+                        </div>
+                    </div>
+                    
+                    <!-- Step 5: Review -->
+                    <div class="form-section" id="section-5" style="display: none;">
+                        <div class="section-header">
+                            <h2><i class="fas fa-check-circle"></i> Review Your Application</h2>
+                            <p>Please review your information before submitting.</p>
+                        </div>
+                        
+                        <div class="review-container" id="reviewContainer">
+                            <!-- This will be populated by JavaScript -->
+                        </div>
+                        
+                        <div class="form-group terms-container">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="terms-agreement" name="terms-agreement" required>
+                                <span>I confirm that all information provided is accurate and complete. I understand that providing false information may result in my application being rejected.</span>
+                            </label>
+                        </div>
+                        
+                        <div class="form-navigation">
+                            <button type="button" class="prev-btn"><i class="fas fa-arrow-left"></i> Previous</button>
+                            <button type="button" id="adoptButton" class="submit-btn">Submit & Generate PDF <i class="fas fa-file-pdf"></i></button>
+                        </div>
                     </div>
                 </form>
+                
+                <!-- PDF Preview Modal -->
+                <div class="modal" id="pdfPreviewModal">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h2>Adoption Form Preview</h2>
+                            <span class="close-modal">&times;</span>
+                        </div>
+                        <div class="modal-body">
+                            <div id="pdfPreview" class="pdf-preview">
+                                <!-- PDF preview will be rendered here -->
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button id="downloadPdfBtn" class="download-btn">Download PDF <i class="fas fa-download"></i></button>
+                            <button id="submitFormBtn" class="submit-form-btn">Submit Application <i class="fas fa-paper-plane"></i></button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         
@@ -272,6 +483,14 @@
           } else {
             loginLink.style.display = "block";
             accountLink.style.display = "none";
+          }
+          
+          // Check if we're coming from a pet details page
+          const urlParams = new URLSearchParams(window.location.search);
+          const petId = urlParams.get("petId");
+          if (petId) {
+            // Could load pet details here and pre-fill some form fields
+            console.log("Adoption form for pet ID:", petId);
           }
         });
       </script>

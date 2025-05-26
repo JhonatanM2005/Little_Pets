@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Little Pets</title>
+    <title>Little Pets - Pet Details</title>
     <link
       rel="icon"
       type="image/png"
@@ -12,6 +12,7 @@
     />
     <link rel="stylesheet" href="../css/styles.css" />
     <link rel="stylesheet" href="../css/pet_details.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
   </head>
   <body>
     <header>
@@ -50,104 +51,108 @@
 
     <main class="pet-details-page">
       <div class="container">
+        <div class="breadcrumb">
+          <a href="../pages/pets_catalog.html"><i class="fas fa-arrow-left"></i> Back to Catalog</a>
+        </div>
+        
         <div class="pet-details-content">
-          <!-- Visor de imágenes con blob -->
-          <div class="pet-image-container">
-            <div class="orange-blob"></div>
-            <div class="image-wrapper">
-              <img alt="Pet image" class="pet-image" />
+          <div class="pet-details-grid">
+            <!-- Columna izquierda: Imagen y galería -->
+            <div class="pet-gallery-column">
+              <div class="pet-image-container">
+                <div class="orange-blob"></div>
+                <div class="image-wrapper">
+                  <img alt="Pet image" class="pet-image" id="main-pet-image" />
+                  <div class="image-badge" id="adoption-status">Available</div>
+                </div>
+              </div>
+              
+              <div class="image-thumbnails">
+                <!-- Se llenarán dinámicamente con JavaScript -->
+                <div class="thumbnail active" data-index="0">
+                  <img src="" alt="Thumbnail 1" />
+                </div>
+                <div class="thumbnail" data-index="1">
+                  <img src="" alt="Thumbnail 2" />
+                </div>
+                <div class="thumbnail" data-index="2">
+                  <img src="" alt="Thumbnail 3" />
+                </div>
+              </div>
             </div>
-
-            <!-- Botones de navegación -->
-            <button class="nav-btn prev-btn">
-              <img src="../media/icons/arrow-left-circle.png" alt="Previous" />
-            </button>
-
-            <button class="nav-btn next-btn">
-              <img src="../media/icons/arrow-right-circle.png" alt="Next" />
-            </button>
-
-            <!-- Puntos de navegación (opcional, como en la imagen) -->
-            <div class="nav-dots">
-              <span class="dot active"></span>
-              <span class="dot"></span>
-            </div>
-          </div>
-
-          <!-- Botón de favorito -->
-          <div class="favorite-section">
-            <button class="favorite-btn">
-              <img
-                src="../media/icons/heart-outline.png"
-                alt="Add to favorites"
-                class="heart-icon"
-              />
-            </button>
-          </div>
-
-          <!-- Información de la mascota -->
-          <div class="pet-info-section">
-            <h2 class="pet-name">Pet Name</h2>
-
-            <div class="pet-attributes">
-              <div class="attributes-row">
+            
+            <!-- Columna derecha: Información de la mascota -->
+            <div class="pet-info-column">
+              <div class="pet-header">
+                <h1 class="pet-name">Pet Name</h1>
+                <button class="favorite-btn" id="favorite-btn">
+                  <i class="far fa-heart"></i>
+                </button>
+              </div>
+              
+              <div class="pet-quick-info">
+                <div class="quick-info-item">
+                  <i class="fas fa-paw"></i>
+                  <span id="pet-type">Dog</span>
+                </div>
+                <div class="quick-info-item">
+                  <i class="fas fa-birthday-cake"></i>
+                  <span id="pet-age">2 years</span>
+                </div>
+                <div class="quick-info-item">
+                  <i class="fas fa-ruler-vertical"></i>
+                  <span id="pet-size">Medium</span>
+                </div>
+              </div>
+              
+              <div class="pet-attributes">
                 <div class="attribute-item">
                   <h3>Breed</h3>
-                  <p></p>
+                  <p id="pet-breed"></p>
                 </div>
-
                 <div class="attribute-item">
                   <h3>Sex</h3>
-                  <p></p>
+                  <p id="pet-sex"></p>
                 </div>
-
                 <div class="attribute-item">
                   <h3>Personality</h3>
-                  <p></p>
+                  <p id="pet-personality"></p>
                 </div>
-
-                <div class="attribute-item">
-                  <h3>Age</h3>
-                  <p></p>
-                </div>
-              </div>
-
-              <div class="attributes-row">
-                <div class="attribute-item">
-                  <!-- Espacio vacío para mantener la alineación -->
-                </div>
-
-                <div class="attribute-item">
-                  <h3>Size</h3>
-                  <p></p>
-                </div>
-
                 <div class="attribute-item">
                   <h3>Sterilized</h3>
-                  <p></p>
+                  <p id="pet-sterilized"></p>
                 </div>
-
-                <div class="attribute-item">
-                  <!-- Espacio vacío para mantener la alineación -->
+              </div>
+              
+              <div class="pet-description">
+                <h3>About Me</h3>
+                <p id="pet-description">
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut molestie sit amet et imperdiet a, porttitor eu lacus.
+                </p>
+              </div>
+              
+              <div class="adoption-actions">
+                <a href="./adoption_form.html" class="adopt-btn" id="adopt-btn">Adopt Me</a>
+                <button class="contact-btn" id="contact-btn">Contact Shelter</button>
+              </div>
+              
+              <div class="share-section">
+                <h3>Share This Pet</h3>
+                <div class="social-share">
+                  <a href="#" class="share-btn" id="share-facebook"><i class="fab fa-facebook-f"></i></a>
+                  <a href="#" class="share-btn" id="share-twitter"><i class="fab fa-twitter"></i></a>
+                  <a href="#" class="share-btn" id="share-whatsapp"><i class="fab fa-whatsapp"></i></a>
+                  <a href="#" class="share-btn" id="share-email"><i class="fas fa-envelope"></i></a>
                 </div>
               </div>
             </div>
-
-            <div class="pet-personality">
-              <h3>Description</h3>
-              <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut
-                molestie sit amet et imperdiet a, porttitor eu lacus. Lorem
-                ipsum dolor sit amet et imperdiet a, porttitor eu lacus. Vivamus
-                in ante et ipsum sit amet et imperdiet a, porttitor eu lacus.
-                Curabitur quis ante ut libero ullamcorper elementum sed eget
-                malesuada. Nunc posuere vel ante posuere vel ante posuere vel
-                ante posuere vel ante posuere vel ante posuere vel ante posuere
-                vel ante posuere vel ante posuere vel ante posuere vel ante
-                posuere vel ante posuere vel ante posuere vel ante posuere vel
-                ante posuere vel ante posuere vel ante posuere vel ante posuere
-                vel ante.
-              </p>
+          </div>
+          
+          <!-- Sección adicional: Mascotas similares -->
+          <div class="similar-pets-section">
+            <h2>You May Also Like</h2>
+            <div class="similar-pets-container" id="similar-pets">
+              <!-- Se llenará dinámicamente con JavaScript -->
             </div>
           </div>
         </div>
@@ -217,6 +222,56 @@
           loginLink.style.display = "block";
           accountLink.style.display = "none";
         }
+        
+        // Inicializar botón de favoritos
+        const favoriteBtn = document.getElementById('favorite-btn');
+        favoriteBtn.addEventListener('click', function() {
+          this.classList.toggle('active');
+          if (this.classList.contains('active')) {
+            this.innerHTML = '<i class="fas fa-heart"></i>';
+          } else {
+            this.innerHTML = '<i class="far fa-heart"></i>';
+          }
+        });
+        
+        // Inicializar botones de compartir
+        document.getElementById('share-facebook').addEventListener('click', function(e) {
+          e.preventDefault();
+          window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}`, '_blank');
+        });
+        
+        document.getElementById('share-twitter').addEventListener('click', function(e) {
+          e.preventDefault();
+          const petName = document.querySelector('.pet-name').textContent;
+          window.open(`https://twitter.com/intent/tweet?text=Check out ${petName} at Little Pets!&url=${encodeURIComponent(window.location.href)}`, '_blank');
+        });
+        
+        document.getElementById('share-whatsapp').addEventListener('click', function(e) {
+          e.preventDefault();
+          const petName = document.querySelector('.pet-name').textContent;
+          window.open(`https://wa.me/?text=Check out ${petName} at Little Pets! ${encodeURIComponent(window.location.href)}`, '_blank');
+        });
+        
+        document.getElementById('share-email').addEventListener('click', function(e) {
+          e.preventDefault();
+          const petName = document.querySelector('.pet-name').textContent;
+          window.location.href = `mailto:?subject=Check out ${petName} at Little Pets!&body=I found this adorable pet: ${encodeURIComponent(window.location.href)}`;
+        });
+        
+        // Inicializar galería de imágenes
+        const thumbnails = document.querySelectorAll('.thumbnail');
+        thumbnails.forEach(thumb => {
+          thumb.addEventListener('click', function() {
+            thumbnails.forEach(t => t.classList.remove('active'));
+            this.classList.add('active');
+            // Aquí se cambiaría la imagen principal
+          });
+        });
+        
+        // Inicializar botón de contacto
+        document.getElementById('contact-btn').addEventListener('click', function() {
+          window.location.href = './contact_us.html';
+        });
       });
     </script>
     <script src="../js/pet_detail.js"></script>
