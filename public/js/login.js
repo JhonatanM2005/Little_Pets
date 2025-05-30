@@ -4,6 +4,20 @@ document.addEventListener("DOMContentLoaded", () => {
   loginForm.parentNode.insertBefore(messageDiv, loginForm);
   messageDiv.style.color = "red";
   messageDiv.style.marginBottom = "10px";
+  
+  // Verificar si hay un parámetro de redirección en la URL
+  const urlParams = new URLSearchParams(window.location.search);
+  const redirectUrl = urlParams.get("redirect");
+  
+  // Si viene de una página que requiere autenticación, mostrar mensaje
+  if (redirectUrl) {
+    const infoDiv = document.createElement("div");
+    infoDiv.textContent = "Debes iniciar sesión para acceder al formulario de adopción";
+    infoDiv.style.color = "#ff6b00";
+    infoDiv.style.marginBottom = "15px";
+    infoDiv.style.fontWeight = "bold";
+    loginForm.parentNode.insertBefore(infoDiv, messageDiv);
+  }
 
   loginForm.addEventListener("submit", async (event) => {
     event.preventDefault();
@@ -34,7 +48,17 @@ document.addEventListener("DOMContentLoaded", () => {
         // Autenticación exitosa
         localStorage.setItem("token", data.token);
         localStorage.setItem("isAuthenticated", "true");
-        window.location.href = "./account_user.html"; // Redirige a la página de perfil
+        
+        // Verificar si hay un parámetro de redirección en la URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const redirectUrl = urlParams.get("redirect");
+        
+        // Si hay una URL de redirección, redirigir a esa página, de lo contrario ir a la página de perfil
+        if (redirectUrl) {
+          window.location.href = redirectUrl;
+        } else {
+          window.location.href = "./account_user.html"; // Redirige a la página de perfil por defecto
+        }
       } else {
         // Error en la autenticación
         messageDiv.textContent =

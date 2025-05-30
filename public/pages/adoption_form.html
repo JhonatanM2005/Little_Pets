@@ -483,6 +483,11 @@
           } else {
             loginLink.style.display = "block";
             accountLink.style.display = "none";
+            
+            // Redirigir al usuario a la página de login si no está autenticado
+            const currentUrl = window.location.href;
+            const redirectUrl = `./login.html?redirect=${encodeURIComponent(currentUrl)}`;
+            window.location.href = redirectUrl;
           }
           
           // Check if we're coming from a pet details page

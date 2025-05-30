@@ -14,6 +14,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const thumbnailsContainer = document.querySelector(".image-thumbnails");
   const similarPetsContainer = document.getElementById("similar-pets");
   const adoptBtn = document.getElementById("adopt-btn");
+  
+  // Verificar si el usuario está autenticado
+  const isAuthenticated = localStorage.getItem("isAuthenticated") === "true";
 
   // Función para obtener el ID de la mascota de la URL
   function getPetIdFromUrl() {
@@ -125,6 +128,28 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   const petId = getPetIdFromUrl();
+  
+  // Configurar el botón de adopción para verificar autenticación
+  if (adoptBtn) {
+    adoptBtn.addEventListener("click", function(e) {
+      e.preventDefault();
+      
+      // Si el botón ya está deshabilitado (mascota no disponible), no hacer nada
+      if (this.classList.contains("disabled")) {
+        return;
+      }
+      
+      // Verificar si el usuario está autenticado
+      if (isAuthenticated) {
+        // Usuario autenticado, redirigir al formulario de adopción con el ID de la mascota
+        window.location.href = `./adoption_form.html?petId=${petId}`;
+      } else {
+        // Usuario no autenticado, redirigir a la página de login con URL de redirección
+        const currentUrl = window.location.href;
+        window.location.href = `./login.html?redirect=${encodeURIComponent(currentUrl)}`;
+      }
+    });
+  }
 
   if (petId) {
     // Realizar la petición al backend para obtener los detalles de la mascota
