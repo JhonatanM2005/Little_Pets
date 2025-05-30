@@ -147,6 +147,35 @@
       </div>
     </footer>
 
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        // Verificar si el usuario está autenticado
+        const isAuthenticated = localStorage.getItem("isAuthenticated");
+        const userType = localStorage.getItem("userType") || "user";
+        
+        if (isAuthenticated !== "true") {
+          // Si no está autenticado, redirigir al login
+          const currentUrl = window.location.href;
+          const redirectUrl = `./login.html?redirect=${encodeURIComponent(currentUrl)}`;
+          window.location.href = redirectUrl;
+        } else if (userType !== "admin") {
+          // Si no es administrador, redirigir a la página de cuenta correspondiente
+          if (userType === "operator") {
+            window.location.href = "./account_ope.html";
+          } else {
+            window.location.href = "./account_user.html";
+          }
+          alert("No tienes permisos para acceder a esta página");
+        }
+
+        // Actualizar el nombre de usuario en la página
+        const usernameInput = document.querySelector('.profile-info input[value="Username"]');
+        if (usernameInput) {
+          usernameInput.value = `Admin (${localStorage.getItem("email") || "admin@littlepets.com"})`;
+        }
+      });
+    </script>
+
     <div id="passwordModal" class="modal">
       <div class="modal-content">
         <span

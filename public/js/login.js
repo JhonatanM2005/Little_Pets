@@ -49,15 +49,35 @@ document.addEventListener("DOMContentLoaded", () => {
         localStorage.setItem("token", data.token);
         localStorage.setItem("isAuthenticated", "true");
         
+        // Almacenar el tipo de usuario (en un entorno real, esto vendría del servidor)
+        // Por ahora, simulamos diferentes tipos de usuario según el email
+        let userType = "user";
+        if (email.includes("admin")) {
+          userType = "admin";
+        } else if (email.includes("operator") || email.includes("ope")) {
+          userType = "operator";
+        }
+        localStorage.setItem("userType", userType);
+        
+        // Almacenar el email del usuario para mostrarlo en el perfil
+        localStorage.setItem("email", email);
+        
         // Verificar si hay un parámetro de redirección en la URL
         const urlParams = new URLSearchParams(window.location.search);
         const redirectUrl = urlParams.get("redirect");
         
-        // Si hay una URL de redirección, redirigir a esa página, de lo contrario ir a la página de perfil
+        // Si hay una URL de redirección, redirigir a esa página
         if (redirectUrl) {
           window.location.href = redirectUrl;
         } else {
-          window.location.href = "./account_user.html"; // Redirige a la página de perfil por defecto
+          // Redirigir según el tipo de usuario
+          if (userType === "admin") {
+            window.location.href = "./account_admin.html";
+          } else if (userType === "operator") {
+            window.location.href = "./account_ope.html";
+          } else {
+            window.location.href = "./account_user.html";
+          }
         }
       } else {
         // Error en la autenticación

@@ -27,8 +27,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const formsTable = document.getElementById('forms-table');
     const statusTabs = document.querySelectorAll('.tab-btn');
     
-    // Datos de ejemplo para formularios
-    const sampleForms = [
+    // Datos de ejemplo para formularios (hacerlos accesibles globalmente)
+    window.sampleForms = [
         {
             id: '12345',
             name: 'John Doe',
@@ -173,8 +173,7 @@ document.addEventListener('DOMContentLoaded', function() {
         currentPdfUrl = url;
         
         // Cargar el documento
-        pdfjsLib.getDocument(url).promise.then(function(pdfDoc_)
-        {
+        pdfjsLib.getDocument(url).promise.then(function(pdfDoc_) {
             console.log('PDF loaded successfully');
             pdfDoc = pdfDoc_;
             
@@ -212,59 +211,79 @@ document.addEventListener('DOMContentLoaded', function() {
         const tbody = formsTable.querySelector('tbody');
         tbody.innerHTML = '';
         
-        // Crear el contenido básico de la fila
-        let rowContent = `
-            <td>${form.id}</td>
-            <td>${form.name}</td>
-            <td>${form.email}</td>
-            <td>${form.pet}</td>
-            <td>${form.date}</td>
-        `;
+        // Filtrar los formularios por estado
+        const filteredForms = window.sampleForms.filter(form => form.status === status);
         
-        // Añadir columna de acciones según el estado
-        if (status === 'pending') {
-            rowContent += `
-                <td class="action-buttons">
-                    <button class="approve-btn" data-id="${form.id}">Approve</button>
-                    <button class="reject-btn" data-id="${form.id}">Reject</button>
-                </td>
-            `;
-        } else if (status === 'approved') {
-            rowContent += `
-                <td class="action-buttons">
-                    <span class="status-badge approved">Approved</span>
-                </td>
-            `;
-        } else if (status === 'rejected') {
-            rowContent += `
-                <td class="action-buttons">
-                    <span class="status-badge rejected">Rejected</span>
-                </td>
-            `;
-        }
-        
-        row.innerHTML = rowContent;
-        
-        // Añadir clase 'selected-row' a la primera fila
-        if (index === 0) {
-            row.classList.add('selected-row');
+        if (filteredForms.length === 0) {
+            const row = document.createElement('tr');
+            row.innerHTML = `<td colspan="7" class="no-results">No forms found</td>`;
+            tbody.appendChild(row);
             
-            // Cargar el PDF de la primera fila
-            loadPDF(form.pdfUrl);
+            // Ocultar el canvas y mostrar el mensaje de no documento
+            canvas.style.display = 'none';
+            pdfLoader.style.display = 'none';
+            pdfNoDocument.style.display = 'block';
+            
+            return;
         }
         
-        // Añadir evento click para seleccionar la fila y cargar el PDF
-        row.addEventListener('click', function(e) {
-            // No activar si se hace clic en los botones
-            if (e.target.tagName === 'BUTTON') {
-                return;
+        // Crear las filas de la tabla
+        filteredForms.forEach((form, index) => {
+            const row = document.createElement('tr');
+            
+            // Contenido básico de la fila
+            let rowHTML = `
+                <td>${form.id}</td>
+                <td>${form.name}</td>
+                <td>${form.email}</td>
+                <td>${form.pet}</td>
+                <td>${form.date}</td>
+            `;
+            
+            // Añadir columna de acciones según el estado
+            if (status === 'pending') {
+                rowHTML += `
+                    <td class="action-buttons">
+                        <button class="approve-btn" data-id="${form.id}">Approve</button>
+                        <button class="reject-btn" data-id="${form.id}">Reject</button>
+                    </td>
+                `;
+            } else if (status === 'approved') {
+                rowHTML += `
+                    <td class="action-buttons">
+                        <span class="status-badge approved">Approved</span>
+                    </td>
+                `;
+            } else if (status === 'rejected') {
+                rowHTML += `
+                    <td class="action-buttons">
+                        <span class="status-badge rejected">Rejected</span>
+                    </td>
+                `;
             }
             
-            // Quitar la clase 'selected-row' de todas las filas
-            tbody.querySelectorAll('tr').forEach(r => r.classList.remove('selected-row'));
+            row.innerHTML = rowHTML;
             
-            // Añadir la clase 'selected-row' a la fila seleccionada
-            row.classList.add('selected-row');
+            // Añadir clase 'selected-row' a la primera fila
+            if (index === 0) {
+                row.classList.add('selected-row');
+                
+                // Cargar el PDF de la primera fila
+                loadPDF(form.pdfUrl);
+            }
+            
+            // Añadir evento click para seleccionar la fila y cargar el PDF
+            row.addEventListener('click', function(e) {
+                // No activar si se hace clic en los botones
+                if (e.target.tagName === 'BUTTON') {
+                    return;
+                }
+                
+                // Quitar la clase 'selected-row' de todas las filas
+                tbody.querySelectorAll('tr').forEach(r => r.classList.remove('selected-row'));
+                
+                // Añadir la clase 'selected-row' a la fila seleccionada
+                row.classList.add('selected-row');
                 
                 // Cargar el PDF
                 loadPDF(form.pdfUrl);

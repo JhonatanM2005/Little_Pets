@@ -12,10 +12,11 @@
     />
     <link rel="stylesheet" href="../css/styles.css" />
     <link rel="stylesheet" href="../css/view_adoption_forms.css" />
+    <link rel="stylesheet" href="../css/action-buttons.css" />
     <!-- PDF.js CDN -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
-    <script src="../js/view_adoption_forms.js"></script>
-    </script>
+    <script src="../js/view_adoption_forms_fixed.js"></script>
+    <script src="../js/form_actions.js"></script>
   </head>
   <body>
     <header>
@@ -103,6 +104,7 @@
                                         <th>Email</th>
                                         <th>Pet</th>
                                         <th>Date</th>
+                                        <th>Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -215,6 +217,11 @@
         } else {
           loginLink.style.display = "block";
           accountLink.style.display = "none";
+          
+          // Redirigir al usuario a la página de login si no está autenticado
+          const currentUrl = window.location.href;
+          const redirectUrl = `./login.html?redirect=${encodeURIComponent(currentUrl)}`;
+          window.location.href = redirectUrl;
         }
       });
     </script>
