@@ -309,3 +309,13 @@
     padding: 0 10px;
   }
 }
+
+.category.selected {
+  transform: scale(1.05);
+  transition: transform 0.2s ease;
+}
+
+.category.selected p {
+  font-weight: bold;
+  color: #ff8a2b; /* O el color principal de tu diseño */
+}

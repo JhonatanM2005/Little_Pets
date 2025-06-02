@@ -40,7 +40,7 @@ const petSchema = new mongoose.Schema({
     default: false,
   },
   personality: {
-    type: [String], // Puede tener varias características de personalidad
+    type: [String],
     trim: true,
   },
   image: {
@@ -48,4 +48,4 @@ const petSchema = new mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model("Pet", petSchema);
+module.exports = mongoose.models.Pet || mongoose.model("Pet", petSchema);
