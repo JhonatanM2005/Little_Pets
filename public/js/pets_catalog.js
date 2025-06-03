@@ -42,42 +42,71 @@ function updateBreedFilters() {
   const breedListContainer = document.getElementById("breedList");
   breedListContainer.innerHTML = "";
 
-  // Obtener razas únicas de las mascotas actuales
-  const uniqueBreeds = [...new Set(allPets.map(pet => pet.breed))].filter(breed => breed);
+  // Filtrar razas por tipo si hay uno seleccionado
+  let petsToFilter = allPets;
+  if (selectedType) {
+    petsToFilter = allPets.filter(pet => pet.type === selectedType);
+  }
 
-  uniqueBreeds.forEach((breed) => {
-    const li = document.createElement("li");
-    const label = document.createElement("label");
-    const checkbox = document.createElement("input");
-    checkbox.type = "checkbox";
-    checkbox.name = "breed";
-    checkbox.value = breed;
+  // Obtener razas únicas de las mascotas filtradas
+  const uniqueBreeds = [...new Set(petsToFilter.map(pet => pet.breed))].filter(breed => breed);
+  
+  // Mostrar solo las primeras 6 razas
+  const breedsToShow = uniqueBreeds.slice(0, 6);
+  const remainingBreeds = uniqueBreeds.slice(6);
 
-    checkbox.addEventListener("change", () => {
-      if (checkbox.checked) {
-        selectedBreeds.add(breed);
-      } else {
-        selectedBreeds.delete(breed);
-      }
-      applyFilters();
-    });
-
-    // Contar cuántas mascotas hay de esta raza
-    const count = allPets.filter(pet => pet.breed === breed).length;
-
-    const span = document.createElement("span");
-    span.textContent = breed;
-
-    const countSpan = document.createElement("span");
-    countSpan.className = "count";
-    countSpan.textContent = `(${count})`;
-
-    label.appendChild(checkbox);
-    label.appendChild(span);
-    label.appendChild(countSpan);
-    li.appendChild(label);
-    breedListContainer.appendChild(li);
+  breedsToShow.forEach((breed) => {
+    addBreedToFilter(breed, breedListContainer);
   });
+
+  // Agregar botón "Ver más" si hay más de 6 razas
+  if (remainingBreeds.length > 0) {
+    const showMoreBtn = document.createElement("button");
+    showMoreBtn.className = "show-more-breeds";
+    showMoreBtn.textContent = `Show more (${remainingBreeds.length})`;
+    showMoreBtn.addEventListener("click", () => {
+      remainingBreeds.forEach(breed => {
+        addBreedToFilter(breed, breedListContainer);
+      });
+      showMoreBtn.remove();
+    });
+    breedListContainer.appendChild(showMoreBtn);
+  }
+}
+
+// Función auxiliar para agregar una raza al filtro
+function addBreedToFilter(breed, container) {
+  const li = document.createElement("li");
+  const label = document.createElement("label");
+  const checkbox = document.createElement("input");
+  checkbox.type = "checkbox";
+  checkbox.name = "breed";
+  checkbox.value = breed;
+
+  checkbox.addEventListener("change", () => {
+    if (checkbox.checked) {
+      selectedBreeds.add(breed);
+    } else {
+      selectedBreeds.delete(breed);
+    }
+    applyFilters();
+  });
+
+  // Contar cuántas mascotas hay de esta raza
+  const count = allPets.filter(pet => pet.breed === breed && (!selectedType || pet.type === selectedType)).length;
+
+  const span = document.createElement("span");
+  span.textContent = breed;
+
+  const countSpan = document.createElement("span");
+  countSpan.className = "count";
+  countSpan.textContent = `(${count})`;
+
+  label.appendChild(checkbox);
+  label.appendChild(span);
+  label.appendChild(countSpan);
+  li.appendChild(label);
+  container.appendChild(li);
 }
 
 function filterByType(type) {
@@ -101,6 +130,9 @@ function filterByType(type) {
     selectedType = "Dog";
   }
 
+  // Limpiar selección de razas y actualizar lista
+  selectedBreeds.clear();
+  updateBreedFilters();
   applyFilters();
 }
 
@@ -167,7 +199,6 @@ function renderPets(pets) {
 
       petInfoDiv.appendChild(nameEl);
       petInfoDiv.appendChild(favBtn);
-
       card.appendChild(petImageDiv);
       card.appendChild(petInfoDiv);
       cardLink.appendChild(card);
@@ -193,9 +224,7 @@ function resetFilters() {
 
   // Resetear razas
   selectedBreeds.clear();
-  document.querySelectorAll("#breedList input[type='checkbox']").forEach(cb => {
-    cb.checked = false;
-  });
+  updateBreedFilters();
 
   // Resetear edad
   const ageSlider = document.getElementById("ageSlider");
