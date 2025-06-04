@@ -87,6 +87,8 @@ header .container {
 .nav-links {
     display: flex;
     gap: 30px;
+    flex-grow: 1;
+    justify-content: center;
 }
 
 .nav-links li a {
