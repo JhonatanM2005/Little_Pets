@@ -190,15 +190,8 @@ function renderPets(pets) {
       const nameEl = document.createElement("h3");
       nameEl.textContent = pet.name || "Sin nombre";
 
-      const favBtn = document.createElement("button");
-      favBtn.classList.add("favorite-btn");
-      const favImg = document.createElement("img");
-      favImg.src = "../media/icons/heart.png";
-      favImg.alt = "Favorito";
-      favBtn.appendChild(favImg);
-
       petInfoDiv.appendChild(nameEl);
-      petInfoDiv.appendChild(favBtn);
+
       card.appendChild(petImageDiv);
       card.appendChild(petInfoDiv);
       cardLink.appendChild(card);

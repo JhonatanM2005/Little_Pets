@@ -212,23 +212,6 @@
   margin: 0;
 }
 
-.favorite-btn {
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 5px 10px;
-}
-
-.favorite-btn img {
-  width: 20px;
-  height: 20px;
-  transition: transform 0.3s;
-}
-
-.favorite-btn:hover img {
-  transform: scale(1.5);
-}
-
 /* Media queries para responsividad */
 @media (max-width: 1200px) {
   .pets-grid {

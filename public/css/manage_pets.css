@@ -285,12 +285,6 @@
         gap: 15px;
     }
     
-    .heart-icon {
-        position: absolute;
-        top: 15px;
-        right: 15px;
-    }
-    
     .filters-section {
         grid-template-columns: repeat(2, 1fr);
     }

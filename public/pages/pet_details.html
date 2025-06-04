@@ -42,9 +42,6 @@
             </li>
           </ul>
 
-          <div class="heart-icon">
-            <img src="../media/icons/heart.png" alt="Heart icon" />
-          </div>
         </nav>
       </div>
     </header>
@@ -85,9 +82,6 @@
             <div class="pet-info-column">
               <div class="pet-header">
                 <h1 class="pet-name">Pet Name</h1>
-                <button class="favorite-btn" id="favorite-btn">
-                  <i class="far fa-heart"></i>
-                </button>
               </div>
               
               <div class="pet-quick-info">
@@ -222,17 +216,6 @@
           loginLink.style.display = "block";
           accountLink.style.display = "none";
         }
-        
-        // Inicializar botón de favoritos
-        const favoriteBtn = document.getElementById('favorite-btn');
-        favoriteBtn.addEventListener('click', function() {
-          this.classList.toggle('active');
-          if (this.classList.contains('active')) {
-            this.innerHTML = '<i class="fas fa-heart"></i>';
-          } else {
-            this.innerHTML = '<i class="far fa-heart"></i>';
-          }
-        });
         
         // Inicializar botones de compartir
         document.getElementById('share-facebook').addEventListener('click', function(e) {
