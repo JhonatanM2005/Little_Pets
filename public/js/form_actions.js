@@ -1,14 +1,37 @@
 document.addEventListener('DOMContentLoaded', function() {
+    // Función para mostrar notificación con Toastify
+    function showNotification(message, isSuccess = true) {
+        if (typeof Toastify !== 'undefined') {
+            Toastify({
+                text: message,
+                duration: 3000,
+                gravity: 'bottom',
+                position: 'right',
+                style: {
+                    background: isSuccess 
+                        ? 'linear-gradient(to right, #4CAF50, #45a049)'
+                        : 'linear-gradient(to right, #f44336, #d32f2f)',
+                    color: '#FFFFFF',
+                    fontFamily: "'Poppins', sans-serif",
+                    fontSize: '16px',
+                    padding: '18px 25px',
+                    borderRadius: '8px',
+                    boxShadow: '0 4px 15px rgba(0, 0, 0, 0.1)'
+                }
+            }).showToast();
+        }
+    }
+
     // Función para aprobar un formulario
     function approveForm(formId) {
         // Aquí iría la lógica para aprobar el formulario en el backend
         console.log(`Aprobando formulario con ID: ${formId}`);
         
-        // Simulación de aprobación (en un entorno real, esto sería una llamada a la API)
-        alert(`Formulario #${formId} aprobado exitosamente`);
-        
         // Actualizar el estado en la interfaz
         updateFormStatus(formId, 'approved');
+        
+        // Mostrar notificación de éxito
+        showNotification(`Formulario #${formId} aprobado exitosamente`, true);
         
         // Recargar la tabla para mostrar los cambios
         const activeTab = document.querySelector('.tab-btn.active');
@@ -22,11 +45,11 @@ document.addEventListener('DOMContentLoaded', function() {
         // Aquí iría la lógica para rechazar el formulario en el backend
         console.log(`Rechazando formulario con ID: ${formId}`);
         
-        // Simulación de rechazo (en un entorno real, esto sería una llamada a la API)
-        alert(`Formulario #${formId} rechazado`);
-        
         // Actualizar el estado en la interfaz
         updateFormStatus(formId, 'rejected');
+        
+        // Mostrar notificación
+        showNotification(`Formulario #${formId} ha sido rechazado`, false);
         
         // Recargar la tabla para mostrar los cambios
         const activeTab = document.querySelector('.tab-btn.active');
