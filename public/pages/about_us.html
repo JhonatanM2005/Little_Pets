@@ -46,6 +46,9 @@
             <li id="account-link" style="display: none">
               <a href="./account_user.html">Account</a>
             </li>
+            <li id="logout-link" style="display: none">
+              <a href="#" id="logout-btn" class="logout-btn">Logout</a>
+            </li>
           </ul>
 
         </nav>
@@ -313,21 +316,6 @@
       </div>
     </footer>
     <script src="../js/testimonial_carousel.js"></script>
-    <script>
-      document.addEventListener("DOMContentLoaded", () => {
-        const loginLink = document.getElementById("login-link");
-        const accountLink = document.getElementById("account-link");
-        const isAuthenticated = localStorage.getItem("isAuthenticated");
-
-        if (isAuthenticated === "true") {
-          loginLink.style.display = "none";
-          accountLink.style.display = "block";
-        } else {
-          loginLink.style.display = "block";
-          accountLink.style.display = "none";
-        }
-      });
-    </script>
     <script src="../js/navbar.js"></script>
   </body>
 </html>
