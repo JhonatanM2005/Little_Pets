@@ -1,8 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
   const registerForm = document.querySelector(".register-form");
-  const messageDiv = document.createElement("div"); // Para mostrar mensajes de error/éxito
-  registerForm.parentNode.insertBefore(messageDiv, registerForm);
-  messageDiv.style.marginTop = "10px";
 
   registerForm.addEventListener("submit", async (event) => {
     event.preventDefault();
@@ -23,21 +20,57 @@ document.addEventListener("DOMContentLoaded", () => {
     // Validación para el número de ID (solo números)
     const idNumberPattern = /^\d+$/;
     if (!idNumberPattern.test(cedula)) {
-      messageDiv.textContent = "El número de ID solo debe contener números.";
-      messageDiv.style.color = "red";
+      Toastify({
+        text: "El número de ID solo debe contener números.",
+        duration: 3000,
+        gravity: "bottom",
+        position: "right",
+        style: {
+          background: "linear-gradient(to right, #FF8A2B, #E57300)",
+          color: "#FFFFFF",
+          fontFamily: "'Poppins', sans-serif",
+          fontSize: "16px",
+          padding: "18px 25px",
+          borderRadius: "8px"
+        }
+      }).showToast();
       return;
     }
 
     // Validación para la longitud de la contraseña (mínimo 8 caracteres)
     if (password.length < 8) {
-      messageDiv.textContent = "La contraseña debe tener al menos 8 caracteres.";
-      messageDiv.style.color = "red";
+      Toastify({
+        text: "La contraseña debe tener al menos 8 caracteres.",
+        duration: 3000,
+        gravity: "bottom",
+        position: "right",
+        style: {
+          background: "linear-gradient(to right, #FF8A2B, #E57300)",
+          color: "#FFFFFF",
+          fontFamily: "'Poppins', sans-serif",
+          fontSize: "16px",
+          padding: "18px 25px",
+          borderRadius: "8px"
+        }
+      }).showToast();
       return;
     }
 
     if (password !== confirmPassword) {
-      messageDiv.textContent = "Las contraseñas no coinciden.";
-      messageDiv.style.color = "red";
+      Toastify({
+        text: "Las contraseñas no coinciden.",
+        duration: 3000,
+        gravity: "bottom",
+        position: "right",
+        style: {
+          background: "linear-gradient(to right, #FF8A2B, #E57300)",
+          color: "#FFFFFF",
+          fontFamily: "'Poppins', sans-serif",
+          fontSize: "16px",
+          padding: "18px 25px",
+          borderRadius: "8px"
+        }
+      }).showToast();
       return;
     }
 
@@ -54,22 +87,56 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (response.ok) {
         // Registro exitoso
-        messageDiv.textContent =
-          "Registro exitoso. Serás redirigido para iniciar sesión.";
-        messageDiv.style.color = "green";
-        setTimeout(() => {
-          window.location.href = "./login.html"; // Redirigir a la página de inicio de sesión
-        }, 2000); // Redirigir después de 2 segundos
+        Toastify({
+          text: "Registro exitoso. Serás redirigido para iniciar sesión.",
+          duration: 2000,
+          gravity: "bottom",
+          position: "right",
+          style: {
+            background: "linear-gradient(to right, #00b09b, #96c93d)",
+            color: "#FFFFFF",
+            fontFamily: "'Poppins', sans-serif",
+            fontSize: "16px",
+            padding: "18px 25px",
+            borderRadius: "8px"
+          },
+          callback: function() {
+            window.location.href = "./login.html"; // Redirigir a la página de inicio de sesión
+          }
+        }).showToast();
       } else {
         // Error en el registro
-        messageDiv.textContent =
-          data.mensaje || "Error al registrar el usuario.";
-        messageDiv.style.color = "red";
+        Toastify({
+          text: data.mensaje || "Error al registrar el usuario.",
+          duration: 3000,
+          gravity: "bottom",
+          position: "right",
+          style: {
+            background: "linear-gradient(to right, #FF8A2B, #E57300)",
+            color: "#FFFFFF",
+            fontFamily: "'Poppins', sans-serif",
+            fontSize: "16px",
+            padding: "18px 25px",
+            borderRadius: "8px"
+          }
+        }).showToast();
       }
     } catch (error) {
       console.error("Error al registrar:", error);
-      messageDiv.textContent = "Error de conexión con el servidor.";
-      messageDiv.style.color = "red";
+      Toastify({
+        text: "Error de conexión con el servidor.",
+        duration: 3000,
+        gravity: "bottom",
+        position: "right",
+        style: {
+          background: "linear-gradient(to right, #FF8A2B, #E57300)",
+          color: "#FFFFFF",
+          fontFamily: "'Poppins', sans-serif",
+          fontSize: "16px",
+          padding: "18px 25px",
+          borderRadius: "8px"
+        }
+      }).showToast();
     }
   });
 });

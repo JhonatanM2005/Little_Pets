@@ -16,10 +16,53 @@ document.addEventListener('DOMContentLoaded', () => {
       });
 
       const result = await res.json();
-      alert(result.message);
-      form.reset();
+      if (res.ok) {
+        Toastify({
+          text: result.message || "Mensaje enviado con éxito.",
+          duration: 3000,
+          gravity: "bottom",
+          position: "right",
+          style: {
+            background: "linear-gradient(to right, #00b09b, #96c93d)", // Verde para éxito
+            color: "#FFFFFF",
+            fontFamily: "'Poppins', sans-serif",
+            fontSize: "16px",
+            padding: "18px 25px",
+            borderRadius: "8px"
+          }
+        }).showToast();
+        form.reset();
+      } else {
+        Toastify({
+          text: result.message || "Error al enviar el mensaje.",
+          duration: 3000,
+          gravity: "bottom",
+          position: "right",
+          style: {
+            background: "linear-gradient(to right, #FF8A2B, #E57300)", // Naranja para error
+            color: "#FFFFFF",
+            fontFamily: "'Poppins', sans-serif",
+            fontSize: "16px",
+            padding: "18px 25px",
+            borderRadius: "8px"
+          }
+        }).showToast();
+      }
     } catch (error) {
-      alert('Error al enviar el mensaje.');
+      Toastify({
+        text: "Error de conexión al enviar el mensaje.",
+        duration: 3000,
+        gravity: "bottom",
+        position: "right",
+        style: {
+          background: "linear-gradient(to right, #FF8A2B, #E57300)", // Naranja para error
+          color: "#FFFFFF",
+          fontFamily: "'Poppins', sans-serif",
+          fontSize: "16px",
+          padding: "18px 25px",
+          borderRadius: "8px"
+        }
+      }).showToast();
     }
   });
 });

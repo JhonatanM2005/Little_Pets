@@ -1,9 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
   const loginForm = document.querySelector(".login-form");
-  const messageDiv = document.createElement("div"); // Para mostrar mensajes de error
-  loginForm.parentNode.insertBefore(messageDiv, loginForm);
-  messageDiv.style.color = "red";
-  messageDiv.style.marginBottom = "10px";
   
   // Verificar si hay un parámetro de redirección en la URL
   const urlParams = new URLSearchParams(window.location.search);
@@ -11,12 +7,20 @@ document.addEventListener("DOMContentLoaded", () => {
   
   // Si viene de una página que requiere autenticación, mostrar mensaje
   if (redirectUrl) {
-    const infoDiv = document.createElement("div");
-    infoDiv.textContent = "Debes iniciar sesión para acceder al formulario de adopción";
-    infoDiv.style.color = "#ff6b00";
-    infoDiv.style.marginBottom = "15px";
-    infoDiv.style.fontWeight = "bold";
-    loginForm.parentNode.insertBefore(infoDiv, messageDiv);
+    Toastify({
+      text: "Debes iniciar sesión para acceder al formulario de adopción",
+      duration: 4000,
+      gravity: "bottom",
+      position: "right",
+      style: {
+        background: "linear-gradient(to right, #FF8A2B, #E57300)", // Naranja para info
+        color: "#FFFFFF",
+        fontFamily: "'Poppins', sans-serif",
+        fontSize: "16px",
+        padding: "18px 25px",
+        borderRadius: "8px"
+      }
+    }).showToast();
   }
 
   loginForm.addEventListener("submit", async (event) => {
@@ -29,7 +33,20 @@ document.addEventListener("DOMContentLoaded", () => {
     const password = passwordInput.value;
 
     if (!email || !password) {
-      messageDiv.textContent = "Por favor, introduce tu email y contraseña.";
+      Toastify({
+        text: "Por favor, introduce tu email y contraseña.",
+        duration: 3000,
+        gravity: "bottom",
+        position: "right",
+        style: {
+          background: "linear-gradient(to right, #FF8A2B, #E57300)",
+          color: "#FFFFFF",
+          fontFamily: "'Poppins', sans-serif",
+          fontSize: "16px",
+          padding: "18px 25px",
+          borderRadius: "8px"
+        }
+      }).showToast();
       return;
     }
 
@@ -81,12 +98,37 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       } else {
         // Error en la autenticación
-        messageDiv.textContent =
-          data.mensaje || "Error al iniciar sesión. Credenciales incorrectas.";
+        Toastify({
+          text: data.mensaje || "Error al iniciar sesión. Credenciales incorrectas.",
+          duration: 3000,
+          gravity: "bottom",
+          position: "right",
+          style: {
+            background: "linear-gradient(to right, #FF8A2B, #E57300)",
+            color: "#FFFFFF",
+            fontFamily: "'Poppins', sans-serif",
+            fontSize: "16px",
+            padding: "18px 25px",
+            borderRadius: "8px"
+          }
+        }).showToast();
       }
     } catch (error) {
       console.error("Error al iniciar sesión:", error);
-      messageDiv.textContent = "Error de conexión con el servidor.";
+      Toastify({
+        text: "Error de conexión con el servidor.",
+        duration: 3000,
+        gravity: "bottom",
+        position: "right",
+        style: {
+          background: "linear-gradient(to right, #FF8A2B, #E57300)",
+          color: "#FFFFFF",
+          fontFamily: "'Poppins', sans-serif",
+          fontSize: "16px",
+          padding: "18px 25px",
+          borderRadius: "8px"
+        }
+      }).showToast();
     }
   });
 });
