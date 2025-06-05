@@ -4,33 +4,78 @@
   position: relative;
   overflow: hidden;
   background-color: #f9f9f9;
+  width: 100%;
+  margin: 0;
+}
+
+/* Ajustes para el header en la página de detalles */
+.pet-details-page header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background-color: white;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.pet-details-page .floating-nav {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 15px 20px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.pet-details-page .container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  width: 100%;
 }
 
 .pet-details-content {
-  max-width: 1200px;
-  margin: 0 auto;
+  width: 100%;
 }
 
 /* Breadcrumb */
 .breadcrumb {
-  margin-bottom: 20px;
+  margin: 0 auto 25px;
   font-size: 16px;
+  max-width: 1200px;
+  padding: 0 20px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .breadcrumb a {
   color: #555;
   text-decoration: none;
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  width: fit-content;
+  padding: 8px 15px;
+  border-radius: 8px;
+  background-color: #f8f8f8;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  border: 1px solid #eee;
 }
 
 .breadcrumb a:hover {
-  color: #ff8a2b;
+  color: #fff;
+  background-color: #ff8a2b;
+  transform: translateX(-3px);
+  box-shadow: 0 4px 8px rgba(255, 138, 43, 0.2);
+}
+
+.breadcrumb a:hover i {
+  color: #fff;
 }
 
 .breadcrumb i {
   margin-right: 8px;
+  color: #ff8a2b;
+  transition: color 0.3s ease;
 }
 
 /* Grid layout para detalles */
@@ -432,5 +477,50 @@
   .thumbnail {
     width: 60px;
     height: 60px;
+  }
+  
+  /* Ajustes para el botón Back to Catalog en móviles */
+  .breadcrumb {
+    margin-bottom: 20px;
+    font-size: 14px;
+  }
+  
+  .breadcrumb a {
+    padding: 6px 12px;
+  }
+  
+  .breadcrumb i {
+    font-size: 12px;
+    margin-right: 6px;
+  }
+}
+
+/* Media query para pantallas medianas (tabletas) */
+@media (min-width: 577px) and (max-width: 1024px) {
+  .breadcrumb {
+    margin-bottom: 22px;
+  }
+  
+  .breadcrumb a {
+    padding: 7px 14px;
+  }
+  
+  .breadcrumb i {
+    font-size: 14px;
+  }
+}
+
+/* Media query para pantallas grandes (escritorio) */
+@media (min-width: 1025px) {
+  .breadcrumb {
+    margin-bottom: 25px;
+  }
+  
+  .breadcrumb a {
+    padding: 8px 16px;
+  }
+  
+  .breadcrumb:hover a {
+    transform: translateX(-5px);
   }
 }
