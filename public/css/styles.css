@@ -118,6 +118,76 @@ header .container {
     background-color: #FF8A2B;
 }
 
+/* Hamburger Menu Styles */
+.hamburger-menu {
+    display: none; /* Hidden by default, shown in media query */
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+    z-index: 1001; /* Ensure it's above other nav elements */
+}
+
+.hamburger-box {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.hamburger-inner {
+    display: block;
+    width: 100%;
+    height: 2.5px;
+    background-color: #333;
+    border-radius: 4px;
+    position: absolute;
+    transition: all 0.3s ease;
+}
+
+.hamburger-inner::before,
+.hamburger-inner::after {
+    content: "";
+    display: block;
+    width: 100%;
+    height: 3px;
+    background-color: #333;
+    border-radius: 4px;
+    position: absolute;
+    transition-property: transform;
+    transition-duration: 0.15s;
+    transition-timing-function: ease;
+}
+
+.hamburger-inner::before {
+    top: -10px;
+}
+
+.hamburger-inner::after {
+    bottom: -10px;
+}
+
+/* Animation for hamburger to X */
+.hamburger-menu.is-active .hamburger-inner {
+    transform: rotate(45deg);
+    transition-delay: 0.12s;
+    transition-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+}
+
+.hamburger-menu.is-active .hamburger-inner::before {
+    top: 0;
+    transform: rotate(-90deg);
+    transition: top 0.1s ease-out, transform 0.12s cubic-bezier(0.215, 0.61, 0.355, 1) 0.15s;
+}
+
+.hamburger-menu.is-active .hamburger-inner::after {
+    bottom: 0;
+    transform: rotate(-90deg);
+    transition: bottom 0.1s ease-out, transform 0.12s cubic-bezier(0.215, 0.61, 0.355, 1) 0.15s;
+}
+
 /* Hero section styles */
 
 .hero-section {
@@ -441,6 +511,7 @@ footer {
       flex-direction: column;
       padding: 120px 20px 50px;
       text-align: center;
+      margin-top: 0;
     }
 
     .hero-content h1 {
@@ -468,10 +539,92 @@ footer {
 
 @media screen and (max-width: 768px) {
     .floating-nav {
-      flex-direction: column;
-      gap: 20px;
-      width: calc(100% - 20px);
-      padding: 15px;
+        position: fixed;
+        top: 15px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: calc(100% - 30px);
+        max-width: 1296px;
+        padding: 15px 25px;
+        transition: all 0.3s ease;
+    }
+    
+    /* Asegurar que el contenido principal no quede oculto detrás del navbar fijo */
+    main {
+        padding-top: 90px; /* Altura del navbar + margen */
+    }
+
+    .floating-nav .nav-links {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background-color: #fff;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        padding: 15px 0;
+        margin-top: 10px;
+        border-radius: 0 0 20px 20px;
+        z-index: 999;
+        opacity: 0;
+        transform: translateY(-10px);
+        transition: all 0.3s ease;
+    }
+
+    .floating-nav .nav-links.is-active {
+        display: flex;
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    .floating-nav .nav-links li {
+        text-align: center;
+        margin: 0;
+        padding: 12px 0;
+        transition: background-color 0.2s;
+    }
+
+    .floating-nav .nav-links li:hover {
+        background-color: #f8f9fa;
+    }
+
+    .floating-nav .nav-links li a {
+        display: block;
+        padding: 8px 0;
+        font-size: 18px;
+        color: #333;
+        transition: color 0.2s;
+    }
+
+    .floating-nav .nav-links li a:hover,
+    .floating-nav .nav-links li a.active {
+        color: #FF8A2B;
+        background: none;
+    }
+
+    .hamburger-menu {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 44px;
+        height: 44px;
+        padding: 10px;
+        margin-left: auto;
+        background: #f8f9fa;
+        border-radius: 50%;
+        border: none;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .hamburger-menu:hover {
+        background: #e9ecef;
+    }
+
+    .hamburger-menu:focus {
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(255, 138, 43, 0.3);
     }
 
     .nav-links {
@@ -484,7 +637,7 @@ footer {
     }
 
     .hero-section {
-      padding-top: 150px;
+      padding-top: 0px;
   }
 
   .orange-blob,
@@ -539,7 +692,7 @@ footer {
   }
 
   .hero-section {
-    padding: 210px 10px 50px;
+    padding: 0px 10px 50px;
     margin: 0;
     width: 100%;
   }
