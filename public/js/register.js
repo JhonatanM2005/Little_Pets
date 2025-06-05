@@ -20,6 +20,21 @@ document.addEventListener("DOMContentLoaded", () => {
     const password = passwordInput.value;
     const confirmPassword = confirmPasswordInput.value;
 
+    // Validación para el número de ID (solo números)
+    const idNumberPattern = /^\d+$/;
+    if (!idNumberPattern.test(cedula)) {
+      messageDiv.textContent = "El número de ID solo debe contener números.";
+      messageDiv.style.color = "red";
+      return;
+    }
+
+    // Validación para la longitud de la contraseña (mínimo 8 caracteres)
+    if (password.length < 8) {
+      messageDiv.textContent = "La contraseña debe tener al menos 8 caracteres.";
+      messageDiv.style.color = "red";
+      return;
+    }
+
     if (password !== confirmPassword) {
       messageDiv.textContent = "Las contraseñas no coinciden.";
       messageDiv.style.color = "red";
