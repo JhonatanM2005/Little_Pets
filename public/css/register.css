@@ -52,7 +52,7 @@
   background-color: white;
   font-size: 14px;
   transition: border-color 0.3s;
-  width: 25vw;
+  width: 100%; /* Adjusted for responsiveness */
 }
 
 .form-group input:focus,
@@ -129,9 +129,7 @@
 
 /* Media queries para responsividad */
 @media (max-width: 1200px) {
-  .form-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
+  /* .form-grid rule removed as it was ineffective for flex display */
 }
 
 @media (max-width: 768px) {
@@ -140,7 +138,7 @@
   }
 
   .form-grid {
-    grid-template-columns: 1fr;
+    /* grid-template-columns: 1fr; rule removed as it was ineffective */
     gap: 20px;
   }
 
@@ -151,7 +149,7 @@
 
 @media (max-width: 576px) {
   .register-page {
-    padding: 200px 0 40px;
+    padding: 100px 0 40px; /* Adjusted top padding for small screens */
   }
 
   .register-form-container h1 {

@@ -56,6 +56,11 @@
   flex-wrap: wrap;
 }
 
+.pets-catalog > .container {
+  padding-left: 60px; /* Increased side padding */
+  padding-right: 60px; /* Increased side padding */
+}
+
 /* Layout del catálogo */
 .catalog-layout {
   display: flex;
@@ -117,13 +122,14 @@
   background: #ddd;
   outline: none;
   -webkit-appearance: none;
+  appearance: none; /* Added for compatibility */
   border-radius: 5px;
   margin-bottom: 10px;
 }
 
 .age-slider::-webkit-slider-thumb {
   -webkit-appearance: none;
-  appearance: none;
+  appearance: none; /* Added for compatibility */
   width: 20px;
   height: 20px;
   border-radius: 50%;
