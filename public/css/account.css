@@ -95,6 +95,13 @@
     color: #666;
 }
 
+.role-based-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+}
+
 .profile-actions {
     display: flex;
     flex-direction: column;

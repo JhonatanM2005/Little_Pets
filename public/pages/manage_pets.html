@@ -44,336 +44,208 @@
       <div class="container">
         <div class="manage-pets-content">
           <h1>Manage Pets</h1>
-          <!-- Formulario de edición de mascotas -->
-          <div class="pet-form-section">
-            <div class="form-row">
-              <div class="form-group">
-                <label for="pet-id">ID</label>
-                <input type="text" id="pet-id" placeholder="ID" />
-              </div>
 
-              <div class="form-group">
-                <label for="pet-name">Name</label>
-                <input type="text" id="pet-name" placeholder="name" />
-              </div>
+          <!-- Results container -->
+          <div class="pets-results-container">
 
-              <div class="form-group">
-                <label for="pet-breed">Breed</label>
-                <input type="text" id="pet-breed" placeholder="breed" />
-              </div>
-
-              <div class="form-group">
-                <label for="pet-age">Age</label>
-                <input type="text" id="pet-age" placeholder="Age" />
-              </div>
-
-              <div class="form-group">
-                <label for="pet-size">Size</label>
-                <input type="text" id="pet-size" placeholder="Size" />
-              </div>
-            </div>
-
-            <div class="form-row">
-              <div class="form-group">
-                <label>Cat or Dog?</label>
-                <div class="checkbox-group">
-                  <label class="checkbox-label">
-                    <input type="checkbox" name="pet-type" value="cat" />
-                    <span>Cat</span>
-                  </label>
-                  <label class="checkbox-label">
-                    <input type="checkbox" name="pet-type" value="dog" />
-                    <span>Dog</span>
-                  </label>
-                </div>
-              </div>
-
-              <div class="form-group">
-                <label>Sex</label>
-                <div class="checkbox-group">
-                  <label class="checkbox-label">
-                    <input type="checkbox" name="pet-sex" value="male" />
-                    <span>Male</span>
-                  </label>
-                  <label class="checkbox-label">
-                    <input type="checkbox" name="pet-sex" value="female" />
-                    <span>Female</span>
-                  </label>
-                </div>
-              </div>
-
-              <div class="form-group">
-                <label>Vaccinated</label>
-                <div class="checkbox-group">
-                  <label class="checkbox-label">
-                    <input type="checkbox" name="pet-vaccinated" value="yes" />
-                    <span>Yes</span>
-                  </label>
-                  <label class="checkbox-label">
-                    <input type="checkbox" name="pet-vaccinated" value="no" />
-                    <span>No</span>
-                  </label>
-                </div>
-              </div>
-
-              <div class="form-group">
-                <label>Sterilized</label>
-                <div class="checkbox-group">
-                  <label class="checkbox-label">
-                    <input type="checkbox" name="pet-sterilized" value="yes" />
-                    <span>Yes</span>
-                  </label>
-                  <label class="checkbox-label">
-                    <input type="checkbox" name="pet-sterilized" value="no" />
-                    <span>No</span>
-                  </label>
-                </div>
-              </div>
-
-              <div class="form-group">
-                <label>Availability</label>
-                <div class="checkbox-group">
-                  <label class="checkbox-label">
-                    <input
-                      type="checkbox"
-                      name="pet-availability"
-                      value="for-adopt"
-                    />
-                    <span>For Adopt</span>
-                  </label>
-                  <label class="checkbox-label">
-                    <input
-                      type="checkbox"
-                      name="pet-availability"
-                      value="in-progress"
-                    />
-                    <span>In progress</span>
-                  </label>
-                  <label class="checkbox-label">
-                    <input
-                      type="checkbox"
-                      name="pet-availability"
-                      value="adopted"
-                    />
-                    <span>Adopted</span>
-                  </label>
-                </div>
-              </div>
-            </div>
-
-            <div class="form-row">
-              <div class="form-group personality-group">
-                <label for="pet-personality">Personality</label>
-                <textarea
-                  id="pet-personality"
-                  placeholder="tell us..."
-                ></textarea>
-              </div>
-            </div>
-          </div>
-
-          <!-- Sección de búsqueda y filtros -->
-          <div class="search-filters-section">
-            <div class="search-section">
-              <div class="search-group">
-                <input type="text" placeholder="Search for id" />
-                <button class="search-btn">
-                  <img src="../media/icons/search.png" alt="Search" />
-                </button>
-              </div>
-              <div class="search-group">
-                <input type="text" placeholder="Search for name" />
-                <button class="search-btn">
-                  <img src="../media/icons/search.png" alt="Search" />
-                </button>
-              </div>
-            </div>
-
-            <div class="filters-section">
-              <div class="filter-group">
-                <h3>Cat or Dog?</h3>
-                <div class="checkbox-group">
-                  <label class="checkbox-label">
-                    <input
-                      type="checkbox"
-                      name="filter-type"
-                      value="cat"
-                      disabled
-                    />
-                    <span>Cat</span>
-                  </label>
-                  <label class="checkbox-label">
-                    <input
-                      type="checkbox"
-                      name="filter-type"
-                      value="dog"
-                      disabled
-                    />
-                    <span>Dog</span>
-                  </label>
-                </div>
-              </div>
-
-              <div class="filter-group">
-                <h3>Availability</h3>
-                <div class="checkbox-group">
-                  <label class="checkbox-label">
-                    <input
-                      type="checkbox"
-                      name="filter-availability"
-                      value="for-adopt"
-                      disabled
-                    />
-                    <span>For Adopt</span>
-                  </label>
-                  <label class="checkbox-label">
-                    <input
-                      type="checkbox"
-                      name="filter-availability"
-                      value="in-progress"
-                      disabled
-                    />
-                    <span>In progress</span>
-                  </label>
-                  <label class="checkbox-label">
-                    <input
-                      type="checkbox"
-                      name="filter-availability"
-                      value="adopted"
-                      disabled
-                    />
-                    <span>Adopted</span>
-                  </label>
-                </div>
-              </div>
-
-              <div class="filter-group">
-                <h3>Sex</h3>
-                <div class="checkbox-group">
-                  <label class="checkbox-label">
-                    <input
-                      type="checkbox"
-                      name="filter-sex"
-                      value="male"
-                      disabled
-                    />
-                    <span>Male</span>
-                  </label>
-                  <label class="checkbox-label">
-                    <input
-                      type="checkbox"
-                      name="filter-sex"
-                      value="female"
-                      disabled
-                    />
-                    <span>Female</span>
-                  </label>
-                </div>
-              </div>
-
-              <div class="filter-group">
-                <h3>Vaccinated</h3>
-                <div class="checkbox-group">
-                  <label class="checkbox-label">
-                    <input
-                      type="checkbox"
-                      name="filter-vaccinated"
-                      value="yes"
-                      disabled
-                    />
-                    <span>Yes</span>
-                  </label>
-                  <label class="checkbox-label">
-                    <input
-                      type="checkbox"
-                      name="filter-vaccinated"
-                      value="no"
-                      disabled
-                    />
-                    <span>No</span>
-                  </label>
-                </div>
-              </div>
-
-              <div class="filter-group">
-                <h3>Sterilized</h3>
-                <div class="checkbox-group">
-                  <label class="checkbox-label">
-                    <input
-                      type="checkbox"
-                      name="filter-sterilized"
-                      value="yes"
-                      disabled
-                    />
-                    <span>Yes</span>
-                  </label>
-                  <label class="checkbox-label">
-                    <input
-                      type="checkbox"
-                      name="filter-sterilized"
-                      value="no"
-                      disabled
-                    />
-                    <span>No</span>
-                  </label>
-                </div>
-              </div>
-            </div>
-
-            <!-- Tabla de resultados -->
+            <!-- Results table -->
             <div class="results-table">
               <table>
                 <thead>
                   <tr>
-                    <th>Id</th>
                     <th>Name</th>
+                    <th>Type</th>
                     <th>Breed</th>
                     <th>Age</th>
                     <th>Size</th>
+                    <th>Gender</th>
+                    <th>Status</th>
+                    <th>Actions</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td>id</td>
-                    <td>name</td>
-                    <td>breed</td>
-                    <td>age</td>
-                    <td>size</td>
-                  </tr>
+                  <!-- Pets will be loaded dynamically here -->
                 </tbody>
               </table>
             </div>
           </div>
 
-          <!-- Sección de imágenes -->
-          <div class="pet-images-section">
-            <div class="image-container add-image">
-              <span class="add-icon">+</span>
-            </div>
-            <div class="image-container add-image">
-              <span class="add-icon">+</span>
-            </div>
-            <div class="image-container add-image">
-              <span class="add-icon">+</span>
-            </div>
-            <div class="image-container add-image">
-              <span class="add-icon">+</span>
-            </div>
-            <div class="image-container add-image">
-              <span class="add-icon">+</span>
-            </div>
-          </div>
 
-          <!-- Botones de acción -->
+
+          <!-- Action buttons -->
           <div class="action-buttons">
-            <button class="action-btn save-btn">Save</button>
-            <button class="action-btn delete-btn">Delete</button>
-            <button class="action-btn add-btn">Add</button>
+            <button class="action-btn add-btn">Add New Pet</button>
+          </div>
+          
+          <!-- Pet management modal -->
+          <div id="pet-modal" class="modal">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h2 id="modal-title">Add New Pet</h2>
+                <span class="close-modal">&times;</span>
+              </div>
+              <div class="modal-body">
+                <div class="form-row">
+
+                  <div class="form-group">
+                    <label for="pet-name">Name</label>
+                    <input type="text" id="pet-name" placeholder="name" />
+                  </div>
+
+                  <div class="form-group">
+                    <label for="pet-breed">Breed</label>
+                    <input type="text" id="pet-breed" placeholder="breed" />
+                  </div>
+
+                  <div class="form-group">
+                    <label for="pet-age">Age</label>
+                    <input type="text" id="pet-age" placeholder="Age" />
+                  </div>
+
+                  <div class="form-group">
+                    <label for="pet-size">Size</label>
+                    <input type="text" id="pet-size" placeholder="Size" />
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group">
+                    <label>Cat or Dog?</label>
+                    <div class="radio-group">
+                      <label class="radio-label">
+                        <input type="radio" name="pet-type" value="cat" />
+                        <span>Cat</span>
+                      </label>
+                      <label class="radio-label">
+                        <input type="radio" name="pet-type" value="dog" />
+                        <span>Dog</span>
+                      </label>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label>Sex</label>
+                    <div class="radio-group">
+                      <label class="radio-label">
+                        <input type="radio" name="pet-sex" value="male" />
+                        <span>Male</span>
+                      </label>
+                      <label class="radio-label">
+                        <input type="radio" name="pet-sex" value="female" />
+                        <span>Female</span>
+                      </label>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label>Vaccinated</label>
+                    <div class="radio-group">
+                      <label class="radio-label">
+                        <input type="radio" name="pet-vaccinated" value="yes" />
+                        <span>Yes</span>
+                      </label>
+                      <label class="radio-label">
+                        <input type="radio" name="pet-vaccinated" value="no" />
+                        <span>No</span>
+                      </label>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label>Sterilized</label>
+                    <div class="radio-group">
+                      <label class="radio-label">
+                        <input type="radio" name="pet-sterilized" value="yes" />
+                        <span>Yes</span>
+                      </label>
+                      <label class="radio-label">
+                        <input type="radio" name="pet-sterilized" value="no" />
+                        <span>No</span>
+                      </label>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label>Availability</label>
+                    <div class="radio-group">
+                      <label class="radio-label">
+                        <input
+                          type="radio"
+                          name="pet-availability"
+                          value="available"
+                        />
+                        <span>Available</span>
+                      </label>
+                      <label class="radio-label">
+                        <input
+                          type="radio"
+                          name="pet-availability"
+                          value="adopted"
+                        />
+                        <span>Adopted</span>
+                      </label>
+                      <label class="radio-label">
+                        <input
+                          type="radio"
+                          name="pet-availability"
+                          value="fostered"
+                        />
+                        <span>Fostered</span>
+                      </label>
+                      <label class="radio-label">
+                        <input
+                          type="radio"
+                          name="pet-availability"
+                          value="pending"
+                        />
+                        <span>Pending</span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group personality-group">
+                    <label for="pet-personality">Personality</label>
+                    <textarea
+                      id="pet-personality"
+                      placeholder="tell us..."
+                    ></textarea>
+                  </div>
+                </div>
+                
+                <!-- Sección de imágenes dentro del modal -->
+                <div class="pet-images-section">
+                  <h3>Pet Images</h3>
+                  <p class="image-help-text">Select up to 3 images. The first image will be the main image.</p>
+                  <div class="form-row">
+                    <div class="form-group">
+                      <label for="pet-images">Pet Images (Max 3)</label>
+                      <input type="file" id="pet-images" name="images" accept="image/*" multiple />
+                      <div class="image-preview-container" id="image-preview-container">
+                        <!-- Las vistas previas se generarán dinámicamente aquí -->
+                      </div>
+                    </div>
+                  </div>
+                  <div class="current-images" id="current-images-container" style="display: none;">
+                    <h4>Current Images</h4>
+                    <div class="current-images-grid" id="current-images-grid">
+                      <!-- Las imágenes actuales se mostrarán aquí -->
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button class="action-btn save-btn">Save</button>
+                <button class="action-btn delete-btn" style="display: none;">Delete</button>
+                <button class="action-btn cancel-btn">Cancel</button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
 
-      <!-- Blobs decorativos -->
+      <!-- Decorative blobs -->
       <div class="orange-blobu blob-top"></div>
       <div class="orange-blobu blob-bottom"></div>
     </main>
@@ -427,5 +299,6 @@
         <img src="../media/images/paw-pattern.png" alt="Paw pattern" />
       </div>
     </footer>
+    <script src="../js/manage_pets.js"></script>
   </body>
 </html>

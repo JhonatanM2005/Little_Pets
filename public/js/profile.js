@@ -1,5 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
   const profileDetailsDiv = document.querySelector(".profile-info"); // Selecciona el contenedor de la información
+  const roleBasedButtonsDiv = document.querySelector(".role-based-buttons"); // Contenedor para botones según rol
 
   // Función para obtener el token del localStorage (ajústalo si lo guardas en otro lugar)
   function getToken() {
@@ -48,6 +49,36 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         console.log("Información del perfil cargada:", user);
+        
+        // Mostrar botones según el rol del usuario
+        if (roleBasedButtonsDiv) {
+          // Limpiar cualquier contenido previo
+          roleBasedButtonsDiv.innerHTML = "";
+          
+          // Agregar botones según el rol
+          if (user.role === "admin") {
+            // Administradores tienen acceso a gestión de mascotas y usuarios
+            const managePetsBtn = document.createElement("a");
+            managePetsBtn.href = "./manage_pets.html";
+            managePetsBtn.className = "action-btn";
+            managePetsBtn.textContent = "Gestionar Mascotas";
+            roleBasedButtonsDiv.appendChild(managePetsBtn);
+            
+            const manageUsersBtn = document.createElement("a");
+            manageUsersBtn.href = "./manage_users.html";
+            manageUsersBtn.className = "action-btn";
+            manageUsersBtn.textContent = "Gestionar Usuarios";
+            roleBasedButtonsDiv.appendChild(manageUsersBtn);
+          } else if (user.role === "manager") {
+            // Managers solo tienen acceso a gestión de mascotas
+            const managePetsBtn = document.createElement("a");
+            managePetsBtn.href = "./manage_pets.html";
+            managePetsBtn.className = "action-btn";
+            managePetsBtn.textContent = "Gestionar Mascotas";
+            roleBasedButtonsDiv.appendChild(managePetsBtn);
+          }
+          // Los usuarios normales no tienen botones adicionales
+        }
       }
     })
     .catch((error) => {

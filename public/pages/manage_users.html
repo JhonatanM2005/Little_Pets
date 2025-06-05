@@ -45,83 +45,32 @@
       <div class="container">
         <div class="manage-users-content">
           <h1>Manage Users</h1>
-          <!-- Formulario de edición de usuarios -->
-          <div class="user-form-section">
-            <div class="form-row">
-              <div class="form-column">
-                <div class="form-group">
-                  <label for="name">Name</label>
-                  <input type="text" id="name" placeholder="Name" />
-                </div>
-
-                <div class="form-group">
-                  <label for="password">Password</label>
-                  <input type="password" id="password" placeholder="Password" />
-                </div>
-
-                <div class="form-group">
-                  <label for="user-type">User Type</label>
-                  <select id="user-type">
-                    <option value="user">Regular User</option>
-                    <option value="operator">Operator</option>
-                    <option value="admin">Administrator</option>
-                  </select>
-                </div>
-              </div>
-
-              <div class="form-column">
-                <div class="form-group">
-                  <label for="id-number">ID Number</label>
-                  <input type="text" id="id-number" placeholder="ID Number" />
-                </div>
-
-                <div class="form-group">
-                  <label for="confirm-password">Confirm Password</label>
-                  <input type="password" id="confirm-password" placeholder="Confirm password" />
-                </div>
-              </div>
-
-              <div class="form-column">
-                <div class="form-group">
-                  <label for="email">Email Address</label>
-                  <input type="email" id="email" placeholder="E-mail address" />
-                </div>
-                
-                <div class="form-group">
-                  <label for="status">Status</label>
-                  <select id="status">
-                    <option value="active">Active</option>
-                    <option value="inactive">Inactive</option>
-                  </select>
-                </div>
-              </div>
-            </div>
-          </div>
 
           <!-- Sección de búsqueda y tabla -->
           <div class="search-table-section">
             <div class="search-section">
               <div class="search-group">
-                <input type="text" placeholder="Search for id number" />
-                <button class="search-btn">
+                <input type="text" id="search-name" placeholder="Search for name" />
+                <button class="search-btn" id="search-name-btn">
                   <img src="../media/icons/search.png" alt="Search" />
                 </button>
               </div>
 
               <div class="search-group">
-                <input type="text" placeholder="Search for name" />
-                <button class="search-btn">
+                <input type="text" id="search-email" placeholder="Search for email" />
+                <button class="search-btn" id="search-email-btn">
                   <img src="../media/icons/search.png" alt="Search" />
                 </button>
               </div>
 
               <div class="search-group">
-                <input type="text" placeholder="Search for Email" />
-                <button class="search-btn">
+                <input type="text" id="search-cedula" placeholder="Search for cédula" />
+                <button class="search-btn" id="search-cedula-btn">
                   <img src="../media/icons/search.png" alt="Search" />
                 </button>
               </div>
 
+              <button class="reset-search-btn" id="reset-search-btn">Reset Filters</button>
             </div>
 
             <!-- Tabla de resultados -->
@@ -129,9 +78,9 @@
               <table id="users-table">
                 <thead>
                   <tr>
-                    <th>ID Number</th>
                     <th>Name</th>
                     <th>Email</th>
+                    <th>Cédula</th>
                     <th>Type</th>
                     <th>Status</th>
                     <th>Actions</th>
@@ -146,9 +95,71 @@
 
           <!-- Botones de acción -->
           <div class="action-buttons">
-            <button class="action-btn save-btn">Save</button>
-            <button class="action-btn delete-btn">Delete</button>
-            <button class="action-btn add-btn">Add</button>
+            <button class="action-btn add-btn">Add New User</button>
+          </div>
+          
+          <!-- Modal para gestión de usuarios -->
+          <div id="user-modal" class="modal">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h2 id="modal-title">Add New User</h2>
+                <span class="close-modal">&times;</span>
+              </div>
+              <div class="modal-body">
+                <div class="form-row">
+                  <div class="form-column">
+                    <div class="form-group">
+                      <label for="name">Name</label>
+                      <input type="text" id="name" placeholder="Name" />
+                    </div>
+
+                    <div class="form-group">
+                      <label for="email">Email Address</label>
+                      <input type="email" id="email" placeholder="E-mail address" />
+                    </div>
+                    
+                    <div class="form-group">
+                      <label for="cedula">Cédula</label>
+                      <input type="text" id="cedula" placeholder="Número de cédula" />
+                    </div>
+                  </div>
+
+                  <div class="form-column">
+                    <div class="form-group">
+                      <label for="password">Password</label>
+                      <input type="password" id="password" placeholder="Password" />
+                    </div>
+
+                    <div class="form-group">
+                      <label for="confirm-password">Confirm Password</label>
+                      <input type="password" id="confirm-password" placeholder="Confirm password" />
+                    </div>
+                    
+                    <div class="form-group">
+                      <label for="user-type">User Type</label>
+                      <select id="user-type">
+                        <option value="user">Regular User</option>
+                        <option value="operator">Operator</option>
+                        <option value="admin">Administrator</option>
+                      </select>
+                    </div>
+                    
+                    <div class="form-group">
+                      <label for="status">Status</label>
+                      <select id="status">
+                        <option value="active">Active</option>
+                        <option value="inactive">Inactive</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button class="action-btn save-btn">Save</button>
+                <button class="action-btn delete-btn" style="display: none;">Delete</button>
+                <button class="action-btn cancel-btn">Cancel</button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -207,29 +218,6 @@
         <img src="../media/images/paw-pattern.png" alt="Paw pattern" />
       </div>
     </footer>
-    
-    <script>
-      document.addEventListener("DOMContentLoaded", () => {
-        // Verificar si el usuario está autenticado
-        const isAuthenticated = localStorage.getItem("isAuthenticated");
-        const userType = localStorage.getItem("userType") || "user";
-        
-        if (isAuthenticated !== "true") {
-          // Si no está autenticado, redirigir al login
-          const currentUrl = window.location.href;
-          const redirectUrl = `./login.html?redirect=${encodeURIComponent(currentUrl)}`;
-          window.location.href = redirectUrl;
-        } else if (userType !== "admin") {
-          // Si no es administrador, redirigir a la página de cuenta correspondiente
-          if (userType === "operator") {
-            window.location.href = "./account_ope.html";
-          } else {
-            window.location.href = "./account_user.html";
-          }
-          alert("No tienes permisos para acceder a esta página");
-        }
-      });
-    </script>
     <script src="../js/manage_users.js"></script>
   </body>
 </html>
