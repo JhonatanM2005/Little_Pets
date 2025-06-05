@@ -1,312 +1,284 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Datos de ejemplo para usuarios (en un entorno real, esto vendría de una base de datos)
-    const sampleUsers = [
-        {
-            id: '12345',
-            name: 'Admin User',
-            email: 'admin@littlepets.com',
-            type: 'admin',
-            status: 'active'
-        },
-        {
-            id: '67890',
-            name: 'John Operator',
-            email: 'john@littlepets.com',
-            type: 'operator',
-            status: 'active'
-        },
-        {
-            id: '54321',
-            name: 'Jane Operator',
-            email: 'jane@littlepets.com',
-            type: 'operator',
-            status: 'inactive'
-        },
-        {
-            id: '98765',
-            name: 'Regular User',
-            email: 'user@example.com',
-            type: 'user',
-            status: 'active'
-        }
-    ];
-
-    // Elementos del DOM
-    const usersTable = document.getElementById('users-table');
-    const userForm = document.querySelector('.user-form-section');
-    const saveBtn = document.querySelector('.save-btn');
-    const deleteBtn = document.querySelector('.delete-btn');
-    const addBtn = document.querySelector('.add-btn');
+    // Verificar si el usuario está autenticado y tiene permisos de administrador
+    function getToken() {
+        return localStorage.getItem('token');
+    }
     
-    // Campos del formulario
-    const idInput = document.getElementById('id-number');
+    const token = getToken();
+    
+    if (!token) {
+        // Si no hay token, redirigir al inicio de sesión
+        alert('Debes iniciar sesión para acceder a esta página');
+        window.location.href = '../index.html';
+        return;
+    }
+    
+    // Verificar el rol del usuario
+    fetch('/api/users/profile', {
+        method: 'GET',
+        headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Error al obtener el perfil');
+        }
+        return response.json();
+    })
+    .then(user => {
+        // Verificar si el usuario tiene rol de administrador
+        if (user.role !== 'admin') {
+            // Si no es administrador, mostrar mensaje y redirigir
+            alert('No tienes permisos para acceder a esta página');
+            window.location.href = '../index.html';
+            return;
+        }
+        
+        // Si es administrador, continuar con la carga de la página
+        initializeUserManagement(token);
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Error al verificar permisos');
+        window.location.href = '../index.html';
+    });
+});
+
+// Función que inicializa la gestión de usuarios una vez verificados los permisos
+
+// Función que inicializa la gestión de usuarios una vez verificados los permisos
+function initializeUserManagement(token) {
+    // Referencias a elementos del DOM
+    const usersTable = document.getElementById('users-table').getElementsByTagName('tbody')[0];
     const nameInput = document.getElementById('name');
     const emailInput = document.getElementById('email');
+    const cedulaInput = document.getElementById('cedula');
     const passwordInput = document.getElementById('password');
     const confirmPasswordInput = document.getElementById('confirm-password');
     const userTypeSelect = document.getElementById('user-type');
     const statusSelect = document.getElementById('status');
+    const saveBtn = document.querySelector('.save-btn');
+    const deleteBtn = document.querySelector('.delete-btn');
+    const addBtn = document.querySelector('.add-btn');
+    const cancelBtn = document.querySelector('.cancel-btn');
+    const modal = document.getElementById('user-modal');
+    const closeModalBtn = document.querySelector('.close-modal');
+    const modalTitle = document.getElementById('modal-title');
     
-    // Variable para almacenar el ID del usuario seleccionado actualmente
+    // Variable para almacenar el ID del usuario seleccionado
     let selectedUserId = null;
     
-    // Función para cargar los usuarios en la tabla
+    // Función para cargar los usuarios desde la API
     function loadUsers() {
-        const tbody = usersTable.querySelector('tbody');
-        tbody.innerHTML = '';
+        // Mostrar indicador de carga
+        usersTable.innerHTML = '<tr><td colspan="6">Cargando usuarios...</td></tr>';
         
-        sampleUsers.forEach(user => {
-            const row = document.createElement('tr');
-            
-            // Crear las celdas de la tabla
-            row.innerHTML = `
-                <td>${user.id}</td>
-                <td>${user.name}</td>
-                <td>${user.email}</td>
-                <td><span class="user-type-badge ${user.type}">${user.type}</span></td>
-                <td><span class="status-badge ${user.status}">${user.status}</span></td>
-                <td class="user-actions">
-                    <button class="edit-btn" data-id="${user.id}">Edit</button>
-                    <button class="delete-btn" data-id="${user.id}">Delete</button>
-                </td>
-            `;
-            
-            tbody.appendChild(row);
-        });
-        
-        // Agregar eventos a los botones de editar y eliminar
-        attachButtonEvents();
-    }
-    
-    // Función para adjuntar eventos a los botones de la tabla
-    function attachButtonEvents() {
-        // Botones de editar
-        document.querySelectorAll('.edit-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                const userId = this.getAttribute('data-id');
-                editUser(userId);
-            });
-        });
-        
-        // Botones de eliminar
-        document.querySelectorAll('.delete-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                const userId = this.getAttribute('data-id');
-                deleteUser(userId);
-            });
-        });
-    }
-    
-    // Función para cargar los datos de un usuario en el formulario
-    function editUser(userId) {
-        // Buscar el usuario por ID
-        const user = sampleUsers.find(u => u.id === userId);
-        
-        if (user) {
-            // Cargar los datos en el formulario
-            idInput.value = user.id;
-            nameInput.value = user.name;
-            emailInput.value = user.email;
-            userTypeSelect.value = user.type;
-            statusSelect.value = user.status;
-            
-            // Limpiar los campos de contraseña
-            passwordInput.value = '';
-            confirmPasswordInput.value = '';
-            
-            // Guardar el ID del usuario seleccionado
-            selectedUserId = userId;
-            
-            // Desplazarse al formulario
-            userForm.scrollIntoView({ behavior: 'smooth' });
-        }
-    }
-    
-    // Función para mostrar diálogo de confirmación personalizado
-    function showConfirmationDialog(message, onConfirm, onCancel) {
-        // Crear contenedor del diálogo
-        const dialog = document.createElement('div');
-        dialog.style.cssText = `
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 10000;
-            font-family: 'Poppins', sans-serif;
-        `;
-        
-        // Crear contenido del diálogo
-        dialog.innerHTML = `
-            <div style="
-                background: white;
-                padding: 30px;
-                border-radius: 12px;
-                text-align: center;
-                max-width: 400px;
-                width: 90%;
-                box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-            ">
-                <h3 style="margin-top: 0; color: #333; font-size: 20px; margin-bottom: 20px;">
-                    ${message}
-                </h3>
-                <div style="display: flex; justify-content: center; gap: 15px; margin-top: 25px;">
-                    <button id="confirmBtn" style="
-                        background: #FF8A2B;
-                        color: white;
-                        border: none;
-                        padding: 10px 25px;
-                        border-radius: 6px;
-                        font-size: 16px;
-                        font-weight: 500;
-                        cursor: pointer;
-                        transition: background-color 0.3s;
-                        font-family: 'Poppins', sans-serif;
-                    ">
-                        Confirmar
-                    </button>
-                    <button id="cancelBtn" style="
-                        background: #f0f0f0;
-                        color: #666;
-                        border: 1px solid #ddd;
-                        padding: 10px 25px;
-                        border-radius: 6px;
-                        font-size: 16px;
-                        font-weight: 500;
-                        cursor: pointer;
-                        transition: background-color 0.3s;
-                        font-family: 'Poppins', sans-serif;
-                    ">
-                        Cancelar
-                    </button>
-                </div>
-            </div>
-        `;
-        
-        // Agregar al documento
-        document.body.appendChild(dialog);
-        
-        // Manejadores de eventos
-        dialog.querySelector('#confirmBtn').addEventListener('click', () => {
-            document.body.removeChild(dialog);
-            if (typeof onConfirm === 'function') onConfirm();
-        });
-        
-        dialog.querySelector('#cancelBtn').addEventListener('click', () => {
-            document.body.removeChild(dialog);
-            if (typeof onCancel === 'function') onCancel();
-        });
-    }
-    
-    // Función para mostrar notificación con Toastify
-    function showNotification(message, isSuccess = true) {
-        if (typeof Toastify !== 'undefined') {
-            Toastify({
-                text: message,
-                duration: 3000,
-                gravity: 'bottom',
-                position: 'right',
-                style: {
-                    background: isSuccess 
-                        ? 'linear-gradient(to right, #4CAF50, #45a049)'
-                        : 'linear-gradient(to right, #f44336, #d32f2f)',
-                    color: '#FFFFFF',
-                    fontFamily: "'Poppins', sans-serif",
-                    fontSize: '16px',
-                    padding: '18px 25px',
-                    borderRadius: '8px',
-                    boxShadow: '0 4px 15px rgba(0, 0, 0, 0.1)'
-                }
-            }).showToast();
-        }
-    }
-    
-    // Función para eliminar un usuario
-    function deleteUser(userId) {
-        // Mostrar diálogo de confirmación personalizado
-        showConfirmationDialog(
-            `¿Estás seguro de que deseas eliminar al usuario con ID ${userId}?`,
-            () => {
-                // En un entorno real, aquí se haría una llamada a la API para eliminar el usuario
-                
-                // Eliminar el usuario de los datos de ejemplo
-                const index = sampleUsers.findIndex(u => u.id === userId);
-                if (index !== -1) {
-                    sampleUsers.splice(index, 1);
-                    
-                    // Recargar la tabla
-                    loadUsers();
-                    
-                    // Limpiar el formulario si el usuario eliminado era el seleccionado
-                    if (selectedUserId === userId) {
-                        clearForm();
-                    }
-                    
-                    // Mostrar notificación de éxito
-                    showNotification('Usuario eliminado correctamente', true);
-                } else {
-                    showNotification('Error: No se pudo encontrar el usuario', false);
-                }
+        // Obtener usuarios desde la API
+        fetch('/api/users', {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
             }
-        );
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Error al obtener los usuarios');
+            }
+            return response.json();
+        })
+        .then(users => {
+            // Limpiar la tabla
+            usersTable.innerHTML = '';
+            
+            // Verificar si hay usuarios
+            if (users.length === 0) {
+                usersTable.innerHTML = '<tr><td colspan="6">No hay usuarios registrados</td></tr>';
+                return;
+            }
+            
+            // Agregar cada usuario a la tabla
+            users.forEach(user => {
+                const row = document.createElement('tr');
+                
+                // Crear celdas para cada propiedad del usuario
+                const nameCell = document.createElement('td');
+                nameCell.textContent = user.name;
+                
+                const emailCell = document.createElement('td');
+                emailCell.textContent = user.email;
+                
+                const cedulaCell = document.createElement('td');
+                cedulaCell.textContent = user.cedula;
+                
+                const typeCell = document.createElement('td');
+                typeCell.textContent = user.role;
+                
+                const statusCell = document.createElement('td');
+                statusCell.textContent = user.status || 'active';
+                
+                // Crear celda para botones de acción
+                const actionsCell = document.createElement('td');
+                const editBtn = document.createElement('button');
+                editBtn.textContent = 'Edit';
+                editBtn.classList.add('edit-btn');
+                editBtn.addEventListener('click', () => selectUser(user));
+                
+                actionsCell.appendChild(editBtn);
+                
+                // Agregar todas las celdas a la fila
+                row.appendChild(nameCell);
+                row.appendChild(emailCell);
+                row.appendChild(cedulaCell);
+                row.appendChild(typeCell);
+                row.appendChild(statusCell);
+                row.appendChild(actionsCell);
+                
+                // Agregar la fila a la tabla
+                usersTable.appendChild(row);
+            });
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            usersTable.innerHTML = '<tr><td colspan="6">Error al cargar los usuarios</td></tr>';
+        });
+    }
+    
+    // Función para seleccionar un usuario para editar
+    function selectUser(user) {
+        selectedUserId = user._id;
+        
+        // Llenar el formulario con los datos del usuario
+        nameInput.value = user.name;
+        emailInput.value = user.email;
+        cedulaInput.value = user.cedula;
+        userTypeSelect.value = user.role;
+        statusSelect.value = user.status || 'active';
+        
+        // Limpiar los campos de contraseña
+        passwordInput.value = '';
+        confirmPasswordInput.value = '';
+        
+        // Abrir el modal en modo edición
+        openModal('edit');
     }
     
     // Función para limpiar el formulario
     function clearForm() {
-        idInput.value = '';
+        selectedUserId = null;
         nameInput.value = '';
         emailInput.value = '';
+        cedulaInput.value = '';
         passwordInput.value = '';
         confirmPasswordInput.value = '';
         userTypeSelect.value = 'user';
         statusSelect.value = 'active';
-        
-        selectedUserId = null;
     }
     
     // Función para guardar un usuario (crear o actualizar)
     function saveUser() {
+        console.log('Iniciando saveUser...');
+        
         // Validar el formulario
         if (!validateForm()) {
+            console.log('Validación del formulario fallida');
             return;
         }
         
-        // Obtener los datos del formulario
+        // Crear objeto con los datos del usuario
         const userData = {
-            id: idInput.value,
-            name: nameInput.value,
-            email: emailInput.value,
-            type: userTypeSelect.value,
+            name: nameInput.value.trim(),
+            email: emailInput.value.trim(),
+            cedula: cedulaInput.value.trim(),
+            role: userTypeSelect.value,
             status: statusSelect.value
         };
         
-        if (selectedUserId) {
-            // Actualizar usuario existente
-            const index = sampleUsers.findIndex(u => u.id === selectedUserId);
-            if (index !== -1) {
-                sampleUsers[index] = userData;
-                alert('Usuario actualizado correctamente');
-            }
-        } else {
-            // Crear nuevo usuario
-            sampleUsers.push(userData);
-            alert('Usuario creado correctamente');
+        console.log('Datos del usuario a guardar:', userData);
+        
+        // Si hay contraseña, agregarla al objeto
+        if (passwordInput.value) {
+            userData.password = passwordInput.value;
+            console.log('Contraseña incluida en la solicitud');
+        } else if (!selectedUserId) {
+            // Si es un nuevo usuario, la contraseña es obligatoria
+            alert('La contraseña es obligatoria para crear un nuevo usuario');
+            console.log('Error: Contraseña obligatoria para nuevo usuario');
+            return;
         }
         
-        // Recargar la tabla y limpiar el formulario
-        loadUsers();
-        clearForm();
+        let url, method;
+        
+        // Si es un usuario existente, actualizar
+        if (selectedUserId) {
+            url = `/api/users/${selectedUserId}`;
+            method = 'PUT';
+            console.log(`Actualizando usuario con ID: ${selectedUserId}`);
+        } else {
+            // Crear nuevo usuario
+            url = '/api/users';
+            method = 'POST';
+            console.log('Creando nuevo usuario');
+        }
+        
+        // Mostrar indicador de carga
+        const saveButtonText = saveBtn.textContent;
+        saveBtn.textContent = 'Guardando...';
+        saveBtn.disabled = true;
+        
+        console.log(`Enviando solicitud ${method} a ${url}`);
+        console.log('Datos enviados:', JSON.stringify(userData));
+        
+        // Enviar solicitud a la API
+        fetch(url, {
+            method: method,
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(userData)
+        })
+        .then(response => {
+            console.log('Respuesta recibida:', response.status);
+            if (!response.ok) {
+                return response.json().then(data => {
+                    console.error('Error en la respuesta:', data);
+                    throw new Error(data.message || 'Error al guardar el usuario');
+                });
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log('Usuario guardado exitosamente:', data);
+            // Mostrar mensaje de éxito
+            if (selectedUserId) {
+                alert('Usuario actualizado correctamente');
+            } else {
+                alert('Usuario creado correctamente');
+            }
+            
+            // Recargar la tabla, limpiar el formulario y cerrar el modal
+            loadUsers();
+            closeModal();
+        })
+        .catch(error => {
+            console.error('Error al guardar usuario:', error);
+            alert(error.message || 'Error al guardar el usuario');
+        })
+        .finally(() => {
+            // Restaurar el botón
+            saveBtn.textContent = saveButtonText;
+            saveBtn.disabled = false;
+        });
     }
     
     // Función para validar el formulario
     function validateForm() {
         // Validar que los campos obligatorios estén completos
-        if (!idInput.value || !nameInput.value || !emailInput.value) {
-            alert('Por favor, completa todos los campos obligatorios');
+        if (!nameInput.value || !emailInput.value || !cedulaInput.value) {
+            alert('Por favor, completa todos los campos obligatorios (nombre, email y cédula)');
             return false;
         }
         
@@ -335,23 +307,236 @@ document.addEventListener('DOMContentLoaded', function() {
         return true;
     }
     
+    // Función para eliminar un usuario
+    function deleteUser() {
+        if (!selectedUserId) {
+            alert('Por favor, selecciona un usuario para eliminar');
+            return;
+        }
+        
+        // Confirmar antes de eliminar
+        if (!confirm('¿Estás seguro de que deseas eliminar este usuario?')) {
+            return;
+        }
+        
+        // Enviar solicitud a la API
+        fetch(`/api/users/${selectedUserId}`, {
+            method: 'DELETE',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => {
+            if (!response.ok) {
+                return response.json().then(data => {
+                    throw new Error(data.message || 'Error al eliminar el usuario');
+                });
+            }
+            return response.json();
+        })
+        .then(data => {
+            alert('Usuario eliminado correctamente');
+            loadUsers();
+            closeModal();
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert(error.message || 'Error al eliminar el usuario');
+        });
+    }
+    
+    // Referencias a elementos de búsqueda
+    const searchNameInput = document.getElementById('search-name');
+    const searchEmailInput = document.getElementById('search-email');
+    const searchCedulaInput = document.getElementById('search-cedula');
+    const searchNameBtn = document.getElementById('search-name-btn');
+    const searchEmailBtn = document.getElementById('search-email-btn');
+    const searchCedulaBtn = document.getElementById('search-cedula-btn');
+    const resetSearchBtn = document.getElementById('reset-search-btn');
+    
+    // Variables para almacenar todos los usuarios y los filtros actuales
+    let allUsers = [];
+    let currentFilters = {
+        name: '',
+        email: '',
+        cedula: ''
+    };
+    
+    // Agregar event listeners para los botones de búsqueda
+    searchNameBtn.addEventListener('click', () => {
+        currentFilters.name = searchNameInput.value.toLowerCase();
+        filterUsers();
+    });
+    
+    searchEmailBtn.addEventListener('click', () => {
+        currentFilters.email = searchEmailInput.value.toLowerCase();
+        filterUsers();
+    });
+    
+    searchCedulaBtn.addEventListener('click', () => {
+        currentFilters.cedula = searchCedulaInput.value.toLowerCase();
+        filterUsers();
+    });
+    
+    resetSearchBtn.addEventListener('click', () => {
+        // Limpiar los campos de búsqueda
+        searchNameInput.value = '';
+        searchEmailInput.value = '';
+        searchCedulaInput.value = '';
+        
+        // Resetear los filtros
+        currentFilters = {
+            name: '',
+            email: '',
+            cedula: ''
+        };
+        
+        // Mostrar todos los usuarios
+        displayUsers(allUsers);
+    });
+    
+    // Función para filtrar usuarios
+    function filterUsers() {
+        const filteredUsers = allUsers.filter(user => {
+            const nameMatch = !currentFilters.name || user.name.toLowerCase().includes(currentFilters.name);
+            const emailMatch = !currentFilters.email || user.email.toLowerCase().includes(currentFilters.email);
+            const cedulaMatch = !currentFilters.cedula || (user.cedula && user.cedula.toLowerCase().includes(currentFilters.cedula));
+            
+            return nameMatch && emailMatch && cedulaMatch;
+        });
+        
+        displayUsers(filteredUsers);
+    }
+    
+    // Funciones para manejar el modal
+    function openModal(mode) {
+        if (mode === 'add') {
+            modalTitle.textContent = 'Add New User';
+            deleteBtn.style.display = 'none';
+            clearForm();
+        } else if (mode === 'edit') {
+            modalTitle.textContent = 'Edit User';
+            deleteBtn.style.display = 'inline-block';
+        }
+        modal.style.display = 'block';
+    }
+    
+    function closeModal() {
+        modal.style.display = 'none';
+        clearForm();
+    }
+    
     // Eventos de los botones
     saveBtn.addEventListener('click', saveUser);
+    deleteBtn.addEventListener('click', deleteUser);
+    addBtn.addEventListener('click', function() {
+        openModal('add');
+    });
     
-    deleteBtn.addEventListener('click', function() {
-        if (selectedUserId) {
-            deleteUser(selectedUserId);
-        } else {
-            alert('Por favor, selecciona un usuario para eliminar');
+    cancelBtn.addEventListener('click', closeModal);
+    closeModalBtn.addEventListener('click', closeModal);
+    
+    // Cerrar el modal si se hace clic fuera de él
+    window.addEventListener('click', function(event) {
+        if (event.target === modal) {
+            closeModal();
         }
     });
     
-    addBtn.addEventListener('click', function() {
-        clearForm();
-        // Generar un ID aleatorio para el nuevo usuario
-        idInput.value = Math.floor(10000 + Math.random() * 90000).toString();
-    });
-    
-    // Inicializar la página
+    // Cargar usuarios al inicializar
     loadUsers();
-});
+    
+    // Función para cargar los usuarios desde la API
+    function loadUsers() {
+        // Mostrar indicador de carga
+        usersTable.innerHTML = '<tr><td colspan="6">Cargando usuarios...</td></tr>';
+        
+        // Obtener usuarios desde la API
+        fetch('/api/users', {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Error al obtener los usuarios');
+            }
+            return response.json();
+        })
+        .then(users => {
+            // Guardar todos los usuarios para filtrado
+            allUsers = users;
+            
+            // Mostrar los usuarios
+            displayUsers(users);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            usersTable.innerHTML = '<tr><td colspan="6">Error al cargar los usuarios</td></tr>';
+        });
+    }
+    
+    // Función para mostrar usuarios en la tabla
+    function displayUsers(users) {
+        // Limpiar la tabla
+        usersTable.innerHTML = '';
+        
+        // Verificar si hay usuarios
+        if (users.length === 0) {
+            usersTable.innerHTML = '<tr><td colspan="6">No hay usuarios que coincidan con la búsqueda</td></tr>';
+            return;
+        }
+        
+        // Agregar cada usuario a la tabla
+        users.forEach(user => {
+            const row = document.createElement('tr');
+            
+            // Crear celdas para cada propiedad del usuario
+            const nameCell = document.createElement('td');
+            nameCell.textContent = user.name;
+            
+            const emailCell = document.createElement('td');
+            emailCell.textContent = user.email;
+            
+            const cedulaCell = document.createElement('td');
+            cedulaCell.textContent = user.cedula;
+            
+            const typeCell = document.createElement('td');
+            typeCell.textContent = user.role;
+            
+            const statusCell = document.createElement('td');
+            statusCell.textContent = user.status || 'active';
+            
+            // Crear celda para botones de acción
+            const actionsCell = document.createElement('td');
+            const editBtn = document.createElement('button');
+            editBtn.textContent = 'Edit';
+            editBtn.classList.add('edit-btn');
+            editBtn.addEventListener('click', () => selectUser(user));
+            
+            // Aplicar estilos al botón de edición
+            editBtn.style.backgroundColor = '#FF8A2B';
+            editBtn.style.color = 'white';
+            editBtn.style.border = 'none';
+            editBtn.style.borderRadius = '5px';
+            editBtn.style.padding = '5px 10px';
+            editBtn.style.cursor = 'pointer';
+            
+            actionsCell.appendChild(editBtn);
+            
+            // Agregar todas las celdas a la fila
+            row.appendChild(nameCell);
+            row.appendChild(emailCell);
+            row.appendChild(cedulaCell);
+            row.appendChild(typeCell);
+            row.appendChild(statusCell);
+            row.appendChild(actionsCell);
+            
+            // Agregar la fila a la tabla
+            usersTable.appendChild(row);
+        });
+    }
+}

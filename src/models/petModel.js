@@ -22,13 +22,13 @@ const petSchema = new mongoose.Schema({
   },
   type: {
     type: String,
-    enum: ["Dog", "Cat"],
+    enum: ["dog", "cat", "Dog", "Cat"],  // Permitir ambos formatos para compatibilidad
     required: true,
     trim: true,
   },
   gender: {
     type: String,
-    enum: ["Male", "Female"],
+    enum: ["male", "female", "Male", "Female"],  // Permitir ambos formatos para compatibilidad
     trim: true,
   },
   vaccinated: {
@@ -41,11 +41,44 @@ const petSchema = new mongoose.Schema({
   },
   personality: {
     type: [String],
+    default: [],
+  },
+  availability: {
+    type: String,
+    enum: ["available", "adopted", "fostered", "pending"],
+    default: "available",
     trim: true,
   },
   image: {
     type: String,
   },
+  imagePublicId: {
+    type: String,
+  },
+  images: {
+    type: [String],
+    default: [],
+  },
+  imagesPublicIds: {
+    type: [String],
+    default: [],
+  },
+}, {
+  timestamps: true,  // Agregar createdAt y updatedAt
+});
+
+// Middleware para asegurar que el tipo y género estén en minúsculas
+petSchema.pre('save', function(next) {
+  if (this.type) {
+    this.type = this.type.toLowerCase();
+  }
+  if (this.gender) {
+    this.gender = this.gender.toLowerCase();
+  }
+  if (this.availability) {
+    this.availability = this.availability.toLowerCase();
+  }
+  next();
 });
 
 module.exports = mongoose.models.Pet || mongoose.model("Pet", petSchema);

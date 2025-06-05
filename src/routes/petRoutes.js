@@ -3,6 +3,7 @@ const router = express.Router();
 const petController = require("../controllers/petController");
 const verifyToken = require("../middlewares/authMiddleware");
 const allowRole = require("../middlewares/roleMiddleware");
+const { upload, uploadMultiple, uploadToCloudinary } = require("../middlewares/uploadMiddleware");
 
 // Todos pueden ver las mascotas
 router.get("/", petController.getPets);
@@ -15,6 +16,8 @@ router.post(
   "/",
   verifyToken,
   allowRole("admin", "manager"),
+  uploadMultiple,
+  uploadToCloudinary,
   petController.createPet
 );
 
@@ -22,6 +25,8 @@ router.put(
   "/:id",
   verifyToken,
   allowRole("admin", "manager"),
+  uploadMultiple,
+  uploadToCloudinary,
   petController.updatePet
 );
 

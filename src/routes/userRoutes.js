@@ -29,6 +29,23 @@ router.get(
   }
 );
 
+// Ruta para obtener el perfil del usuario autenticado
 router.get("/profile", verifyToken, userController.getUserProfile);
+
+// Rutas CRUD para gestión de usuarios (solo accesibles por administradores)
+// Obtener todos los usuarios
+router.get("/", verifyToken, allowRoles("admin"), userController.getAllUsers);
+
+// Obtener un usuario por ID
+router.get("/:id", verifyToken, allowRoles("admin"), userController.getUserById);
+
+// Crear un nuevo usuario
+router.post("/", verifyToken, allowRoles("admin"), userController.createUser);
+
+// Actualizar un usuario
+router.put("/:id", verifyToken, allowRoles("admin"), userController.updateUser);
+
+// Eliminar un usuario
+router.delete("/:id", verifyToken, allowRoles("admin"), userController.deleteUser);
 
 module.exports = router;

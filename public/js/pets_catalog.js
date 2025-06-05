@@ -116,18 +116,30 @@ function filterByType(type) {
   const catImg = document.getElementById("catImg");
   const dogImg = document.getElementById("dogImg");
 
-  if (type === "Cat") {
-    catImg.src = "../media/images/blob_cat_select.png";
-    dogImg.src = "../media/images/blob_dog_unselect.png";
-    catCategory.classList.add("selected");
-    dogCategory.classList.remove("selected");
-    selectedType = "Cat";
-  } else if (type === "Dog") {
+  // Si ya está seleccionado el mismo tipo, deseleccionarlo
+  if (selectedType === type) {
     catImg.src = "../media/images/blob_cat_unselect.png";
-    dogImg.src = "../media/images/blob_dog_select.png";
+    dogImg.src = "../media/images/blob_dog_unselect.png";
     catCategory.classList.remove("selected");
-    dogCategory.classList.add("selected");
-    selectedType = "Dog";
+    dogCategory.classList.remove("selected");
+    selectedType = null;
+    console.log("Deseleccionando tipo:", type);
+  } else {
+    if (type === "cat") {
+      catImg.src = "../media/images/blob_cat_select.png";
+      dogImg.src = "../media/images/blob_dog_unselect.png";
+      catCategory.classList.add("selected");
+      dogCategory.classList.remove("selected");
+      selectedType = "cat";
+      console.log("Seleccionando tipo: cat");
+    } else if (type === "dog") {
+      catImg.src = "../media/images/blob_cat_unselect.png";
+      dogImg.src = "../media/images/blob_dog_select.png";
+      catCategory.classList.remove("selected");
+      dogCategory.classList.add("selected");
+      selectedType = "dog";
+      console.log("Seleccionando tipo: dog");
+    }
   }
 
   // Limpiar selección de razas y actualizar lista
