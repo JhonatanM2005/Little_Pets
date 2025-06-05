@@ -61,20 +61,20 @@ document.addEventListener("DOMContentLoaded", () => {
             const managePetsBtn = document.createElement("a");
             managePetsBtn.href = "./manage_pets.html";
             managePetsBtn.className = "action-btn";
-            managePetsBtn.textContent = "Gestionar Mascotas";
+            managePetsBtn.textContent = "Manage Pets";
             roleBasedButtonsDiv.appendChild(managePetsBtn);
             
             const manageUsersBtn = document.createElement("a");
             manageUsersBtn.href = "./manage_users.html";
             manageUsersBtn.className = "action-btn";
-            manageUsersBtn.textContent = "Gestionar Usuarios";
+            manageUsersBtn.textContent = "Manage Users";
             roleBasedButtonsDiv.appendChild(manageUsersBtn);
-          } else if (user.role === "manager") {
-            // Managers solo tienen acceso a gestión de mascotas
+          } else if (user.role === "manager" || user.role === "operator") {
+            // Managers y operators tienen acceso a gestión de mascotas
             const managePetsBtn = document.createElement("a");
             managePetsBtn.href = "./manage_pets.html";
             managePetsBtn.className = "action-btn";
-            managePetsBtn.textContent = "Gestionar Mascotas";
+            managePetsBtn.textContent = "Manage Pets";
             roleBasedButtonsDiv.appendChild(managePetsBtn);
           }
           // Los usuarios normales no tienen botones adicionales
