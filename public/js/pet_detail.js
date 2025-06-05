@@ -51,7 +51,7 @@ document.addEventListener("DOMContentLoaded", () => {
       
       const img = document.createElement('img');
       img.src = imgSrc || "../media/images/pets/default.jpg";
-      img.alt = `${pet.name} - Imagen ${index + 1}`;
+      img.alt = `${pet.name} - Image ${index + 1}`;
       
       thumbnail.appendChild(img);
       thumbnailsContainer.appendChild(thumbnail);
@@ -101,8 +101,8 @@ document.addEventListener("DOMContentLoaded", () => {
               <img src="${pet.image || '../media/images/pets/default.jpg'}" alt="${pet.name}">
             </div>
             <div class="similar-pet-info">
-              <h3>${pet.name || 'Sin nombre'}</h3>
-              <p>${pet.breed || 'Desconocida'}</p>
+              <h3>${pet.name || 'Unnamed'}</h3>
+              <p>${pet.breed || 'Unknown'}</p>
             </div>
           `;
           
@@ -110,20 +110,20 @@ document.addEventListener("DOMContentLoaded", () => {
         });
       })
       .catch(error => {
-        console.error('Error al cargar mascotas similares:', error);
+        console.error('Error loading similar pets:', error);
         document.querySelector('.similar-pets-section').style.display = 'none';
       });
   }
 
   // Función para formatear la edad
   function formatAge(age) {
-    if (age === undefined || age === null) return "Desconocida";
+    if (age === undefined || age === null) return "Unknown";
     
     if (age < 1) {
       const months = Math.round(age * 12);
-      return `${months} ${months === 1 ? 'mes' : 'meses'}`;
+      return `${months} ${months === 1 ? 'month' : 'months'}`;
     } else {
-      return `${age} ${age === 1 ? 'año' : 'años'}`;
+      return `${age} ${age === 1 ? 'year' : 'years'}`;
     }
   }
 
@@ -164,32 +164,32 @@ document.addEventListener("DOMContentLoaded", () => {
         // Rellenar la página con los datos de la mascota
         if (pet) {
           // Información básica
-          petNameElement.textContent = pet.name || "Sin nombre";
-          petBreedElement.textContent = pet.breed || "Desconocida";
-          petSexElement.textContent = pet.gender || "Desconocido";
-          petPersonalityElement.textContent = pet.personality || "Desconocida";
-          petSterilizedElement.textContent = pet.sterilized ? "Sí" : "No";
-          petTypeElement.textContent = pet.type || "Desconocido";
+          petNameElement.textContent = pet.name || "Unnamed";
+          petBreedElement.textContent = pet.breed || "Unknown";
+          petSexElement.textContent = pet.gender || "Unknown";
+          petPersonalityElement.textContent = pet.personality || "Unknown";
+          petSterilizedElement.textContent = pet.sterilized ? "Yes" : "No";
+          petTypeElement.textContent = pet.type || "Unknown";
           petAgeElement.textContent = formatAge(pet.age);
-          petSizeElement.textContent = pet.size || "Desconocido";
+          petSizeElement.textContent = pet.size || "Unknown";
           
           // Descripción
           if (pet.description) {
             petDescriptionElement.textContent = pet.description;
           } else {
-            petDescriptionElement.textContent = `¡Hola! Soy ${pet.name || 'una mascota'} y estoy buscando un hogar amoroso. Soy ${pet.personality || 'amigable'} y me encantaría ser parte de tu familia. ¡Ven a conocerme!`;
+            petDescriptionElement.textContent = `Hello! I'm ${pet.name || 'a pet'} and I'm looking for a loving home. I'm ${pet.personality || 'friendly'} and I'd love to be part of your family. Come meet me!`;
           }
           
           // Imagen principal
           mainPetImageElement.src = pet.image || "../media/images/pets/default.jpg";
-          mainPetImageElement.alt = pet.name || "Imagen de la mascota";
+          mainPetImageElement.alt = pet.name || "Pet image";
           
           // Estado de adopción
           if (pet.adoptionStatus) {
             adoptionStatusElement.textContent = pet.adoptionStatus;
             if (pet.adoptionStatus.toLowerCase() !== 'available') {
               adoptionStatusElement.style.backgroundColor = '#FF5722';
-              adoptBtn.textContent = 'No disponible';
+              adoptBtn.textContent = 'Not available';
               adoptBtn.classList.add('disabled');
               adoptBtn.href = 'javascript:void(0);';
             }

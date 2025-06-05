@@ -481,7 +481,7 @@
             loginLink.style.display = "block";
             accountLink.style.display = "none";
             
-            // Redirigir al usuario a la página de login si no está autenticado
+            // Redirect the user to the login page if not authenticated
             const currentUrl = window.location.href;
             const redirectUrl = `./login.html?redirect=${encodeURIComponent(currentUrl)}`;
             window.location.href = redirectUrl;

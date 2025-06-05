@@ -22,8 +22,8 @@ document.addEventListener("DOMContentLoaded", () => {
       updateBreedFilters();
     })
     .catch((error) => {
-      console.error("Error al obtener el catálogo:", error);
-      petsGridContainer.innerHTML = "<p>Error al cargar el catálogo de mascotas.</p>";
+      console.error("Error fetching catalog:", error);
+      petsGridContainer.innerHTML = "<p>Error loading the pet catalog.</p>";
     });
 
   // Configurar el slider de edad
@@ -180,7 +180,7 @@ function renderPets(pets) {
 
       const img = document.createElement("img");
       img.src = pet.image || "../media/images/pets/default.jpg";
-      img.alt = pet.name || "Mascota sin nombre";
+      img.alt = pet.name || "Unnamed pet";
 
       petImageDiv.appendChild(img);
 
@@ -188,7 +188,7 @@ function renderPets(pets) {
       petInfoDiv.classList.add("pet-info");
 
       const nameEl = document.createElement("h3");
-      nameEl.textContent = pet.name || "Sin nombre";
+      nameEl.textContent = pet.name || "Unnamed";
 
       petInfoDiv.appendChild(nameEl);
 
@@ -198,7 +198,7 @@ function renderPets(pets) {
       petsGridContainer.appendChild(cardLink);
     });
   } else {
-    petsGridContainer.innerHTML = "<p>No se encontraron mascotas con los filtros seleccionados.</p>";
+    petsGridContainer.innerHTML = "<p>No pets found with the selected filters.</p>";
   }
 }
 

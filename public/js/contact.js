@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const result = await res.json();
       if (res.ok) {
         Toastify({
-          text: result.message || "Mensaje enviado con éxito.",
+          text: result.message || "Message sent successfully.",
           duration: 3000,
           gravity: "bottom",
           position: "right",
@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
         form.reset();
       } else {
         Toastify({
-          text: result.message || "Error al enviar el mensaje.",
+          text: result.message || "Error sending message.",
           duration: 3000,
           gravity: "bottom",
           position: "right",
@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     } catch (error) {
       Toastify({
-        text: "Error de conexión al enviar el mensaje.",
+        text: "Connection error while sending message.",
         duration: 3000,
         gravity: "bottom",
         position: "right",

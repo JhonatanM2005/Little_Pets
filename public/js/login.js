@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // Si viene de una página que requiere autenticación, mostrar mensaje
   if (redirectUrl) {
     Toastify({
-      text: "Debes iniciar sesión para acceder al formulario de adopción",
+      text: "You must log in to access the adoption form",
       duration: 4000,
       gravity: "bottom",
       position: "right",
@@ -34,7 +34,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (!email || !password) {
       Toastify({
-        text: "Por favor, introduce tu email y contraseña.",
+        text: "Please enter your email and password.",
         duration: 3000,
         gravity: "bottom",
         position: "right",
@@ -99,7 +99,7 @@ document.addEventListener("DOMContentLoaded", () => {
       } else {
         // Error en la autenticación
         Toastify({
-          text: data.mensaje || "Error al iniciar sesión. Credenciales incorrectas.",
+          text: data.message || "Login error. Incorrect credentials.",
           duration: 3000,
           gravity: "bottom",
           position: "right",
@@ -116,7 +116,7 @@ document.addEventListener("DOMContentLoaded", () => {
     } catch (error) {
       console.error("Error al iniciar sesión:", error);
       Toastify({
-        text: "Error de conexión con el servidor.",
+        text: "Server connection error.",
         duration: 3000,
         gravity: "bottom",
         position: "right",

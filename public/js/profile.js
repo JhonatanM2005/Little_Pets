@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (!token) {
     profileDetailsDiv.innerHTML =
-      "<p>No estás autenticado. Por favor, inicia sesión.</p>";
+      "<p>You are not authenticated. Please log in.</p>";
     return;
   }
 
@@ -23,49 +23,49 @@ document.addEventListener("DOMContentLoaded", () => {
   })
     .then((response) => {
       if (!response.ok) {
-        console.error("Error al obtener el perfil:", response.status);
+        console.error("Error fetching profile:", response.status);
         profileDetailsDiv.innerHTML =
-          "<p>Error al cargar la información del perfil.</p>";
-        return null; // Importante para que el siguiente .then no intente leer un body nulo
+          "<p>Error loading profile information.</p>";
+        return null; // Important so the next .then doesn't try to read a null body
       }
       return response.json();
     })
     .then((user) => {
       if (user) {
-        // Actualiza los campos del perfil con la información del usuario
+        // Updates the profile fields with the user information
         const emailInput = profileDetailsDiv.querySelector(
           'input[value="Email"]'
         );
         const firstNameInput = profileDetailsDiv.querySelector(
           'input[value="Name"]'
-        ); // Selecciona el input del "First Name"
+        ); // Selects the input for "First Name"
 
         if (emailInput) {
-          emailInput.value = user.email || ""; // Puedes usar el email como "username" visual
+          emailInput.value = user.email || ""; // You can use the email as the visual "username"
         }
         if (firstNameInput) {
-          firstNameInput.value = user.name || ""; // Muestra el nombre completo por ahora
+          firstNameInput.value = user.name || ""; // Displays the full name for now
         }
 
-        console.log("Información del perfil cargada:", user);
+        console.log("Profile information loaded:", user);
       }
     })
     .catch((error) => {
-      console.error("Error en la petición del perfil:", error);
+      console.error("Error in profile request:", error);
       profileDetailsDiv.innerHTML =
-        "<p>Error al cargar la información del perfil.</p>";
+        "<p>Error loading profile information.</p>";
     });
 
   const logoutButton = document.getElementById("logout-btn");
 
   if (logoutButton) {
     logoutButton.addEventListener("click", () => {
-      // Eliminar el token y la bandera de autenticación del localStorage
+      // Removes the token and authentication flag from localStorage
       localStorage.removeItem("token");
       localStorage.removeItem("isAuthenticated");
 
-      // Redirigir al usuario a la página de inicio (o de inicio de sesión)
-      window.location.href = "../index.html"; // Ajusta la ruta si es necesario
+      // Redirect the user to the home page (or login page)
+      window.location.href = "../index.html"; // Adjust the path if necessary
     });
   }
 });

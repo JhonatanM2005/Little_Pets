@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const idNumberPattern = /^\d+$/;
     if (!idNumberPattern.test(cedula)) {
       Toastify({
-        text: "El número de ID solo debe contener números.",
+        text: "The ID number must only contain numbers.",
         duration: 3000,
         gravity: "bottom",
         position: "right",
@@ -40,7 +40,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Validación para la longitud de la contraseña (mínimo 8 caracteres)
     if (password.length < 8) {
       Toastify({
-        text: "La contraseña debe tener al menos 8 caracteres.",
+        text: "The password must be at least 8 characters long.",
         duration: 3000,
         gravity: "bottom",
         position: "right",
@@ -58,7 +58,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (password !== confirmPassword) {
       Toastify({
-        text: "Las contraseñas no coinciden.",
+        text: "Passwords do not match.",
         duration: 3000,
         gravity: "bottom",
         position: "right",
@@ -88,7 +88,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (response.ok) {
         // Registro exitoso
         Toastify({
-          text: "Registro exitoso. Serás redirigido para iniciar sesión.",
+          text: "Registration successful. You will be redirected to log in.",
           duration: 2000,
           gravity: "bottom",
           position: "right",
@@ -107,7 +107,7 @@ document.addEventListener("DOMContentLoaded", () => {
       } else {
         // Error en el registro
         Toastify({
-          text: data.mensaje || "Error al registrar el usuario.",
+          text: data.message || "Registration error. Please try again.",
           duration: 3000,
           gravity: "bottom",
           position: "right",
@@ -124,7 +124,7 @@ document.addEventListener("DOMContentLoaded", () => {
     } catch (error) {
       console.error("Error al registrar:", error);
       Toastify({
-        text: "Error de conexión con el servidor.",
+        text: "Server connection error. Please try again later.",
         duration: 3000,
         gravity: "bottom",
         position: "right",
