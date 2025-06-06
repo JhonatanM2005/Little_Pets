@@ -7,8 +7,13 @@ document.addEventListener('DOMContentLoaded', function() {
     const token = getToken();
     
     if (!token) {
-        // Si no hay token, redirigir al inicio de sesión
-        alert('Debes iniciar sesión para acceder a esta página');
+        // If no token, redirect to login
+        Swal.fire({
+            title: 'Error',
+            text: 'You must log in to access this page',
+            icon: 'error',
+            confirmButtonColor: '#dc3545'
+        });
         window.location.href = '../index.html';
         return;
     }
@@ -23,34 +28,42 @@ document.addEventListener('DOMContentLoaded', function() {
     })
     .then(response => {
         if (!response.ok) {
-            throw new Error('Error al obtener el perfil');
+            throw new Error('Error getting profile');
         }
         return response.json();
     })
     .then(user => {
-        // Verificar si el usuario tiene rol de administrador
+        // Verify if the user has admin role
         if (user.role !== 'admin') {
-            // Si no es administrador, mostrar mensaje y redirigir
-            alert('No tienes permisos para acceder a esta página');
+            // If not admin, show message and redirect
+            Swal.fire({
+                title: 'Error',
+                text: 'You do not have permissions to access this page',
+                icon: 'error',
+                confirmButtonColor: '#dc3545'
+            });
             window.location.href = '../index.html';
             return;
         }
         
-        // Si es administrador, continuar con la carga de la página
+        // If admin, continue with page loading
         initializeUserManagement(token);
     })
     .catch(error => {
         console.error('Error:', error);
-        alert('Error al verificar permisos');
+        Swal.fire({
+            title: 'Error',
+            text: 'Error verifying permissions',
+            icon: 'error',
+            confirmButtonColor: '#dc3545'
+        });
         window.location.href = '../index.html';
     });
 });
 
-// Función que inicializa la gestión de usuarios una vez verificados los permisos
-
-// Función que inicializa la gestión de usuarios una vez verificados los permisos
+// Function to initialize user management once permissions are verified
 function initializeUserManagement(token) {
-    // Referencias a elementos del DOM
+    // DOM element references
     const usersTable = document.getElementById('users-table').getElementsByTagName('tbody')[0];
     const nameInput = document.getElementById('name');
     const emailInput = document.getElementById('email');
@@ -67,15 +80,15 @@ function initializeUserManagement(token) {
     const closeModalBtn = document.querySelector('.close-modal');
     const modalTitle = document.getElementById('modal-title');
     
-    // Variable para almacenar el ID del usuario seleccionado
+    // Variable to store the selected user ID
     let selectedUserId = null;
     
-    // Función para cargar los usuarios desde la API
+    // Function to load users from the API
     function loadUsers() {
-        // Mostrar indicador de carga
-        usersTable.innerHTML = '<tr><td colspan="6">Cargando usuarios...</td></tr>';
+        // Show loading indicator
+        usersTable.innerHTML = '<tr><td colspan="6">Loading users...</td></tr>';
         
-        // Obtener usuarios desde la API
+        // Get users from the API
         fetch('/api/users', {
             method: 'GET',
             headers: {
@@ -85,25 +98,25 @@ function initializeUserManagement(token) {
         })
         .then(response => {
             if (!response.ok) {
-                throw new Error('Error al obtener los usuarios');
+                throw new Error('Error getting users');
             }
             return response.json();
         })
         .then(users => {
-            // Limpiar la tabla
+            // Clear the table
             usersTable.innerHTML = '';
             
-            // Verificar si hay usuarios
+            // Verify if there are users
             if (users.length === 0) {
-                usersTable.innerHTML = '<tr><td colspan="6">No hay usuarios registrados</td></tr>';
+                usersTable.innerHTML = '<tr><td colspan="6">No users registered</td></tr>';
                 return;
             }
             
-            // Agregar cada usuario a la tabla
+            // Add each user to the table
             users.forEach(user => {
                 const row = document.createElement('tr');
                 
-                // Crear celdas para cada propiedad del usuario
+                // Create cells for each user property
                 const nameCell = document.createElement('td');
                 nameCell.textContent = user.name;
                 
@@ -119,7 +132,7 @@ function initializeUserManagement(token) {
                 const statusCell = document.createElement('td');
                 statusCell.textContent = user.status || 'active';
                 
-                // Crear celda para botones de acción
+                // Create cell for action buttons
                 const actionsCell = document.createElement('td');
                 const editBtn = document.createElement('button');
                 editBtn.textContent = 'Edit';
@@ -128,7 +141,7 @@ function initializeUserManagement(token) {
                 
                 actionsCell.appendChild(editBtn);
                 
-                // Agregar todas las celdas a la fila
+                // Add all cells to the row
                 row.appendChild(nameCell);
                 row.appendChild(emailCell);
                 row.appendChild(cedulaCell);
@@ -136,36 +149,36 @@ function initializeUserManagement(token) {
                 row.appendChild(statusCell);
                 row.appendChild(actionsCell);
                 
-                // Agregar la fila a la tabla
+                // Add the row to the table
                 usersTable.appendChild(row);
             });
         })
         .catch(error => {
-            console.error('Error:', error);
-            usersTable.innerHTML = '<tr><td colspan="6">Error al cargar los usuarios</td></tr>';
+            console.error('Error loading users:', error);
+            usersTable.innerHTML = '<tr><td colspan="6">Error loading users</td></tr>';
         });
     }
     
-    // Función para seleccionar un usuario para editar
+    // Function to select a user for editing
     function selectUser(user) {
         selectedUserId = user._id;
         
-        // Llenar el formulario con los datos del usuario
+        // Fill the form with user data
         nameInput.value = user.name;
         emailInput.value = user.email;
         cedulaInput.value = user.cedula;
         userTypeSelect.value = user.role;
         statusSelect.value = user.status || 'active';
         
-        // Limpiar los campos de contraseña
+        // Clear password fields
         passwordInput.value = '';
         confirmPasswordInput.value = '';
         
-        // Abrir el modal en modo edición
+        // Open the modal in edit mode
         openModal('edit');
     }
     
-    // Función para limpiar el formulario
+    // Function to clear the form
     function clearForm() {
         selectedUserId = null;
         nameInput.value = '';
@@ -177,17 +190,17 @@ function initializeUserManagement(token) {
         statusSelect.value = 'active';
     }
     
-    // Función para guardar un usuario (crear o actualizar)
+    // Function to save a user (create or update)
     function saveUser() {
-        console.log('Iniciando saveUser...');
+        console.log('Starting saveUser...');
         
-        // Validar el formulario
+        // Validate the form
         if (!validateForm()) {
-            console.log('Validación del formulario fallida');
+            console.log('Form validation failed');
             return;
         }
         
-        // Crear objeto con los datos del usuario
+        // Create user object
         const userData = {
             name: nameInput.value.trim(),
             email: emailInput.value.trim(),
@@ -196,42 +209,47 @@ function initializeUserManagement(token) {
             status: statusSelect.value
         };
         
-        console.log('Datos del usuario a guardar:', userData);
+        console.log('User data to save:', userData);
         
-        // Si hay contraseña, agregarla al objeto
+        // If there is a password, add it to the object
         if (passwordInput.value) {
             userData.password = passwordInput.value;
-            console.log('Contraseña incluida en la solicitud');
+            console.log('Password included in the request');
         } else if (!selectedUserId) {
-            // Si es un nuevo usuario, la contraseña es obligatoria
-            alert('La contraseña es obligatoria para crear un nuevo usuario');
+            // If it's a new user, the password is required
+            Swal.fire({
+                title: 'Error',
+                text: 'Password is required to create a new user',
+                icon: 'error',
+                confirmButtonColor: '#dc3545'
+            });
             console.log('Error: Contraseña obligatoria para nuevo usuario');
             return;
         }
         
         let url, method;
         
-        // Si es un usuario existente, actualizar
+        // If it's an existing user, update
         if (selectedUserId) {
             url = `/api/users/${selectedUserId}`;
             method = 'PUT';
-            console.log(`Actualizando usuario con ID: ${selectedUserId}`);
+            console.log(`Updating user with ID: ${selectedUserId}`);
         } else {
-            // Crear nuevo usuario
+            // Create new user
             url = '/api/users';
             method = 'POST';
-            console.log('Creando nuevo usuario');
+            console.log('Creating new user');
         }
         
-        // Mostrar indicador de carga
+        // Show loading indicator
         const saveButtonText = saveBtn.textContent;
-        saveBtn.textContent = 'Guardando...';
+        saveBtn.textContent = 'Saving...';
         saveBtn.disabled = true;
         
-        console.log(`Enviando solicitud ${method} a ${url}`);
-        console.log('Datos enviados:', JSON.stringify(userData));
+        console.log(`Sending ${method} request to ${url}`);
+        console.log('Data sent:', JSON.stringify(userData));
         
-        // Enviar solicitud a la API
+        // Send request to the API
         fetch(url, {
             method: method,
             headers: {
@@ -241,65 +259,100 @@ function initializeUserManagement(token) {
             body: JSON.stringify(userData)
         })
         .then(response => {
-            console.log('Respuesta recibida:', response.status);
+            console.log('Response received:', response.status);
             if (!response.ok) {
                 return response.json().then(data => {
-                    console.error('Error en la respuesta:', data);
-                    throw new Error(data.message || 'Error al guardar el usuario');
+                    console.error('Error in response:', data);
+                    throw new Error(data.message || 'Error saving user');
                 });
             }
             return response.json();
         })
         .then(data => {
-            console.log('Usuario guardado exitosamente:', data);
-            // Mostrar mensaje de éxito
+            console.log('User saved successfully:', data);
+            // Show success message
             if (selectedUserId) {
-                alert('Usuario actualizado correctamente');
+                Swal.fire({
+                    title: 'Success',
+                    text: 'User updated successfully',
+                    icon: 'success',
+                    confirmButtonColor: '#28a745'
+                });
             } else {
-                alert('Usuario creado correctamente');
+                Swal.fire({
+                    title: 'Success',
+                    text: 'User created successfully',
+                    icon: 'success',
+                    confirmButtonColor: '#28a745'
+                });
             }
             
-            // Recargar la tabla, limpiar el formulario y cerrar el modal
+            // Reload the table, clear the form, and close the modal
             loadUsers();
             closeModal();
         })
         .catch(error => {
-            console.error('Error al guardar usuario:', error);
-            alert(error.message || 'Error al guardar el usuario');
+            console.error('Error saving user:', error);
+            Swal.fire({
+                title: 'Error',
+                text: error.message || 'Error saving user',
+                icon: 'error',
+                confirmButtonColor: '#dc3545'
+            });
         })
         .finally(() => {
-            // Restaurar el botón
+            // Restore the button
             saveBtn.textContent = saveButtonText;
             saveBtn.disabled = false;
         });
     }
     
-    // Función para validar el formulario
+    // Function to validate the form
     function validateForm() {
-        // Validar que los campos obligatorios estén completos
+        // Validate that required fields are completed
         if (!nameInput.value || !emailInput.value || !cedulaInput.value) {
-            alert('Por favor, completa todos los campos obligatorios (nombre, email y cédula)');
+            Swal.fire({
+                title: 'Error',
+                text: 'Please complete all required fields (name, email and cédula)',
+                icon: 'error',
+                confirmButtonColor: '#dc3545'
+            });
             return false;
         }
         
-        // Validar el formato del email
+        // Validate email format
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailRegex.test(emailInput.value)) {
-            alert('Por favor, ingresa un email válido');
+            Swal.fire({
+                title: 'Error',
+                text: 'Please enter a valid email',
+                icon: 'error',
+                confirmButtonColor: '#dc3545'
+            });
             return false;
         }
         
-        // Si es un nuevo usuario o se está cambiando la contraseña
+        // If it's a new user or the password is being changed
         if (!selectedUserId || passwordInput.value) {
-            // Validar que la contraseña tenga al menos 6 caracteres
-            if (passwordInput.value.length < 6) {
-                alert('La contraseña debe tener al menos 6 caracteres');
+            // Validate that the password has at least 8 characters
+            if (passwordInput.value.length < 8) {
+                Swal.fire({
+                    title: 'Error',
+                    text: 'Password must be at least 8 characters long',
+                    icon: 'error',
+                    confirmButtonColor: '#dc3545'
+                });
                 return false;
             }
             
-            // Validar que las contraseñas coincidan
+            // Validate that the passwords match
             if (passwordInput.value !== confirmPasswordInput.value) {
-                alert('Las contraseñas no coinciden');
+                Swal.fire({
+                    title: 'Error',
+                    text: 'Passwords do not match',
+                    icon: 'error',
+                    confirmButtonColor: '#dc3545'
+                });
                 return false;
             }
         }
@@ -307,19 +360,40 @@ function initializeUserManagement(token) {
         return true;
     }
     
-    // Función para eliminar un usuario
-    function deleteUser() {
+    // Function to delete a user
+    function manageDeleteUser() {
         if (!selectedUserId) {
-            alert('Por favor, selecciona un usuario para eliminar');
+            Swal.fire({
+                title: 'Error',
+                text: 'Please select an user to delete',
+                icon: 'error',
+                confirmButtonColor: '#dc3545'
+            });
             return;
         }
         
-        // Confirmar antes de eliminar
-        if (!confirm('¿Estás seguro de que deseas eliminar este usuario?')) {
-            return;
-        }
+        // Confirm before deleting with SweetAlert
+        Swal.fire({
+            title: 'Are you sure?',
+            text: 'Do you want to delete this user? This action cannot be undone.',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#dc3545',
+            cancelButtonColor: '#6c757d',
+            confirmButtonText: 'Yes, delete',
+            cancelButtonText: 'Cancel'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // If the user confirms, proceed with deletion
+                deleteUser();
+            }
+        });
+    }
+    
+    // Helper function to delete the user
+    function deleteUser() {
         
-        // Enviar solicitud a la API
+        // Send request to the API
         fetch(`/api/users/${selectedUserId}`, {
             method: 'DELETE',
             headers: {
@@ -330,23 +404,33 @@ function initializeUserManagement(token) {
         .then(response => {
             if (!response.ok) {
                 return response.json().then(data => {
-                    throw new Error(data.message || 'Error al eliminar el usuario');
+                    throw new Error(data.message || 'Error deleting user');
                 });
             }
             return response.json();
         })
         .then(data => {
-            alert('Usuario eliminado correctamente');
+            Swal.fire({
+                title: 'Success',
+                text: 'User successfully deleted',
+                icon: 'success',
+                confirmButtonColor: '#28a745'
+            });
             loadUsers();
             closeModal();
         })
         .catch(error => {
             console.error('Error:', error);
-            alert(error.message || 'Error al eliminar el usuario');
+            Swal.fire({
+                title: 'Error',
+                text: error.message || 'Error deleting user',
+                icon: 'error',
+                confirmButtonColor: '#dc3545'
+            });
         });
     }
     
-    // Referencias a elementos de búsqueda
+    // References to search elements
     const searchNameInput = document.getElementById('search-name');
     const searchEmailInput = document.getElementById('search-email');
     const searchCedulaInput = document.getElementById('search-cedula');
@@ -392,11 +476,11 @@ function initializeUserManagement(token) {
             cedula: ''
         };
         
-        // Mostrar todos los usuarios
+        // Show all users
         displayUsers(allUsers);
     });
     
-    // Función para filtrar usuarios
+    // Function to filter users
     function filterUsers() {
         const filteredUsers = allUsers.filter(user => {
             const nameMatch = !currentFilters.name || user.name.toLowerCase().includes(currentFilters.name);
@@ -409,7 +493,7 @@ function initializeUserManagement(token) {
         displayUsers(filteredUsers);
     }
     
-    // Funciones para manejar el modal
+    // Functions to handle the modal
     function openModal(mode) {
         if (mode === 'add') {
             modalTitle.textContent = 'Add New User';
@@ -427,9 +511,9 @@ function initializeUserManagement(token) {
         clearForm();
     }
     
-    // Eventos de los botones
+    // Button events
     saveBtn.addEventListener('click', saveUser);
-    deleteBtn.addEventListener('click', deleteUser);
+    deleteBtn.addEventListener('click', manageDeleteUser);
     addBtn.addEventListener('click', function() {
         openModal('add');
     });
@@ -437,22 +521,22 @@ function initializeUserManagement(token) {
     cancelBtn.addEventListener('click', closeModal);
     closeModalBtn.addEventListener('click', closeModal);
     
-    // Cerrar el modal si se hace clic fuera de él
+    // Close the modal if clicked outside
     window.addEventListener('click', function(event) {
         if (event.target === modal) {
             closeModal();
         }
     });
     
-    // Cargar usuarios al inicializar
+    // Load users on initialization
     loadUsers();
     
-    // Función para cargar los usuarios desde la API
+    // Function to load users from the API
     function loadUsers() {
-        // Mostrar indicador de carga
-        usersTable.innerHTML = '<tr><td colspan="6">Cargando usuarios...</td></tr>';
+        // Show loading indicator
+        usersTable.innerHTML = '<tr><td colspan="6">Loading users...</td></tr>';
         
-        // Obtener usuarios desde la API
+        // Get users from the API
         fetch('/api/users', {
             method: 'GET',
             headers: {
@@ -462,39 +546,39 @@ function initializeUserManagement(token) {
         })
         .then(response => {
             if (!response.ok) {
-                throw new Error('Error al obtener los usuarios');
+                throw new Error('Error getting users');
             }
             return response.json();
         })
         .then(users => {
-            // Guardar todos los usuarios para filtrado
+            // Save all users for filtering
             allUsers = users;
             
-            // Mostrar los usuarios
+            // Display users
             displayUsers(users);
         })
         .catch(error => {
             console.error('Error:', error);
-            usersTable.innerHTML = '<tr><td colspan="6">Error al cargar los usuarios</td></tr>';
+            usersTable.innerHTML = '<tr><td colspan="6">Error loading users</td></tr>';
         });
     }
     
-    // Función para mostrar usuarios en la tabla
+    // Function to display users in the table
     function displayUsers(users) {
-        // Limpiar la tabla
+        // Clear the table
         usersTable.innerHTML = '';
         
-        // Verificar si hay usuarios
+        // Verify if there are users
         if (users.length === 0) {
-            usersTable.innerHTML = '<tr><td colspan="6">No hay usuarios que coincidan con la búsqueda</td></tr>';
+            usersTable.innerHTML = '<tr><td colspan="6">No users found</td></tr>';
             return;
         }
         
-        // Agregar cada usuario a la tabla
+        // Add each user to the table
         users.forEach(user => {
             const row = document.createElement('tr');
             
-            // Crear celdas para cada propiedad del usuario
+            // Create cells for each user property
             const nameCell = document.createElement('td');
             nameCell.textContent = user.name;
             
@@ -510,14 +594,14 @@ function initializeUserManagement(token) {
             const statusCell = document.createElement('td');
             statusCell.textContent = user.status || 'active';
             
-            // Crear celda para botones de acción
+            // Create cell for action buttons
             const actionsCell = document.createElement('td');
             const editBtn = document.createElement('button');
             editBtn.textContent = 'Edit';
             editBtn.classList.add('edit-btn');
             editBtn.addEventListener('click', () => selectUser(user));
             
-            // Aplicar estilos al botón de edición
+            // Apply styles to the edit button
             editBtn.style.backgroundColor = '#FF8A2B';
             editBtn.style.color = 'white';
             editBtn.style.border = 'none';
@@ -527,7 +611,7 @@ function initializeUserManagement(token) {
             
             actionsCell.appendChild(editBtn);
             
-            // Agregar todas las celdas a la fila
+            // Add all cells to the row
             row.appendChild(nameCell);
             row.appendChild(emailCell);
             row.appendChild(cedulaCell);
@@ -535,7 +619,7 @@ function initializeUserManagement(token) {
             row.appendChild(statusCell);
             row.appendChild(actionsCell);
             
-            // Agregar la fila a la tabla
+            // Add the row to the table
             usersTable.appendChild(row);
         });
     }

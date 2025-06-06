@@ -1,9 +1,9 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Variables globales
+    // Global variables
     const totalSteps = 5;
     let currentStep = 1;
     
-    // Elementos DOM
+    // DOM elements
     const progressBar = document.getElementById('form-progress');
     const stepIndicators = document.querySelectorAll('.step');
     const formSections = document.querySelectorAll('.form-section');
@@ -15,38 +15,38 @@ document.addEventListener('DOMContentLoaded', function() {
     const downloadPdfBtn = document.getElementById('downloadPdfBtn');
     const submitFormBtn = document.getElementById('submitFormBtn');
     
-    // Inicializar el formulario
+    // Initialize the form
     initForm();
     
-    // Configurar eventos condicionales
+    // Configure conditional events
     setupConditionalFields();
     
-    // Configurar navegación
+    // Configure navigation
     setupNavigation();
     
-    // Configurar modal y PDF
+    // Configure modal and PDF
     setupModalAndPdf();
     
-    // Función para inicializar el formulario
+    // Function to initialize the form
     function initForm() {
-        // Establecer ancho inicial de la barra de progreso
+        // Set initial progress bar width
         updateProgressBar();
         
-        // Verificar si venimos de una página de detalles de mascota
+        // Verify if we came from a pet details page
         const urlParams = new URLSearchParams(window.location.search);
         const petId = urlParams.get("petId");
         if (petId) {
-            // Podríamos cargar información de la mascota y pre-llenar campos
-            console.log("Formulario de adopción para mascota ID:", petId);
+            // We could load pet information and pre-fill fields
+            console.log("Adoption form for pet ID:", petId);
         }
     }
     
-    // Función para actualizar la barra de progreso
+    // Function to update the progress bar
     function updateProgressBar() {
         const progressPercentage = (currentStep / totalSteps) * 100;
         progressBar.style.width = `${progressPercentage}%`;
         
-        // Actualizar indicadores de paso
+        // Update step indicators
         stepIndicators.forEach((step, index) => {
             if (index + 1 < currentStep) {
                 step.classList.add('completed');
@@ -60,9 +60,9 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // Función para configurar campos condicionales
+    // Function to configure conditional fields
     function setupConditionalFields() {
-        // Mostrar/ocultar campos de niños
+        // Show/hide kids fields
         const haveKidsRadios = document.querySelectorAll('input[name="have-kids"]');
         const kidsDetailsDiv = document.getElementById('kids-details');
         const kidsAgesDiv = document.getElementById('kids-ages');
@@ -79,7 +79,7 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
         
-        // Mostrar/ocultar campos de mascotas actuales
+        // Show/hide current pets fields
         const havePetsRadios = document.querySelectorAll('input[name="have-pets"]');
         const petsDetailsDiv = document.getElementById('pets-details');
         
@@ -89,7 +89,7 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
         
-        // Mostrar/ocultar permiso del propietario
+        // Show/hide landlord permission
         const homeOwnershipRadios = document.querySelectorAll('input[name="home-ownership"]');
         const landlordPermissionDiv = document.getElementById('landlord-permission');
         
@@ -100,26 +100,26 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // Función para configurar la navegación entre pasos
+    // Function to configure navigation between steps
     function setupNavigation() {
-        // Botones Siguiente
+        // Next buttons
         nextButtons.forEach(button => {
             button.addEventListener('click', function() {
                 if (validateCurrentStep()) {
                     if (currentStep < totalSteps) {
-                        // Ocultar paso actual
+                        // Hide current step
                         document.getElementById(`section-${currentStep}`).style.display = 'none';
-                        // Incrementar paso
+                        // Increment step
                         currentStep++;
-                        // Mostrar nuevo paso
+                        // Show new step
                         document.getElementById(`section-${currentStep}`).style.display = 'block';
-                        // Actualizar barra de progreso
+                        // Update progress bar
                         updateProgressBar();
-                        // Si es el último paso, generar resumen
+                        // If it's the last step, generate summary
                         if (currentStep === totalSteps) {
                             generateReviewContent();
                         }
-                        // Scroll al inicio del formulario
+                        // Scroll to the top of the form
                         window.scrollTo({
                             top: document.querySelector('.adoption-form-container').offsetTop - 100,
                             behavior: 'smooth'
@@ -129,19 +129,19 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
         
-        // Botones Anterior
+        // Previous buttons
         prevButtons.forEach(button => {
             button.addEventListener('click', function() {
                 if (currentStep > 1) {
-                    // Ocultar paso actual
+                    // Hide current step
                     document.getElementById(`section-${currentStep}`).style.display = 'none';
-                    // Decrementar paso
+                    // Decrement step
                     currentStep--;
-                    // Mostrar nuevo paso
+                    // Show new step
                     document.getElementById(`section-${currentStep}`).style.display = 'block';
-                    // Actualizar barra de progreso
+                    // Update progress bar
                     updateProgressBar();
-                    // Scroll al inicio del formulario
+                    // Scroll to the top of the form
                     window.scrollTo({
                         top: document.querySelector('.adoption-form-container').offsetTop - 100,
                         behavior: 'smooth'
@@ -150,18 +150,23 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
         
-        // Botón Enviar
+        // Submit button
         submitButton.addEventListener('click', function() {
             if (validateCurrentStep() && document.getElementById('terms-agreement').checked) {
                 generatePdfPreview();
                 modal.style.display = 'block';
             } else {
-                alert('Please accept the terms and conditions before continuing.');
+                Swal.fire({
+                    title: 'Error',
+                    text: 'Please accept the terms and conditions before continuing.',
+                    icon: 'error',
+                    confirmButtonColor: '#dc3545'
+                });
             }
         });
     }
     
-    // Función para validar el paso actual
+    // Function to validate the current step
     function validateCurrentStep() {
         const currentSection = document.getElementById(`section-${currentStep}`);
         const requiredFields = currentSection.querySelectorAll('[required]');
@@ -177,18 +182,23 @@ document.addEventListener('DOMContentLoaded', function() {
         });
         
         if (!isValid) {
-            alert('Please complete all required fields before continuing.');
+            Swal.fire({
+                title: 'Error',
+                text: 'Please complete all required fields before continuing.',
+                icon: 'error',
+                confirmButtonColor: '#dc3545'
+            });
         }
         
         return isValid;
     }
     
-    // Función para generar el contenido de revisión
+    // Function to generate review content
     function generateReviewContent() {
         const reviewContainer = document.getElementById('reviewContainer');
         reviewContainer.innerHTML = '';
         
-        // Sección 1: Información Personal
+        // Section 1: Personal Information
         const personalSection = document.createElement('div');
         personalSection.className = 'review-section';
         personalSection.innerHTML = `
@@ -219,12 +229,12 @@ document.addEventListener('DOMContentLoaded', function() {
             </div>
             <div class="review-item">
                 <div class="review-label">Work Schedule:</div>
-                <div class="review-value">${document.getElementById('schedule').value || 'No especificado'}</div>
+                <div class="review-value">${document.getElementById('schedule').value || 'No specified'}</div>
             </div>
         `;
         reviewContainer.appendChild(personalSection);
         
-        // Sección 2: Información de Vivienda
+        // Section 2: Housing Information
         const housingSection = document.createElement('div');
         housingSection.className = 'review-section';
         housingSection.innerHTML = `
@@ -250,256 +260,617 @@ document.addEventListener('DOMContentLoaded', function() {
                 <div class="review-value">${document.getElementById('house-description').value || 'No especificado'}</div>
             </div>
         `;
-        reviewContainer.appendChild(housingSection);
-        
-        // Continuar con las demás secciones de manera similar...
+    
+    requiredFields.forEach(field => {
+        if (!field.value.trim()) {
+            field.classList.add('invalid');
+            isValid = false;
+        } else {
+            field.classList.remove('invalid');
+        }
+    });
+    
+    if (!isValid) {
+        Swal.fire({
+            title: 'Error',
+            text: 'Please complete all required fields before continuing.',
+            icon: 'error',
+            confirmButtonColor: '#dc3545'
+        });
     }
     
-    // Función para configurar el modal y la generación de PDF
-    function setupModalAndPdf() {
-        // Cerrar modal
-        closeModal.addEventListener('click', function() {
+    return isValid;
+}
+
+// Function to generate review content
+function generateReviewContent() {
+    const reviewContainer = document.getElementById('reviewContainer');
+    reviewContainer.innerHTML = '';
+    
+    // Section 1: Personal Information
+    const personalSection = document.createElement('div');
+    personalSection.className = 'review-section';
+    personalSection.innerHTML = `
+        <h3><i class="fas fa-user"></i> Personal Information</h3>
+        <div class="review-item">
+            <div class="review-label">Full Name:</div>
+            <div class="review-value">${document.getElementById('first-name').value} ${document.getElementById('last-name').value}</div>
+        </div>
+        <div class="review-item">
+            <div class="review-label">Email:</div>
+            <div class="review-value">${document.getElementById('email').value}</div>
+        </div>
+        <div class="review-item">
+            <div class="review-label">Phone:</div>
+            <div class="review-value">${document.getElementById('phone').value}</div>
+        </div>
+        <div class="review-item">
+            <div class="review-label">ID Number:</div>
+            <div class="review-value">${document.getElementById('id-number').value}</div>
+        </div>
+        <div class="review-item">
+            <div class="review-label">Occupation:</div>
+            <div class="review-value">${document.getElementById('occupation').value || 'No especificado'}</div>
+        </div>
+        <div class="review-item">
+            <div class="review-label">Company:</div>
+            <div class="review-value">${document.getElementById('company').value || 'No especificado'}</div>
+        </div>
+        <div class="review-item">
+            <div class="review-label">Work Schedule:</div>
+            <div class="review-value">${document.getElementById('schedule').value || 'No specified'}</div>
+        </div>
+    `;
+    reviewContainer.appendChild(personalSection);
+    
+    // Section 2: Housing Information
+    const housingSection = document.createElement('div');
+    housingSection.className = 'review-section';
+    housingSection.innerHTML = `
+        <h3><i class="fas fa-home"></i> Housing Information</h3>
+        <div class="review-item">
+            <div class="review-label">City:</div>
+            <div class="review-value">${document.getElementById('city').value}</div>
+        </div>
+        <div class="review-item">
+            <div class="review-label">Address:</div>
+            <div class="review-value">${document.getElementById('address').value}</div>
+        </div>
+        <div class="review-item">
+            <div class="review-label">Housing Type:</div>
+            <div class="review-value">${document.getElementById('housing').value}</div>
+        </div>
+        <div class="review-item">
+            <div class="review-label">Floor:</div>
+            <div class="review-value">${document.getElementById('floor').value || 'No especificado'}</div>
+        </div>
+        <div class="review-item">
+            <div class="review-label">Description:</div>
+            <div class="review-value">${document.getElementById('house-description').value || 'No especificado'}</div>
+        </div>
+    `;
+    reviewContainer.appendChild(housingSection);
+    
+    // Continue with the rest of the sections in a similar way...
+}
+
+// Function to configure the modal and PDF generation
+function setupModalAndPdf() {
+    // Close modal
+    closeModal.addEventListener('click', function() {
+        modal.style.display = 'none';
+    });
+    
+    // Close modal when clicking outside
+    window.addEventListener('click', function(event) {
+        if (event.target === modal) {
             modal.style.display = 'none';
-        });
-        
-        // Cerrar modal al hacer clic fuera
-        window.addEventListener('click', function(event) {
-            if (event.target === modal) {
-                modal.style.display = 'none';
+        }
+    });
+    
+    // Download PDF
+    downloadPdfBtn.addEventListener('click', function() {
+        generateAndDownloadPdf();
+    });
+    
+    // Submit form
+    submitFormBtn.addEventListener('click', function() {
+        submitForm();
+    });
+    
+    // Function to generate and download PDF
+    async function generateAndDownloadPdf() {
+        try {
+            // Show loading indicator in the button
+            downloadPdfBtn.disabled = true;
+            downloadPdfBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generating...';
+            
+            // Use jsPDF to generate the PDF
+            if (window.jspdf) {
+                const { jsPDF } = window.jspdf;
+                const doc = new jsPDF();
+                
+                // Get form values
+                const formData = {
+                    idNumber: document.getElementById("id-number").value,
+                    firstName: document.getElementById("first-name").value,
+                    lastName: document.getElementById("last-name").value,
+                    email: document.getElementById("email").value,
+                    phone: document.getElementById("phone").value,
+                    occupation: document.getElementById("occupation").value,
+                    company: document.getElementById("company").value,
+                    schedule: document.getElementById("schedule").value,
+                    maritalStatus: document.querySelector('input[name="marital-status"]:checked')?.value || 'Not selected',
+                    city: document.getElementById("city").value,
+                    address: document.getElementById("address").value,
+                    housing: document.getElementById("housing").value,
+                    floor: document.getElementById("floor").value,
+                    houseDescription: document.getElementById("house-description").value,
+                    haveKids: document.querySelector('input[name="have-kids"]:checked')?.value || 'Not selected',
+                    many: document.getElementById("many").value,
+                    ages: document.getElementById("ages").value,
+                    havePets: document.querySelector('input[name="have-pets"]:checked')?.value || 'Not selected',
+                    currentPets: document.getElementById("current-pets")?.value || '',
+                    hoursAlone: document.getElementById("hours-alone")?.value || '',
+                    vetName: document.getElementById("vet-name")?.value || '',
+                    adoptBefore: document.querySelector('input[name="adopt-before"]:checked')?.value || 'Not selected',
+                    committed: document.querySelector('input[name="committed"]:checked')?.value || 'Not selected',
+                    whyAdopt: document.getElementById("why-adopt").value,
+                    additionalInfo: document.getElementById("additional-info")?.value || ''
+                };
+                
+                // Generate enhanced PDF
+                generateEnhancedPDF(doc, formData);
+                
+                // Save the PDF with a descriptive name
+                const fileName = `adoption_form_${formData.firstName}_${formData.lastName}.pdf`;
+                doc.save(fileName);
+                
+                // Restaurar el botón
+                downloadPdfBtn.disabled = false;
+                downloadPdfBtn.innerHTML = 'Download PDF <i class="fas fa-download"></i>';
+            } else {
+                throw new Error("Error: jsPDF no se ha cargado correctamente.");
             }
-        });
+        } catch (error) {
+            console.error("Error generating PDF for download:", error);
+            Swal.fire({
+                title: 'Error',
+                text: 'Error generating PDF. Please try again.',
+                icon: 'error',
+                confirmButtonColor: '#dc3545'
+            });
+            
+            // Restaurar el botón
+            downloadPdfBtn.disabled = false;
+            downloadPdfBtn.innerHTML = 'Download PDF <i class="fas fa-download"></i>';
+        }
+    }
+}
+
+// Function to generate an enhanced PDF
+function generateEnhancedPDF(doc, formData) {
+    // Configuration of styles
+    const titleFont = 'helvetica';
+    const titleSize = 16;
+    const headerFont = 'helvetica';
+    const headerSize = 12;
+    const textFont = 'helvetica';
+    const textSize = 10;
+    const margin = 20;
+    let yPos = margin;
+    
+    // Helper function to add text
+    function addText(text, x, y, options = {}) {
+        const defaultOptions = {
+            font: textFont,
+            size: textSize,
+            style: 'normal',
+            color: [0, 0, 0]
+        };
         
-        // Botón descargar PDF
-        downloadPdfBtn.addEventListener('click', function() {
-            generateAndDownloadPdf();
-        });
+        const opts = {...defaultOptions, ...options};
         
-        // Botón enviar formulario
-        submitFormBtn.addEventListener('click', function() {
-            submitForm();
-        });
+        doc.setFont(opts.font, opts.style);
+        doc.setFontSize(opts.size);
+        doc.setTextColor(opts.color[0], opts.color[1], opts.color[2]);
+        doc.text(text, x, y);
     }
     
-    // Función para generar la vista previa del PDF
-    function generatePdfPreview() {
-        const pdfPreview = document.getElementById('pdfPreview');
-        
-        // Crear contenido HTML para la vista previa
-        pdfPreview.innerHTML = `
-            <div class="pdf-header">
-                <h1>Adoption Form</h1>
-                <p>Date: ${new Date().toLocaleDateString()}</p>
-            </div>
-            
-            <div class="pdf-section">
-                <h2>Personal Information</h2>
-                <p><strong>Name:</strong> ${document.getElementById('first-name').value} ${document.getElementById('last-name').value}</p>
-                <p><strong>Email:</strong> ${document.getElementById('email').value}</p>
-                <p><strong>Phone:</strong> ${document.getElementById('phone').value}</p>
-                <p><strong>ID:</strong> ${document.getElementById('id-number').value}</p>
-                <p><strong>Occupation:</strong> ${document.getElementById('occupation').value || 'Not specified'}</p>
-            </div>
-            
-            <div class="pdf-section">
-                <h2>Housing Information</h2>
-                <p><strong>Address:</strong> ${document.getElementById('address').value}, ${document.getElementById('city').value}</p>
-                <p><strong>Housing Type:</strong> ${document.getElementById('housing').value}</p>
-                <p><strong>Description:</strong> ${document.getElementById('house-description').value || 'Not specified'}</p>
-            </div>
-            
-            <!-- Continuar con las demás secciones -->
-            
-            <div class="pdf-footer">
-                <p>This document is an adoption request and does not guarantee automatic approval.</p>
-                <p>Little Pets - All rights reserved</p>
-            </div>
-        `;
+    // Header
+    addText('ADOPTION APPLICATION FORM', margin, yPos, {
+        size: titleSize,
+        style: 'bold',
+        color: [255, 138, 43] // Color naranja #FF8A2B
+    });
+    
+    yPos += 10;
+    addText('Date: ' + new Date().toLocaleDateString(), margin, yPos);
+    yPos += 10;
+    doc.setLineWidth(0.5);
+    doc.line(margin, yPos, 210 - margin, yPos);
+    yPos += 10;
+    
+    // Section 1: Personal Information
+    addText('1. PERSONAL INFORMATION', margin, yPos, {
+        size: headerSize,
+        style: 'bold'
+    });
+    yPos += 8;
+    
+    addText(`Name: ${formData.firstName} ${formData.lastName}`, margin, yPos);
+    yPos += 6;
+    addText(`ID Number: ${formData.idNumber}`, margin, yPos);
+    yPos += 6;
+    addText(`Email: ${formData.email}`, margin, yPos);
+    yPos += 6;
+    addText(`Phone: ${formData.phone}`, margin, yPos);
+    yPos += 6;
+    addText(`Occupation: ${formData.occupation}`, margin, yPos);
+    yPos += 6;
+    addText(`Company: ${formData.company}`, margin, yPos);
+    yPos += 6;
+    addText(`Work Schedule: ${formData.schedule}`, margin, yPos);
+    yPos += 6;
+    addText(`Marital Status: ${formData.maritalStatus}`, margin, yPos);
+    yPos += 10;
+    
+    // Section 2: Housing Information
+    addText('2. HOUSING INFORMATION', margin, yPos, {
+        size: headerSize,
+        style: 'bold'
+    });
+    yPos += 8;
+    
+    addText(`City: ${formData.city}`, margin, yPos);
+    yPos += 6;
+    addText(`Address: ${formData.address}`, margin, yPos);
+    yPos += 6;
+    addText(`Housing Type: ${formData.housing}`, margin, yPos);
+    yPos += 6;
+    addText(`Floor: ${formData.floor}`, margin, yPos);
+    yPos += 6;
+    addText(`Description: ${formData.houseDescription}`, margin, yPos);
+    yPos += 10;
+    
+    // Section 3: Family Information
+    addText('3. FAMILY INFORMATION', margin, yPos, {
+        size: headerSize,
+        style: 'bold'
+    });
+    yPos += 8;
+    
+    addText(`Have Kids: ${formData.haveKids}`, margin, yPos);
+    yPos += 6;
+    
+    if (formData.haveKids === 'Yes') {
+        addText(`How Many: ${formData.many}`, margin, yPos);
+        yPos += 6;
+        addText(`Ages: ${formData.ages}`, margin, yPos);
+        yPos += 6;
     }
     
-    // Función para generar y descargar el PDF
-    function generateAndDownloadPdf() {
-        if (window.jspdf) {
+    addText(`Have Pets: ${formData.havePets}`, margin, yPos);
+    yPos += 6;
+    
+    if (formData.havePets === 'Yes') {
+        addText(`Current Pets: ${formData.currentPets}`, margin, yPos);
+        yPos += 6;
+    }
+    
+    // If we need a new page
+    if (yPos > 250) {
+        doc.addPage();
+        yPos = margin;
+    }
+    
+    // Section 4: Adoption Information
+    addText('4. ADOPTION INFORMATION', margin, yPos, {
+        size: headerSize,
+        style: 'bold'
+    });
+    yPos += 8;
+    
+    addText(`Hours Pet Will Be Alone: ${formData.hoursAlone}`, margin, yPos);
+    yPos += 6;
+    addText(`Veterinarian Name: ${formData.vetName}`, margin, yPos);
+    yPos += 6;
+    addText(`Adopted Before: ${formData.adoptBefore}`, margin, yPos);
+    yPos += 6;
+    addText(`Committed to Care: ${formData.committed}`, margin, yPos);
+    yPos += 10;
+    
+    // Reason for adoption
+    addText('Reason for Adoption:', margin, yPos);
+    yPos += 6;
+    
+    // Split the long text into multiple lines
+    const reasonLines = doc.splitTextToSize(formData.whyAdopt, 170);
+    for (const line of reasonLines) {
+        addText(line, margin, yPos);
+        yPos += 5;
+    }
+    yPos += 5;
+    
+    // Additional Information
+    if (formData.additionalInfo) {
+        addText('Additional Information:', margin, yPos);
+        yPos += 6;
+        
+        const additionalLines = doc.splitTextToSize(formData.additionalInfo, 170);
+        for (const line of additionalLines) {
+            addText(line, margin, yPos);
+            yPos += 5;
+        }
+    }
+    
+    // Footer
+    yPos = 280;
+    doc.setLineWidth(0.5);
+    doc.line(margin, yPos - 10, 210 - margin, yPos - 10);
+    
+    addText('This document is an adoption request and does not guarantee automatic approval.', margin, yPos, {
+        size: 8
+    });
+    yPos += 5;
+    addText('Little Pets - All rights reserved', margin, yPos, {
+        size: 8
+    });
+}
+
+// Function to generate PDF as base64
+async function generatePdfAsBase64() {
+    return new Promise((resolve, reject) => {
+        try {
+            // Verify that jsPDF is available
+            if (!window.jspdf) {
+                console.error("jsPDF library not loaded");
+                reject(new Error("Error: jsPDF library not loaded. Please refresh the page and try again."));
+                return;
+            }
+            
+            // Create a jsPDF instance
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF();
             
-            // Obtener valores del formulario
+            // Get form values
             const formData = {
                 idNumber: document.getElementById("id-number").value,
                 firstName: document.getElementById("first-name").value,
                 lastName: document.getElementById("last-name").value,
                 email: document.getElementById("email").value,
+                phone: document.getElementById("phone").value,
                 occupation: document.getElementById("occupation").value,
-                adoptBefore: document.querySelector('input[name="adopt-before"]:checked')?.value || 'Not selected',
-                committed: document.querySelector('input[name="committed"]:checked')?.value || 'Not selected',
-                maritalStatus: document.querySelector('input[name="marital-status"]:checked')?.value || 'Not selected',
-                haveKids: document.querySelector('input[name="have-kids"]:checked')?.value || 'Not selected',
                 company: document.getElementById("company").value,
                 schedule: document.getElementById("schedule").value,
+                maritalStatus: document.querySelector('input[name="marital-status"]:checked')?.value || 'Not selected',
                 city: document.getElementById("city").value,
                 address: document.getElementById("address").value,
+                housing: document.getElementById("housing").value,
                 floor: document.getElementById("floor").value,
                 houseDescription: document.getElementById("house-description").value,
-                phone: document.getElementById("phone").value,
-                housing: document.getElementById("housing").value,
-                whyAdopt: document.getElementById("why-adopt").value,
-                ages: document.getElementById("ages").value,
+                haveKids: document.querySelector('input[name="have-kids"]:checked')?.value || 'Not selected',
                 many: document.getElementById("many").value,
-                // Nuevos campos
+                ages: document.getElementById("ages").value,
                 havePets: document.querySelector('input[name="have-pets"]:checked')?.value || 'Not selected',
                 currentPets: document.getElementById("current-pets")?.value || '',
                 hoursAlone: document.getElementById("hours-alone")?.value || '',
                 vetName: document.getElementById("vet-name")?.value || '',
+                adoptBefore: document.querySelector('input[name="adopt-before"]:checked')?.value || 'Not selected',
+                committed: document.querySelector('input[name="committed"]:checked')?.value || 'Not selected',
+                whyAdopt: document.getElementById("why-adopt").value,
                 additionalInfo: document.getElementById("additional-info")?.value || ''
             };
             
-            // Generar PDF con diseño mejorado
-            generateEnhancedPDF(doc, formData);
-            
-            // Guardar PDF
-            doc.save("adoption_form.pdf");
-        } else {
-            alert("Error: jsPDF no se ha cargado correctamente.");
-        }
-    }
-    
-    // Función para generar un PDF con mejor diseño
-    function generateEnhancedPDF(doc, data) {
-        // Configuración de colores y estilos
-        const primaryColor = [255, 138, 43]; // #FF8A2B en RGB
-        const secondaryColor = [51, 51, 51]; // #333333 en RGB
-        
-        // Título y encabezado
-        doc.setFillColor(primaryColor[0], primaryColor[1], primaryColor[2]);
-        doc.rect(0, 0, 210, 40, 'F');
-        
-        doc.setTextColor(255, 255, 255);
-        doc.setFontSize(24);
-        doc.setFont("helvetica", "bold");
-        doc.text("Adoption Form", 105, 20, { align: "center" });
-        
-        doc.setFontSize(10);
-        doc.setFont("helvetica", "normal");
-        doc.text(`Date: ${new Date().toLocaleDateString()}`, 105, 30, { align: "center" });
-        
-        // Función auxiliar para añadir campos
-        let y = 50;
-        
-        function addField(label, value, indent = 0) {
-            if (value === undefined || value === null) {
-                value = "No especificado";
+            // Generate PDF with enhanced design
+            try {
+                generateEnhancedPDF(doc, formData);
+                
+                // Convert to base64
+                const pdfBase64 = doc.output('datauristring').split(',')[1];
+                resolve(pdfBase64);
+            } catch (pdfError) {
+                console.error("Error in PDF generation:", pdfError);
+                reject(new Error("Error generating PDF content: " + pdfError.message));
             }
-            
-            doc.setFont("helvetica", "bold");
-            doc.text(label, 20 + indent, y);
-            doc.setFont("helvetica", "normal");
-            doc.text(value || "Not specified", 80 + indent, y);
-            y += 8;
-            
-            // If we reach the end of the page, add a new one
-            if (y > 270) {
-                doc.addPage();
-                y = 20;
-            }
+        } catch (error) {
+            console.error("Error in generatePdfAsBase64:", error);
+            reject(error);
         }
-        
-        function addSection(title) {
-            // Añadir espacio antes de la sección
-            y += 5;
-            
-            doc.setTextColor(secondaryColor[0], secondaryColor[1], secondaryColor[2]);
-            doc.setFontSize(16);
-            doc.setFont("helvetica", "bold");
-            doc.text(title, 20, y);
-            y += 5;
-            
-            doc.setDrawColor(primaryColor[0], primaryColor[1], primaryColor[2]);
-            doc.setLineWidth(0.5);
-            doc.line(20, y, 190, y);
-            y += 10;
-            
-            doc.setFontSize(11);
-            doc.setFont("helvetica", "normal");
-        }
-        
-        function addLongText(label, text) {
-            if (!text) return;
-            
-            doc.setFont("helvetica", "bold");
-            doc.text(label, 20, y);
-            y += 8;
-            
-            doc.setFont("helvetica", "normal");
-            const splitText = doc.splitTextToSize(text, 160);
-            doc.text(splitText, 20, y);
-            y += splitText.length * 7 + 5;
-        }
-        
-        // 1. Información Personal
-        addSection("Personal Information");
-        addField("Full Name:", `${data.firstName} ${data.lastName}`);
-        addField("Email:", data.email);
-        addField("Phone:", data.phone);
-        addField("ID:", data.idNumber);
-        addField("Occupation:", data.occupation);
-        addField("Company:", data.company);
-        addField("Work Schedule:", data.schedule);
-        addField("Marital Status:", data.maritalStatus);
-        
-        // 2. Información de Vivienda
-        addSection("Housing Information");
-        addField("City:", data.city);
-        addField("Address:", data.address);
-        addField("Housing Type:", data.housing);
-        addField("Floor:", data.floor);
-        addLongText("Housing Description:", data.houseDescription);
-        
-        // 3. Información Familiar
-        addSection("Family Information");
-        addField("Do you have children?:", data.haveKids);
-        if (data.haveKids === "yes") {
-            addField("Number of children:", data.many);
-            addField("Children's ages:", data.ages);
-        }
-        
-        // 4. Información sobre Mascotas
-        addSection("Pet Information");
-        addField("Have you adopted before?:", data.adoptBefore);
-        addField("Do you have other pets?:", data.havePets);
-        if (data.havePets === "yes") {
-            addLongText("Current pets:", data.currentPets);
-        }
-        addField("Hours the pet will be alone:", data.hoursAlone);
-        addField("Veterinarian's name:", data.vetName);
-        addField("Committed to care?:", data.committed);
-        
-        // 5. Motivo de Adopción
-        addSection("Reason for Adoption");
-        addLongText("Why do you want to adopt?:", data.whyAdopt);
-        
-        // 6. Información Adicional
-        if (data.additionalInfo) {
-            addSection("Additional Information");
-            addLongText("Additional comments:", data.additionalInfo);
-        }
-        
-        // Pie de página
-        const pageCount = doc.internal.getNumberOfPages();
-        for (let i = 1; i <= pageCount; i++) {
-            doc.setPage(i);
-            doc.setFontSize(10);
-            doc.setTextColor(100, 100, 100);
-            doc.text(`Page ${i} of ${pageCount}`, 105, 290, { align: "center" });
-            doc.text("Little Pets - Adoption Form", 105, 285, { align: "center" });
-        }
-    }
+    });
+}
+
+// Function to generate PDF preview
+function generatePdfPreview() {
+    const pdfPreview = document.getElementById('pdfPreview');
     
-    // Función para enviar el formulario
-    function submitForm() {
-        // Aquí se implementaría la lógica para enviar el formulario al servidor
-        alert('Thank you! Your adoption request has been successfully submitted. We will contact you soon.');
+    // Get form values to avoid repetition
+    const firstName = document.getElementById('first-name').value;
+    const lastName = document.getElementById('last-name').value;
+    const email = document.getElementById('email').value;
+    const phone = document.getElementById('phone').value;
+    const idNumber = document.getElementById('id-number').value;
+    const occupation = document.getElementById('occupation').value || 'Not specified';
+    const company = document.getElementById('company').value || 'Not specified';
+    const schedule = document.getElementById('schedule').value || 'Not specified';
+    const maritalStatus = document.querySelector('input[name="marital-status"]:checked')?.value || 'Not selected';
+    
+    const city = document.getElementById('city').value;
+    const address = document.getElementById('address').value;
+    const housing = document.getElementById('housing').value;
+    const floor = document.getElementById('floor').value || 'Not specified';
+    const houseDescription = document.getElementById('house-description').value || 'Not specified';
+    
+    const haveKids = document.querySelector('input[name="have-kids"]:checked')?.value || 'Not selected';
+    const many = document.getElementById('many').value || 'N/A';
+    const ages = document.getElementById('ages').value || 'N/A';
+    const havePets = document.querySelector('input[name="have-pets"]:checked')?.value || 'Not selected';
+    const currentPets = document.getElementById('current-pets')?.value || 'None';
+    
+    const hoursAlone = document.getElementById('hours-alone')?.value || 'Not specified';
+    const vetName = document.getElementById('vet-name')?.value || 'Not specified';
+    const adoptBefore = document.querySelector('input[name="adopt-before"]:checked')?.value || 'Not selected';
+    const committed = document.querySelector('input[name="committed"]:checked')?.value || 'Not selected';
+    const whyAdopt = document.getElementById('why-adopt').value;
+    const additionalInfo = document.getElementById('additional-info')?.value || 'None provided';
+    
+    // Create HTML content for preview with all sections
+    pdfPreview.innerHTML = `
+        <div class="pdf-header">
+            <h1><i class="fas fa-paw"></i> Adoption Application Form</h1>
+            <p>Date: ${new Date().toLocaleDateString()}</p>
+        </div>
+        
+        <div class="pdf-section">
+            <h2><i class="fas fa-user"></i> Personal Information</h2>
+            <p><strong>Name:</strong> ${firstName} ${lastName}</p>
+            <p><strong>ID Number:</strong> ${idNumber}</p>
+            <p><strong>Email:</strong> ${email}</p>
+            <p><strong>Phone:</strong> ${phone}</p>
+            <p><strong>Occupation:</strong> ${occupation}</p>
+            <p><strong>Company:</strong> ${company}</p>
+            <p><strong>Work Schedule:</strong> ${schedule}</p>
+            <p><strong>Marital Status:</strong> ${maritalStatus}</p>
+        </div>
+        
+        <div class="pdf-section">
+            <h2><i class="fas fa-home"></i> Housing Information</h2>
+            <p><strong>City:</strong> ${city}</p>
+            <p><strong>Address:</strong> ${address}</p>
+            <p><strong>Housing Type:</strong> ${housing}</p>
+            <p><strong>Floor:</strong> ${floor}</p>
+            <p><strong>Description:</strong> ${houseDescription}</p>
+        </div>
+        
+        <div class="pdf-section">
+            <h2><i class="fas fa-users"></i> Family Information</h2>
+            <p><strong>Have Kids:</strong> ${haveKids}</p>
+            ${haveKids === 'Yes' ? `
+                <p><strong>How Many:</strong> ${many}</p>
+                <p><strong>Ages:</strong> ${ages}</p>
+            ` : ''}
+            <p><strong>Have Pets:</strong> ${havePets}</p>
+            ${havePets === 'Yes' ? `
+                <p><strong>Current Pets:</strong> ${currentPets}</p>
+            ` : ''}
+        </div>
+        
+        <div class="pdf-section">
+            <h2><i class="fas fa-heart"></i> Adoption Information</h2>
+            <p><strong>Hours Pet Will Be Alone:</strong> ${hoursAlone}</p>
+            <p><strong>Veterinarian Name:</strong> ${vetName}</p>
+            <p><strong>Adopted Before:</strong> ${adoptBefore}</p>
+            <p><strong>Committed to Care:</strong> ${committed}</p>
+            
+            <div class="reason-section">
+                <p><strong>Reason for Adoption:</strong></p>
+                <p class="reason-text">${whyAdopt}</p>
+            </div>
+            
+            ${additionalInfo !== 'None provided' ? `
+                <div class="additional-info">
+                    <p><strong>Additional Information:</strong></p>
+                    <p class="additional-text">${additionalInfo}</p>
+                </div>
+            ` : ''}
+        </div>
+        
+        <div class="pdf-footer">
+            <p>This document is an adoption request and does not guarantee automatic approval.</p>
+            <p><strong>Little Pets</strong> - All rights reserved</p>
+        </div>
+    `;
+}
+
+// Function to submit the form
+async function submitForm() {
+    try {
+        // Show loading indicator
+        submitFormBtn.disabled = true;
+        submitFormBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+        
+        // Generate PDF as base64
+        const pdfBase64 = await generatePdfAsBase64();
+        
+        // Get form values
+        const formData = {
+            idNumber: document.getElementById("id-number").value,
+            firstName: document.getElementById("first-name").value,
+            lastName: document.getElementById("last-name").value,
+            email: document.getElementById("email").value,
+            phone: document.getElementById("phone").value,
+            occupation: document.getElementById("occupation").value,
+            company: document.getElementById("company").value,
+            schedule: document.getElementById("schedule").value,
+            maritalStatus: document.querySelector('input[name="marital-status"]:checked')?.value || 'Not selected',
+            city: document.getElementById("city").value,
+            address: document.getElementById("address").value,
+            housing: document.getElementById("housing").value,
+            floor: document.getElementById("floor").value,
+            houseDescription: document.getElementById("house-description").value,
+            haveKids: document.querySelector('input[name="have-kids"]:checked')?.value || 'Not selected',
+            many: document.getElementById("many").value,
+            ages: document.getElementById("ages").value,
+            havePets: document.querySelector('input[name="have-pets"]:checked')?.value || 'Not selected',
+            currentPets: document.getElementById("current-pets")?.value || '',
+            hoursAlone: document.getElementById("hours-alone")?.value || '',
+            vetName: document.getElementById("vet-name")?.value || '',
+            adoptBefore: document.querySelector('input[name="adopt-before"]:checked')?.value || 'Not selected',
+            committed: document.querySelector('input[name="committed"]:checked')?.value || 'Not selected',
+            whyAdopt: document.getElementById("why-adopt").value,
+            additionalInfo: document.getElementById("additional-info")?.value || ''
+        };
+        
+        // Verify if we are coming from a pet details page
+        const urlParams = new URLSearchParams(window.location.search);
+        const petId = urlParams.get("petId");
+        if (petId) {
+            formData.petId = petId;
+        }
+        
+        // Send data to server
+        const response = await fetch('/api/adoption', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                formData,
+                pdfBase64
+            })
+        });
+        
+        const result = await response.json();
+        
+        if (!response.ok) {
+            throw new Error(result.message || 'Failed to submit adoption request');
+        }
+        
+        // Show success message
+        Swal.fire({
+            title: 'Success',
+            text: 'Thank you! Your adoption request has been successfully submitted. We will contact you soon.',
+            icon: 'success',
+            confirmButtonColor: '#28a745'
+        });
         modal.style.display = 'none';
         
-        // Redireccionar a la página de inicio o de confirmación
-        // window.location.href = '../index.html';
+        // Redirect to home page
+        window.location.href = '../index.html';
+    } catch (error) {
+        console.error('Error submitting adoption request:', error);
+        Swal.fire({
+            title: 'Error',
+            text: `Error: ${error.message || 'Failed to submit adoption request. Please try again later.'}`,
+            icon: 'error',
+            confirmButtonColor: '#dc3545'
+        });
+    } finally {
+        // Restore button
+        submitFormBtn.disabled = false;
+        submitFormBtn.innerHTML = 'Submit Application';
     }
+}
+
+// Close DOMContentLoaded event
 });

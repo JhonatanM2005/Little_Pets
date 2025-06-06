@@ -8,9 +8,14 @@ document.addEventListener("DOMContentLoaded", () => {
     const cedulaInput = registerForm.querySelector("#id-number");
     const emailInput = registerForm.querySelector("#email");
     const passwordInput = registerForm.querySelector("#password");
-    const confirmPasswordInput =
-      registerForm.querySelector("#confirm-password");
-
+    const confirmPasswordInput = registerForm.querySelector("#confirm-password");
+    const submitButton = registerForm.querySelector("button[type='submit']");
+    
+    // Deshabilitar el botón y mostrar indicador de carga
+    submitButton.disabled = true;
+    const originalButtonText = submitButton.innerHTML;
+    submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Registering...';
+  
     const name = nameInput.value;
     const cedula = cedulaInput.value;
     const email = emailInput.value;
@@ -20,6 +25,9 @@ document.addEventListener("DOMContentLoaded", () => {
     // Validación para el número de ID (solo números)
     const idNumberPattern = /^\d+$/;
     if (!idNumberPattern.test(cedula)) {
+      submitButton.disabled = false;
+      submitButton.innerHTML = originalButtonText;
+
       Toastify({
         text: "The ID number must only contain numbers.",
         duration: 3000,
@@ -123,6 +131,8 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     } catch (error) {
       console.error("Error al registrar:", error);
+      submitButton.disabled = false;
+      submitButton.innerHTML = originalButtonText;
       Toastify({
         text: "Server connection error. Please try again later.",
         duration: 3000,
