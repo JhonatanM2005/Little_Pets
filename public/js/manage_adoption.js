@@ -52,7 +52,12 @@ document.addEventListener('DOMContentLoaded', function() {
             // Check if user has admin or manager role
             if (user.role !== 'admin' && user.role !== 'manager') {
                 console.error('Usuario sin permisos suficientes. Rol:', user.role);
-                alert('You do not have permission to access this page');
+                Swal.fire({
+                    title: 'Error',
+                    text: 'You do not have permission to access this page',
+                    icon: 'error',
+                    confirmButtonColor: '#dc3545'
+                });
                 window.location.href = '../index.html';
                 return;
             }
@@ -501,6 +506,16 @@ document.addEventListener('DOMContentLoaded', function() {
         const status = document.getElementById('requestStatus').value;
         const comments = document.getElementById('reviewComments').value;
         
+        if (!requestId || !status) {
+            Swal.fire({
+                title: 'Error',
+                text: 'Missing request information',
+                icon: 'error',
+                confirmButtonColor: '#dc3545'
+            });
+            return;
+        }
+        
         // Disable submit button
         const submitBtn = document.getElementById('submitReviewBtn');
         submitBtn.disabled = true;
@@ -534,7 +549,17 @@ document.addEventListener('DOMContentLoaded', function() {
             detailModal.hide();
             
             // Show success message
-            alert(`Adoption request ${status} successfully`);
+            Swal.fire({
+                title: 'Success!',
+                text: `The adoption request has been ${status}.`,
+                icon: 'success',
+                confirmButtonColor: '#28a745',
+                timer: 1500,
+                timerProgressBar: true
+            }).then(() => {
+                // Recargar solicitudes
+                loadAdoptionRequests();
+            });
             
             // Reload adoption requests
             loadAdoptionRequests();
@@ -543,7 +568,12 @@ document.addEventListener('DOMContentLoaded', function() {
             console.error('Error:', error);
             
             // Show error message
-            alert("Error updating adoption request status");
+            Swal.fire({
+                title: 'Error',
+                text: 'Error updating adoption request status',
+                icon: 'error',
+                confirmButtonColor: '#dc3545'
+            });
             
             // Re-enable submit button
             submitBtn.disabled = false;

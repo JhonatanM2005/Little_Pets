@@ -28,7 +28,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const emailInput = loginForm.querySelector("#email");
     const passwordInput = loginForm.querySelector("#password");
-
+    const submitButton = loginForm.querySelector("button[type='submit']");
+    
+    // Deshabilitar el botón y mostrar indicador de carga
+    submitButton.disabled = true;
+    const originalButtonText = submitButton.innerHTML;
+    submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Logging in...';
+  
     const email = emailInput.value;
     const password = passwordInput.value;
 
@@ -114,6 +120,9 @@ document.addEventListener("DOMContentLoaded", () => {
         }).showToast();
       }
     } catch (error) {
+      submitButton.disabled = false;
+      submitButton.innerHTML = originalButtonText;
+
       console.error("Error al iniciar sesión:", error);
       Toastify({
         text: "Server connection error.",

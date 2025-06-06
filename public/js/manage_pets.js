@@ -454,32 +454,62 @@ document.addEventListener('DOMContentLoaded', function() {
         const sexChecked = document.querySelector('input[name="pet-sex"]:checked');
         
         if (!name) {
-            alert('Pet name is required');
+            Swal.fire({
+                title: 'Error',
+                text: 'Pet name is required',
+                icon: 'error',
+                confirmButtonColor: '#dc3545'
+            });
             return false;
         }
         
         if (!breed) {
-            alert('Pet breed is required');
+            Swal.fire({
+                title: 'Error',
+                text: 'Pet breed is required',
+                icon: 'error',
+                confirmButtonColor: '#dc3545'
+            });
             return false;
         }
         
         if (!age) {
-            alert('Pet age is required');
+            Swal.fire({
+                title: 'Error',
+                text: 'Pet age is required',
+                icon: 'error',
+                confirmButtonColor: '#dc3545'
+            });
             return false;
         }
         
         if (!size) {
-            alert('Pet size is required');
+            Swal.fire({
+                title: 'Error',
+                text: 'Pet size is required',
+                icon: 'error',
+                confirmButtonColor: '#dc3545'
+            });
             return false;
         }
         
         if (!typeChecked) {
-            alert('You must select if it is a cat or dog');
+            Swal.fire({
+                title: 'Error',
+                text: 'You must select if it is a cat or dog',
+                icon: 'error',
+                confirmButtonColor: '#dc3545'
+            });
             return false;
         }
         
         if (!sexChecked) {
-            alert('You must select the pet gender');
+            Swal.fire({
+                title: 'Error',
+                text: 'You must select the pet gender',
+                icon: 'error',
+                confirmButtonColor: '#dc3545'
+            });
             return false;
         }
         
@@ -596,6 +626,15 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
         
+        // Deshabilitar todos los botones del modal para evitar múltiples envíos
+        saveButton.disabled = true;
+        deleteButton.disabled = true;
+        cancelButton.disabled = true;
+
+        // Mostrar indicador de carga en el botón de guardar
+        const originalSaveText = saveButton.textContent;
+        saveButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
+
         // Crear FormData para enviar datos
         const formData = new FormData();
         
@@ -613,10 +652,8 @@ document.addEventListener('DOMContentLoaded', function() {
             }
             
             console.log('Enviando nuevas imágenes:', currentImageFiles.length);
-            
-            // Mostrar indicador de carga
             saveButton.disabled = true;
-            saveButton.textContent = `Uploading ${currentImageFiles.length} image(s)...`;
+            saveButton.innerHTML = `<i class="fas fa-spinner fa-spin"></i> Uploading ${currentImageFiles.length} image(s)...`;
         } else if (isEditMode) {
             // Si estamos en modo edición y no hay nuevas imágenes, mantenemos las existentes
             if (currentImageUrls && currentImageUrls.length > 0) {
@@ -662,7 +699,14 @@ document.addEventListener('DOMContentLoaded', function() {
             return response.json();
         })
         .then((data) => {
-            alert(isEditMode ? 'Pet updated successfully' : 'Pet added successfully');
+            Swal.fire({
+                title: 'Success!',
+                text: isEditMode ? 'Pet updated successfully' : 'Pet added successfully',
+                icon: 'success',
+                confirmButtonColor: '#28a745',
+                timer: 1500,
+                timerProgressBar: true
+            });
             closeModal();
             loadPets();
         })
@@ -674,55 +718,120 @@ document.addEventListener('DOMContentLoaded', function() {
                     console.error('Error details:', errorText);
                     try {
                         const errorJson = JSON.parse(errorText);
-                        alert(`Error saving pet: ${errorJson.error || errorJson.mensaje || errorText}`);
+                        Swal.fire({
+                            title: 'Error',
+                            text: `Error saving pet: ${errorJson.error || errorJson.mensaje || errorText}`,
+                            icon: 'error',
+                            confirmButtonColor: '#dc3545'
+                        });
                     } catch (e) {
-                        alert(`Error saving pet: ${errorText || error.statusText || 'Unknown error'}`);
+                        Swal.fire({
+                            title: 'Error',
+                            text: `Error saving pet: ${errorText || error.statusText || 'Unknown error'}`,
+                            icon: 'error',
+                            confirmButtonColor: '#dc3545'
+                        });
                     }
                 }).catch(e => {
-                    alert(`Error saving pet: ${error.statusText || 'Unknown error'}`);
+                    Swal.fire({
+                        title: 'Error',
+                        text: `Error saving pet: ${error.statusText || 'Unknown error'}`,
+                        icon: 'error',
+                        confirmButtonColor: '#dc3545'
+                    });
                 });
             } else {
-                alert(`Error saving pet: ${error.message || 'Unknown error'}`);
+                Swal.fire({
+                    title: 'Error',
+                    text: `Error saving pet: ${error.message || 'Unknown error'}`,
+                    icon: 'error',
+                    confirmButtonColor: '#dc3545'
+                });
             }
         })
         .finally(() => {
-            saveButton.disabled = false;
-            saveButton.textContent = 'Save';
+        // Restaurar botones
+        saveButton.disabled = false;
+        deleteButton.disabled = false;
+        cancelButton.disabled = false;
+        saveButton.innerHTML = originalSaveText;
         });
     }
     
     // Delete pet
     function deletePet() {
         if (!currentPetId) {
-            alert('Error: No pet has been selected');
+            Swal.fire({
+                title: 'Error',
+                text: 'No pet has been selected',
+                icon: 'error',
+                confirmButtonColor: '#dc3545'
+            });
             return;
         }
         
-        if (!confirm('Are you sure you want to delete this pet?')) {
-            return;
-        }
-        
-        fetch(`/api/pets/${currentPetId}`, {
-            method: 'DELETE',
-            headers: {
-                'Authorization': `Bearer ${token}`,
-                'Content-Type': 'application/json'
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#dc3545',
+            cancelButtonColor: '#6c757d',
+            confirmButtonText: 'Yes, delete it!',
+            cancelButtonText: 'Cancel'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Deshabilitar botones
+                saveButton.disabled = true;
+                deleteButton.disabled = true;
+                cancelButton.disabled = true;
+                
+                // Mostrar indicador de carga
+                const originalDeleteText = deleteButton.textContent;
+                deleteButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Deleting...';
+                
+                fetch(`/api/pets/${currentPetId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Error deleting pet');
+                    }
+                    return response.json();
+                })
+                .then(() => {
+                    Swal.fire({
+                        title: 'Deleted!',
+                        text: 'Pet has been deleted.',
+                        icon: 'success',
+                        confirmButtonColor: '#28a745',
+                        timer: 1500,
+                        timerProgressBar: true
+                    });
+                    closeModal();
+                    loadPets();
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    Swal.fire({
+                        title: 'Error',
+                        text: 'Error deleting pet',
+                        icon: 'error',
+                        confirmButtonColor: '#dc3545'
+                    });
+                })
+                .finally(() => {
+                    // Restaurar botones
+                    saveButton.disabled = false;
+                    deleteButton.disabled = false;
+                    cancelButton.disabled = false;
+                    deleteButton.innerHTML = originalDeleteText;
+                });
             }
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Error deleting pet');
-            }
-            return response.json();
-        })
-        .then(() => {
-            alert('Pet deleted successfully');
-            closeModal();
-            loadPets();
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            alert('Error deleting pet');
         });
     }
 });
