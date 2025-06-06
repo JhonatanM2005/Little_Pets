@@ -1,7 +1,5 @@
 # Little Pets 🐾
 
-![Little Pets Logo](public/media/logo.png)
-
 Little Pets es una aplicación web completa para una fundación de adopción de mascotas, diseñada para conectar animales que necesitan un hogar con personas dispuestas a adoptar.
 
 ## 🌐 Demo
