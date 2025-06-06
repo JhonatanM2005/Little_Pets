@@ -103,7 +103,8 @@ document.addEventListener('DOMContentLoaded', function() {
         const tableBody = document.querySelector('.results-table tbody');
         tableBody.innerHTML = '<tr><td colspan="7" class="text-center">Loading pets...</td></tr>';
         
-        fetch('/api/pets', {
+        // Cargar todas las mascotas sin filtro inicial
+        fetch('/api/pets?availability=all', {
             method: 'GET',
             headers: {
                 'Authorization': `Bearer ${token}`,
@@ -117,8 +118,14 @@ document.addEventListener('DOMContentLoaded', function() {
             return response.json();
         })
         .then(pets => {
-            // Mostrar todas las mascotas
-            displayPets(pets);
+            // Guardar todas las mascotas en la variable global
+            allPets = pets;
+            
+            // Filtrar para mostrar todas las mascotas excepto las adoptadas
+            const filteredPets = pets.filter(pet => pet.availability !== 'adopted');
+            
+            // Mostrar las mascotas filtradas
+            displayPets(filteredPets);
         })
         .catch(error => {
             console.error('Error:', error);
@@ -136,6 +143,31 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!pets || pets.length === 0) {
             tableBody.innerHTML = '<tr><td colspan="8" class="text-center">No pets available</td></tr>';
             return;
+        }
+        
+        // Añadir filtro para mostrar/ocultar mascotas adoptadas
+        const filterContainer = document.querySelector('.pets-results-container');
+        if (!document.getElementById('show-adopted-filter')) {
+            const filterDiv = document.createElement('div');
+            filterDiv.className = 'filter-options';
+            filterDiv.innerHTML = `
+                <label class="filter-checkbox">
+                    <input type="checkbox" id="show-adopted-filter"> Show adopted pets
+                </label>
+            `;
+            filterContainer.insertBefore(filterDiv, filterContainer.firstChild);
+            
+            // Añadir event listener al checkbox
+            document.getElementById('show-adopted-filter').addEventListener('change', function() {
+                if (this.checked) {
+                    // Mostrar todas las mascotas incluyendo adoptadas
+                    displayPets(allPets);
+                } else {
+                    // Mostrar solo mascotas no adoptadas
+                    const filteredPets = allPets.filter(pet => pet.availability !== 'adopted');
+                    displayPets(filteredPets);
+                }
+            });
         }
         
         pets.forEach(pet => {

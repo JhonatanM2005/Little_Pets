@@ -176,8 +176,11 @@ function renderPets(pets) {
   const petsGridContainer = document.getElementById("petsGrid");
   petsGridContainer.innerHTML = "";
 
-  if (pets && pets.length > 0) {
-    pets.forEach((pet) => {
+  // Filtrar para mostrar solo mascotas disponibles
+  const availablePets = pets.filter(pet => pet.availability === "available");
+
+  if (availablePets && availablePets.length > 0) {
+    availablePets.forEach((pet) => {
       const cardLink = document.createElement("a");
       cardLink.href = `pet_details.html?id=${pet._id}`;
 

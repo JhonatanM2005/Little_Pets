@@ -9,6 +9,7 @@ const userRoutes = require("./routes/userRoutes");
 const petRoutes = require("./routes/petRoutes");
 const contactRoutes = require('./routes/contactRoutes');
 const breedsRoutes = require('./routes/BreedsRoutes');
+const adoptionRoutes = require('./routes/adoptionRoutes');
 // Conectar con la base de datos
 dbConnect();
 
@@ -25,6 +26,7 @@ app.use("/api/users", userRoutes);
 app.use("/api/pets", petRoutes);
 app.use('/api/contact', contactRoutes);
 app.use('/api/breeds', breedsRoutes);
+app.use('/api/adoption', adoptionRoutes);
 
 // Inicializar el servidor
 const PORT = process.env.PORT || 2000;

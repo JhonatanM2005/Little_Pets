@@ -13,8 +13,15 @@ exports.getPets = async (req, res) => {
       filter.size = req.query.size;
     }
     
+    // Si se especifica un estado de disponibilidad en la consulta
     if (req.query.availability) {
-      filter.availability = req.query.availability;
+      // Si se solicitan todas las mascotas (availability=all), no aplicar filtro de disponibilidad
+      if (req.query.availability !== 'all') {
+        filter.availability = req.query.availability;
+      }
+    } else {
+      // Por defecto, mostrar solo mascotas disponibles
+      filter.availability = "available";
     }
     
     const pets = await Pet.find(filter);

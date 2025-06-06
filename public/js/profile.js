@@ -56,7 +56,7 @@ document.addEventListener("DOMContentLoaded", () => {
           
           // Agregar botones según el rol
           if (user.role === "admin") {
-            // Administradores tienen acceso a gestión de mascotas y usuarios
+            // Administradores tienen acceso a gestión de mascotas, usuarios y solicitudes de adopción
             const managePetsBtn = document.createElement("a");
             managePetsBtn.href = "./manage_pets.html";
             managePetsBtn.className = "action-btn";
@@ -68,13 +68,28 @@ document.addEventListener("DOMContentLoaded", () => {
             manageUsersBtn.className = "action-btn";
             manageUsersBtn.textContent = "Manage Users";
             roleBasedButtonsDiv.appendChild(manageUsersBtn);
+            
+            const manageAdoptionsBtn = document.createElement("a");
+            manageAdoptionsBtn.href = "./manage_adoptions.html";
+            manageAdoptionsBtn.className = "action-btn";
+            manageAdoptionsBtn.textContent = "Manage Adoptions";
+            roleBasedButtonsDiv.appendChild(manageAdoptionsBtn);
           } else if (user.role === "manager" || user.role === "operator") {
-            // Managers y operators tienen acceso a gestión de mascotas
+            // Managers y operators tienen acceso a gestión de mascotas y solicitudes de adopción
             const managePetsBtn = document.createElement("a");
             managePetsBtn.href = "./manage_pets.html";
             managePetsBtn.className = "action-btn";
             managePetsBtn.textContent = "Manage Pets";
             roleBasedButtonsDiv.appendChild(managePetsBtn);
+            
+            // Solo managers tienen acceso a gestión de solicitudes de adopción
+            if (user.role === "manager") {
+              const manageAdoptionsBtn = document.createElement("a");
+              manageAdoptionsBtn.href = "./manage_adoptions.html";
+              manageAdoptionsBtn.className = "action-btn";
+              manageAdoptionsBtn.textContent = "Manage Adoptions";
+              roleBasedButtonsDiv.appendChild(manageAdoptionsBtn);
+            }
           }
           // Los usuarios normales no tienen botones adicionales
         }
