@@ -101,7 +101,7 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // Hide loading indicator
             loadingIndicator.style.display = 'none';
-            adoptionRequestsList.style.display = 'flex';
+            adoptionRequestsList.style.display = 'block';
         })
         .catch(error => {
             console.error('Error:', error);
@@ -190,7 +190,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Hide no results message
         noResultsMessage.style.display = 'none';
-        adoptionRequestsList.style.display = 'flex';
+        adoptionRequestsList.style.display = 'block';
         
         // Create and append request cards
         filteredRequests.forEach(request => {

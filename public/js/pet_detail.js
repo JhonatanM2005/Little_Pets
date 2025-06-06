@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-  // Elementos del DOM
+  // DOM elements
   const petNameElement = document.querySelector(".pet-name");
   const petBreedElement = document.getElementById("pet-breed");
   const petSexElement = document.getElementById("pet-sex");
@@ -15,32 +15,42 @@ document.addEventListener("DOMContentLoaded", () => {
   const similarPetsContainer = document.getElementById("similar-pets");
   const adoptBtn = document.getElementById("adopt-btn");
   
-  // Verificar si el usuario está autenticado
+  // Verify if the user is authenticated
   const isAuthenticated = localStorage.getItem("isAuthenticated") === "true";
 
-  // Función para obtener el ID de la mascota de la URL
+  // Function to get the pet ID from the URL
   function getPetIdFromUrl() {
     const urlParams = new URLSearchParams(window.location.search);
     return urlParams.get("id");
   }
 
-  // Función para cargar las imágenes en miniatura
+  // Function to load thumbnails
   function loadThumbnails(pet) {
-    // Limpiar contenedor de miniaturas
+    // Clear thumbnails container
     thumbnailsContainer.innerHTML = '';
     
-    // Crear array de imágenes (principal + adicionales si existen)
-    const images = [pet.image];
-    if (pet.additionalImages && Array.isArray(pet.additionalImages)) {
-      images.push(...pet.additionalImages);
+    // Create array of unique images
+    const uniqueImages = new Set();
+    
+    // Add main image if exists
+    if (pet.image) {
+      uniqueImages.add(pet.image);
     }
     
-    // Si no hay imágenes adicionales, usar la principal repetida para demo
-    if (images.length === 1) {
-      images.push(pet.image, pet.image);
+    // Add additional images if they exist
+    if (pet.images && Array.isArray(pet.images)) {
+      pet.images.forEach(img => uniqueImages.add(img));
     }
     
-    // Limitar a máximo 3 imágenes
+    // Convert Set back to Array
+    const images = Array.from(uniqueImages);
+    
+    // If no images are available, use default
+    if (images.length === 0) {
+      images.push("../media/images/pets/default.jpg");
+    }
+    
+    // Limit to maximum 3 images
     const displayImages = images.slice(0, 3);
     
     // Crear miniaturas
@@ -70,7 +80,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Función para cargar mascotas similares
+  // Function to load similar pets
   function loadSimilarPets(currentPet) {
     fetch(`/api/pets?type=${currentPet.type}&limit=4`)
       .then(response => {
@@ -115,7 +125,7 @@ document.addEventListener("DOMContentLoaded", () => {
       });
   }
 
-  // Función para formatear la edad
+  // Function to format age
   function formatAge(age) {
     if (age === undefined || age === null) return "Unknown";
     
@@ -129,22 +139,22 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const petId = getPetIdFromUrl();
   
-  // Configurar el botón de adopción para verificar autenticación
+  // Configure the adoption button to verify authentication
   if (adoptBtn) {
     adoptBtn.addEventListener("click", function(e) {
       e.preventDefault();
       
-      // Si el botón ya está deshabilitado (mascota no disponible), no hacer nada
+      // If the button is already disabled (pet not available), do nothing
       if (this.classList.contains("disabled")) {
         return;
       }
       
-      // Verificar si el usuario está autenticado
+      // Verify if the user is authenticated
       if (isAuthenticated) {
-        // Usuario autenticado, redirigir al formulario de adopción con el ID de la mascota
+        // Authenticated user, redirect to adoption form with pet ID
         window.location.href = `./adoption_form.html?petId=${petId}`;
       } else {
-        // Usuario no autenticado, redirigir a la página de login con URL de redirección
+        // Unauthenticated user, redirect to login page with redirect URL
         const currentUrl = window.location.href;
         window.location.href = `./login.html?redirect=${encodeURIComponent(currentUrl)}`;
       }
@@ -152,7 +162,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   if (petId) {
-    // Realizar la petición al backend para obtener los detalles de la mascota
+    // Make the request to the backend to get the pet details
     fetch(`/api/pets/${petId}`)
       .then((response) => {
         if (!response.ok) {
@@ -161,9 +171,9 @@ document.addEventListener("DOMContentLoaded", () => {
         return response.json();
       })
       .then((pet) => {
-        // Rellenar la página con los datos de la mascota
+        // Fill the page with pet details
         if (pet) {
-          // Información básica
+          // Basic information
           petNameElement.textContent = pet.name || "Unnamed";
           petBreedElement.textContent = pet.breed || "Unknown";
           petSexElement.textContent = pet.gender || "Unknown";
@@ -173,18 +183,19 @@ document.addEventListener("DOMContentLoaded", () => {
           petAgeElement.textContent = formatAge(pet.age);
           petSizeElement.textContent = pet.size || "Unknown";
           
-          // Descripción
+          // Description
           if (pet.description) {
             petDescriptionElement.textContent = pet.description;
           } else {
             petDescriptionElement.textContent = `Hello! I'm ${pet.name || 'a pet'} and I'm looking for a loving home. I'm ${pet.personality || 'friendly'} and I'd love to be part of your family. Come meet me!`;
           }
           
-          // Imagen principal
-          mainPetImageElement.src = pet.image || "../media/images/pets/default.jpg";
+          // Main image - use the first available image (either from image field or images array)
+          const mainImageSrc = pet.image || (pet.images && pet.images.length > 0 ? pet.images[0] : "../media/images/pets/default.jpg");
+          mainPetImageElement.src = mainImageSrc;
           mainPetImageElement.alt = pet.name || "Pet image";
           
-          // Estado de adopción
+          // Adoption status
           if (pet.adoptionStatus) {
             adoptionStatusElement.textContent = pet.adoptionStatus;
             if (pet.adoptionStatus.toLowerCase() !== 'available') {
@@ -195,22 +206,22 @@ document.addEventListener("DOMContentLoaded", () => {
             }
           }
           
-          // Cargar miniaturas
+          // Load thumbnails
           loadThumbnails(pet);
           
-          // Cargar mascotas similares
+          // Load similar pets
           loadSimilarPets(pet);
           
-          // Actualizar título de la página
-          document.title = `${pet.name || 'Mascota'} - Little Pets`;
+          // Update page title
+          document.title = `${pet.name || 'Pet'} - Little Pets`;
           
         } else {
           const petDetailsContent = document.querySelector(".pet-details-content");
           petDetailsContent.innerHTML = `
             <div class="pet-not-found">
-              <h2>Mascota no encontrada</h2>
-              <p>Lo sentimos, no pudimos encontrar la mascota que estás buscando.</p>
-              <a href="./pets_catalog.html" class="back-to-catalog">Volver al catálogo</a>
+              <h2>Pet not found</h2>
+              <p>We're sorry, we couldn't find the pet you were looking for.</p>
+              <a href="./pets_catalog.html" class="back-to-catalog">Back to catalog</a>
             </div>
           `;
         }
@@ -220,9 +231,9 @@ document.addEventListener("DOMContentLoaded", () => {
         const petDetailsContent = document.querySelector(".pet-details-content");
         petDetailsContent.innerHTML = `
           <div class="pet-not-found">
-            <h2>Error al cargar la mascota</h2>
-            <p>Lo sentimos, ocurrió un error al cargar los detalles de la mascota.</p>
-            <a href="./pets_catalog.html" class="back-to-catalog">Volver al catálogo</a>
+            <h2>Error loading pet</h2>
+            <p>We're sorry, an error occurred while loading the pet details.</p>
+            <a href="./pets_catalog.html" class="back-to-catalog">Back to catalog</a>
           </div>
         `;
       });
@@ -231,14 +242,14 @@ document.addEventListener("DOMContentLoaded", () => {
     const petDetailsContent = document.querySelector(".pet-details-content");
     petDetailsContent.innerHTML = `
       <div class="pet-not-found">
-        <h2>Información incompleta</h2>
-        <p>Falta información para mostrar los detalles de la mascota.</p>
-        <a href="./pets_catalog.html" class="back-to-catalog">Volver al catálogo</a>
+        <h2>Missing information</h2>
+        <p>Missing information to display the pet details.</p>
+        <a href="./pets_catalog.html" class="back-to-catalog">Back to catalog</a>
       </div>
     `;
   }
   
-  // Añadir estilos CSS adicionales para las mascotas similares
+  // Add additional CSS styles for similar pets
   const style = document.createElement('style');
   style.textContent = `
     .similar-pet-card {

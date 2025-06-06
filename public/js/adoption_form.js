@@ -1,9 +1,9 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Variables globales
+    // Global variables
     const totalSteps = 5;
     let currentStep = 1;
     
-    // Elementos DOM
+    // DOM elements
     const progressBar = document.getElementById('form-progress');
     const stepIndicators = document.querySelectorAll('.step');
     const formSections = document.querySelectorAll('.form-section');
@@ -15,38 +15,38 @@ document.addEventListener('DOMContentLoaded', function() {
     const downloadPdfBtn = document.getElementById('downloadPdfBtn');
     const submitFormBtn = document.getElementById('submitFormBtn');
     
-    // Inicializar el formulario
+    // Initialize the form
     initForm();
     
-    // Configurar eventos condicionales
+    // Configure conditional events
     setupConditionalFields();
     
-    // Configurar navegación
+    // Configure navigation
     setupNavigation();
     
-    // Configurar modal y PDF
+    // Configure modal and PDF
     setupModalAndPdf();
     
-    // Función para inicializar el formulario
+    // Function to initialize the form
     function initForm() {
-        // Establecer ancho inicial de la barra de progreso
+        // Set initial progress bar width
         updateProgressBar();
         
-        // Verificar si venimos de una página de detalles de mascota
+        // Verify if we came from a pet details page
         const urlParams = new URLSearchParams(window.location.search);
         const petId = urlParams.get("petId");
         if (petId) {
-            // Podríamos cargar información de la mascota y pre-llenar campos
-            console.log("Formulario de adopción para mascota ID:", petId);
+            // We could load pet information and pre-fill fields
+            console.log("Adoption form for pet ID:", petId);
         }
     }
     
-    // Función para actualizar la barra de progreso
+    // Function to update the progress bar
     function updateProgressBar() {
         const progressPercentage = (currentStep / totalSteps) * 100;
         progressBar.style.width = `${progressPercentage}%`;
         
-        // Actualizar indicadores de paso
+        // Update step indicators
         stepIndicators.forEach((step, index) => {
             if (index + 1 < currentStep) {
                 step.classList.add('completed');
@@ -60,9 +60,9 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // Función para configurar campos condicionales
+    // Function to configure conditional fields
     function setupConditionalFields() {
-        // Mostrar/ocultar campos de niños
+        // Show/hide kids fields
         const haveKidsRadios = document.querySelectorAll('input[name="have-kids"]');
         const kidsDetailsDiv = document.getElementById('kids-details');
         const kidsAgesDiv = document.getElementById('kids-ages');
@@ -79,7 +79,7 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
         
-        // Mostrar/ocultar campos de mascotas actuales
+        // Show/hide current pets fields
         const havePetsRadios = document.querySelectorAll('input[name="have-pets"]');
         const petsDetailsDiv = document.getElementById('pets-details');
         
@@ -89,7 +89,7 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
         
-        // Mostrar/ocultar permiso del propietario
+        // Show/hide landlord permission
         const homeOwnershipRadios = document.querySelectorAll('input[name="home-ownership"]');
         const landlordPermissionDiv = document.getElementById('landlord-permission');
         
@@ -100,26 +100,26 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // Función para configurar la navegación entre pasos
+    // Function to configure navigation between steps
     function setupNavigation() {
-        // Botones Siguiente
+        // Next buttons
         nextButtons.forEach(button => {
             button.addEventListener('click', function() {
                 if (validateCurrentStep()) {
                     if (currentStep < totalSteps) {
-                        // Ocultar paso actual
+                        // Hide current step
                         document.getElementById(`section-${currentStep}`).style.display = 'none';
-                        // Incrementar paso
+                        // Increment step
                         currentStep++;
-                        // Mostrar nuevo paso
+                        // Show new step
                         document.getElementById(`section-${currentStep}`).style.display = 'block';
-                        // Actualizar barra de progreso
+                        // Update progress bar
                         updateProgressBar();
-                        // Si es el último paso, generar resumen
+                        // If it's the last step, generate summary
                         if (currentStep === totalSteps) {
                             generateReviewContent();
                         }
-                        // Scroll al inicio del formulario
+                        // Scroll to the top of the form
                         window.scrollTo({
                             top: document.querySelector('.adoption-form-container').offsetTop - 100,
                             behavior: 'smooth'
@@ -129,19 +129,19 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
         
-        // Botones Anterior
+        // Previous buttons
         prevButtons.forEach(button => {
             button.addEventListener('click', function() {
                 if (currentStep > 1) {
-                    // Ocultar paso actual
+                    // Hide current step
                     document.getElementById(`section-${currentStep}`).style.display = 'none';
-                    // Decrementar paso
+                    // Decrement step
                     currentStep--;
-                    // Mostrar nuevo paso
+                    // Show new step
                     document.getElementById(`section-${currentStep}`).style.display = 'block';
-                    // Actualizar barra de progreso
+                    // Update progress bar
                     updateProgressBar();
-                    // Scroll al inicio del formulario
+                    // Scroll to the top of the form
                     window.scrollTo({
                         top: document.querySelector('.adoption-form-container').offsetTop - 100,
                         behavior: 'smooth'
@@ -150,18 +150,23 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
         
-        // Botón Enviar
+        // Submit button
         submitButton.addEventListener('click', function() {
             if (validateCurrentStep() && document.getElementById('terms-agreement').checked) {
                 generatePdfPreview();
                 modal.style.display = 'block';
             } else {
-                alert('Please accept the terms and conditions before continuing.');
+                Swal.fire({
+                    title: 'Error',
+                    text: 'Please accept the terms and conditions before continuing.',
+                    icon: 'error',
+                    confirmButtonColor: '#dc3545'
+                });
             }
         });
     }
     
-    // Función para validar el paso actual
+    // Function to validate the current step
     function validateCurrentStep() {
         const currentSection = document.getElementById(`section-${currentStep}`);
         const requiredFields = currentSection.querySelectorAll('[required]');
@@ -177,18 +182,23 @@ document.addEventListener('DOMContentLoaded', function() {
         });
         
         if (!isValid) {
-            alert('Please complete all required fields before continuing.');
+            Swal.fire({
+                title: 'Error',
+                text: 'Please complete all required fields before continuing.',
+                icon: 'error',
+                confirmButtonColor: '#dc3545'
+            });
         }
         
         return isValid;
     }
     
-    // Función para generar el contenido de revisión
+    // Function to generate review content
     function generateReviewContent() {
         const reviewContainer = document.getElementById('reviewContainer');
         reviewContainer.innerHTML = '';
         
-        // Sección 1: Información Personal
+        // Section 1: Personal Information
         const personalSection = document.createElement('div');
         personalSection.className = 'review-section';
         personalSection.innerHTML = `
@@ -219,12 +229,12 @@ document.addEventListener('DOMContentLoaded', function() {
             </div>
             <div class="review-item">
                 <div class="review-label">Work Schedule:</div>
-                <div class="review-value">${document.getElementById('schedule').value || 'No especificado'}</div>
+                <div class="review-value">${document.getElementById('schedule').value || 'No specified'}</div>
             </div>
         `;
         reviewContainer.appendChild(personalSection);
         
-        // Sección 2: Información de Vivienda
+        // Section 2: Housing Information
         const housingSection = document.createElement('div');
         housingSection.className = 'review-section';
         housingSection.innerHTML = `
@@ -261,18 +271,23 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     if (!isValid) {
-        alert('Please complete all required fields before continuing.');
+        Swal.fire({
+            title: 'Error',
+            text: 'Please complete all required fields before continuing.',
+            icon: 'error',
+            confirmButtonColor: '#dc3545'
+        });
     }
     
     return isValid;
 }
 
-// Función para generar el contenido de revisión
+// Function to generate review content
 function generateReviewContent() {
     const reviewContainer = document.getElementById('reviewContainer');
     reviewContainer.innerHTML = '';
     
-    // Sección 1: Información Personal
+    // Section 1: Personal Information
     const personalSection = document.createElement('div');
     personalSection.className = 'review-section';
     personalSection.innerHTML = `
@@ -303,12 +318,12 @@ function generateReviewContent() {
         </div>
         <div class="review-item">
             <div class="review-label">Work Schedule:</div>
-            <div class="review-value">${document.getElementById('schedule').value || 'No especificado'}</div>
+            <div class="review-value">${document.getElementById('schedule').value || 'No specified'}</div>
         </div>
     `;
     reviewContainer.appendChild(personalSection);
     
-    // Sección 2: Información de Vivienda
+    // Section 2: Housing Information
     const housingSection = document.createElement('div');
     housingSection.className = 'review-section';
     housingSection.innerHTML = `
@@ -336,46 +351,46 @@ function generateReviewContent() {
     `;
     reviewContainer.appendChild(housingSection);
     
-    // Continuar con las demás secciones de manera similar...
+    // Continue with the rest of the sections in a similar way...
 }
 
-// Función para configurar el modal y la generación de PDF
+// Function to configure the modal and PDF generation
 function setupModalAndPdf() {
-    // Cerrar modal
+    // Close modal
     closeModal.addEventListener('click', function() {
         modal.style.display = 'none';
     });
     
-    // Cerrar modal al hacer clic fuera
+    // Close modal when clicking outside
     window.addEventListener('click', function(event) {
         if (event.target === modal) {
             modal.style.display = 'none';
         }
     });
     
-    // Descargar PDF
+    // Download PDF
     downloadPdfBtn.addEventListener('click', function() {
         generateAndDownloadPdf();
     });
     
-    // Enviar formulario
+    // Submit form
     submitFormBtn.addEventListener('click', function() {
         submitForm();
     });
     
-    // Función para generar y descargar el PDF
+    // Function to generate and download PDF
     async function generateAndDownloadPdf() {
         try {
-            // Mostrar indicador de carga en el botón
+            // Show loading indicator in the button
             downloadPdfBtn.disabled = true;
             downloadPdfBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generating...';
             
-            // Usar jsPDF para generar el PDF
+            // Use jsPDF to generate the PDF
             if (window.jspdf) {
                 const { jsPDF } = window.jspdf;
                 const doc = new jsPDF();
                 
-                // Obtener valores del formulario
+                // Get form values
                 const formData = {
                     idNumber: document.getElementById("id-number").value,
                     firstName: document.getElementById("first-name").value,
@@ -404,10 +419,10 @@ function setupModalAndPdf() {
                     additionalInfo: document.getElementById("additional-info")?.value || ''
                 };
                 
-                // Generar PDF con diseño mejorado
+                // Generate enhanced PDF
                 generateEnhancedPDF(doc, formData);
                 
-                // Guardar el PDF con un nombre descriptivo
+                // Save the PDF with a descriptive name
                 const fileName = `adoption_form_${formData.firstName}_${formData.lastName}.pdf`;
                 doc.save(fileName);
                 
@@ -419,7 +434,12 @@ function setupModalAndPdf() {
             }
         } catch (error) {
             console.error("Error generating PDF for download:", error);
-            alert("Error generating PDF. Please try again.");
+            Swal.fire({
+                title: 'Error',
+                text: 'Error generating PDF. Please try again.',
+                icon: 'error',
+                confirmButtonColor: '#dc3545'
+            });
             
             // Restaurar el botón
             downloadPdfBtn.disabled = false;
@@ -428,9 +448,9 @@ function setupModalAndPdf() {
     }
 }
 
-// Función para generar un PDF con diseño mejorado
+// Function to generate an enhanced PDF
 function generateEnhancedPDF(doc, formData) {
-    // Configuración de estilos
+    // Configuration of styles
     const titleFont = 'helvetica';
     const titleSize = 16;
     const headerFont = 'helvetica';
@@ -440,7 +460,7 @@ function generateEnhancedPDF(doc, formData) {
     const margin = 20;
     let yPos = margin;
     
-    // Función auxiliar para añadir texto
+    // Helper function to add text
     function addText(text, x, y, options = {}) {
         const defaultOptions = {
             font: textFont,
@@ -457,7 +477,7 @@ function generateEnhancedPDF(doc, formData) {
         doc.text(text, x, y);
     }
     
-    // Encabezado
+    // Header
     addText('ADOPTION APPLICATION FORM', margin, yPos, {
         size: titleSize,
         style: 'bold',
@@ -471,7 +491,7 @@ function generateEnhancedPDF(doc, formData) {
     doc.line(margin, yPos, 210 - margin, yPos);
     yPos += 10;
     
-    // Sección 1: Información personal
+    // Section 1: Personal Information
     addText('1. PERSONAL INFORMATION', margin, yPos, {
         size: headerSize,
         style: 'bold'
@@ -495,7 +515,7 @@ function generateEnhancedPDF(doc, formData) {
     addText(`Marital Status: ${formData.maritalStatus}`, margin, yPos);
     yPos += 10;
     
-    // Sección 2: Información de vivienda
+    // Section 2: Housing Information
     addText('2. HOUSING INFORMATION', margin, yPos, {
         size: headerSize,
         style: 'bold'
@@ -513,7 +533,7 @@ function generateEnhancedPDF(doc, formData) {
     addText(`Description: ${formData.houseDescription}`, margin, yPos);
     yPos += 10;
     
-    // Sección 3: Información familiar
+    // Section 3: Family Information
     addText('3. FAMILY INFORMATION', margin, yPos, {
         size: headerSize,
         style: 'bold'
@@ -538,13 +558,13 @@ function generateEnhancedPDF(doc, formData) {
         yPos += 6;
     }
     
-    // Si necesitamos una nueva página
+    // If we need a new page
     if (yPos > 250) {
         doc.addPage();
         yPos = margin;
     }
     
-    // Sección 4: Información de adopción
+    // Section 4: Adoption Information
     addText('4. ADOPTION INFORMATION', margin, yPos, {
         size: headerSize,
         style: 'bold'
@@ -560,11 +580,11 @@ function generateEnhancedPDF(doc, formData) {
     addText(`Committed to Care: ${formData.committed}`, margin, yPos);
     yPos += 10;
     
-    // Razón de adopción
+    // Reason for adoption
     addText('Reason for Adoption:', margin, yPos);
     yPos += 6;
     
-    // Dividir el texto largo en múltiples líneas
+    // Split the long text into multiple lines
     const reasonLines = doc.splitTextToSize(formData.whyAdopt, 170);
     for (const line of reasonLines) {
         addText(line, margin, yPos);
@@ -572,7 +592,7 @@ function generateEnhancedPDF(doc, formData) {
     }
     yPos += 5;
     
-    // Información adicional
+    // Additional Information
     if (formData.additionalInfo) {
         addText('Additional Information:', margin, yPos);
         yPos += 6;
@@ -584,7 +604,7 @@ function generateEnhancedPDF(doc, formData) {
         }
     }
     
-    // Pie de página
+    // Footer
     yPos = 280;
     doc.setLineWidth(0.5);
     doc.line(margin, yPos - 10, 210 - margin, yPos - 10);
@@ -598,22 +618,22 @@ function generateEnhancedPDF(doc, formData) {
     });
 }
 
-// Función para generar PDF como base64
+// Function to generate PDF as base64
 async function generatePdfAsBase64() {
     return new Promise((resolve, reject) => {
         try {
-            // Verificar que jsPDF esté disponible
+            // Verify that jsPDF is available
             if (!window.jspdf) {
                 console.error("jsPDF library not loaded");
                 reject(new Error("Error: jsPDF library not loaded. Please refresh the page and try again."));
                 return;
             }
             
-            // Crear una instancia de jsPDF
+            // Create a jsPDF instance
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF();
             
-            // Obtener valores del formulario
+            // Get form values
             const formData = {
                 idNumber: document.getElementById("id-number").value,
                 firstName: document.getElementById("first-name").value,
@@ -642,11 +662,11 @@ async function generatePdfAsBase64() {
                 additionalInfo: document.getElementById("additional-info")?.value || ''
             };
             
-            // Generar PDF con diseño mejorado
+            // Generate PDF with enhanced design
             try {
                 generateEnhancedPDF(doc, formData);
                 
-                // Convertir a base64
+                // Convert to base64
                 const pdfBase64 = doc.output('datauristring').split(',')[1];
                 resolve(pdfBase64);
             } catch (pdfError) {
@@ -660,11 +680,11 @@ async function generatePdfAsBase64() {
     });
 }
 
-// Función para generar la vista previa del PDF
+// Function to generate PDF preview
 function generatePdfPreview() {
     const pdfPreview = document.getElementById('pdfPreview');
     
-    // Obtener valores del formulario para evitar repetición
+    // Get form values to avoid repetition
     const firstName = document.getElementById('first-name').value;
     const lastName = document.getElementById('last-name').value;
     const email = document.getElementById('email').value;
@@ -694,7 +714,7 @@ function generatePdfPreview() {
     const whyAdopt = document.getElementById('why-adopt').value;
     const additionalInfo = document.getElementById('additional-info')?.value || 'None provided';
     
-    // Crear contenido HTML para la vista previa con todas las secciones
+    // Create HTML content for preview with all sections
     pdfPreview.innerHTML = `
         <div class="pdf-header">
             <h1><i class="fas fa-paw"></i> Adoption Application Form</h1>
@@ -762,17 +782,17 @@ function generatePdfPreview() {
     `;
 }
 
-// Función para enviar el formulario
+// Function to submit the form
 async function submitForm() {
     try {
-        // Mostrar indicador de carga
+        // Show loading indicator
         submitFormBtn.disabled = true;
         submitFormBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
         
-        // Generar PDF como base64
+        // Generate PDF as base64
         const pdfBase64 = await generatePdfAsBase64();
         
-        // Obtener valores del formulario
+        // Get form values
         const formData = {
             idNumber: document.getElementById("id-number").value,
             firstName: document.getElementById("first-name").value,
@@ -801,14 +821,14 @@ async function submitForm() {
             additionalInfo: document.getElementById("additional-info")?.value || ''
         };
         
-        // Verificar si venimos de una página de detalles de mascota
+        // Verify if we are coming from a pet details page
         const urlParams = new URLSearchParams(window.location.search);
         const petId = urlParams.get("petId");
         if (petId) {
             formData.petId = petId;
         }
         
-        // Enviar datos al servidor
+        // Send data to server
         const response = await fetch('/api/adoption', {
             method: 'POST',
             headers: {
@@ -826,21 +846,31 @@ async function submitForm() {
             throw new Error(result.message || 'Failed to submit adoption request');
         }
         
-        // Mostrar mensaje de éxito
-        alert('Thank you! Your adoption request has been successfully submitted. We will contact you soon.');
+        // Show success message
+        Swal.fire({
+            title: 'Success',
+            text: 'Thank you! Your adoption request has been successfully submitted. We will contact you soon.',
+            icon: 'success',
+            confirmButtonColor: '#28a745'
+        });
         modal.style.display = 'none';
         
-        // Redireccionar a la página de inicio
+        // Redirect to home page
         window.location.href = '../index.html';
     } catch (error) {
         console.error('Error submitting adoption request:', error);
-        alert(`Error: ${error.message || 'Failed to submit adoption request. Please try again later.'}`);
+        Swal.fire({
+            title: 'Error',
+            text: `Error: ${error.message || 'Failed to submit adoption request. Please try again later.'}`,
+            icon: 'error',
+            confirmButtonColor: '#dc3545'
+        });
     } finally {
-        // Restaurar botón
+        // Restore button
         submitFormBtn.disabled = false;
         submitFormBtn.innerHTML = 'Submit Application';
     }
 }
 
-// Cierre del evento DOMContentLoaded
+// Close DOMContentLoaded event
 });
