@@ -7,20 +7,21 @@ const sendAdoptionStatusEmail = async (adoptionRequest, status) => {
     try {
         const statusMessages = {
             approved: {
-                subject: 'Congratulations! Your adoption request has been approved',
+                subject: `Congratulations! Your adoption request for ${adoptionRequest.petId.name} has been approved`,
                 text: `
 Dear ${adoptionRequest.firstName},
 
-We are pleased to inform you that your adoption request has been APPROVED! 
+We are pleased to inform you that your adoption request for ${adoptionRequest.petId.name} has been APPROVED! 
 
 Request Details:
 - Applicant Name: ${adoptionRequest.firstName} ${adoptionRequest.lastName}
+- Pet Name: ${adoptionRequest.petId.name}
 - Request ID: ${adoptionRequest._id}
 - Request Date: ${new Date(adoptionRequest.createdAt).toLocaleDateString()}
 
 Next Steps:
 1. We will contact you within the next 24-48 hours to schedule a visit.
-2. During the visit, you'll meet your future pet and we'll complete the necessary paperwork.
+2. During the visit, you'll meet ${adoptionRequest.petId.name} and we'll complete the necessary paperwork.
 3. We'll explain all the details about your new pet's care and adaptation process.
 
 If you have any questions in the meantime, please don't hesitate to contact us.
@@ -32,16 +33,17 @@ The Little Pets Team
                 `,
                 html: `
                     <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-                        <h2 style="color: #4CAF50;">Congratulations! Your adoption request has been approved</h2>
+                        <h2 style="color: #4CAF50;">Congratulations! Your adoption request for ${adoptionRequest.petId.name} has been approved</h2>
                         
                         <p>Dear ${adoptionRequest.firstName},</p>
                         
-                        <p>We are pleased to inform you that your adoption request has been <strong style="color: #4CAF50;">APPROVED</strong>!</p>
+                        <p>We are pleased to inform you that your adoption request for <strong>${adoptionRequest.petId.name}</strong> has been <strong style="color: #4CAF50;">APPROVED</strong>!</p>
                         
                         <div style="background-color: #f5f5f5; padding: 15px; border-radius: 5px; margin: 20px 0;">
                             <h3 style="margin-top: 0;">Request Details:</h3>
                             <ul style="list-style: none; padding-left: 0;">
                                 <li>📝 <strong>Applicant Name:</strong> ${adoptionRequest.firstName} ${adoptionRequest.lastName}</li>
+                                <li>🐾 <strong>Pet Name:</strong> ${adoptionRequest.petId.name}</li>
                                 <li>🔢 <strong>Request ID:</strong> ${adoptionRequest._id}</li>
                                 <li>📅 <strong>Request Date:</strong> ${new Date(adoptionRequest.createdAt).toLocaleDateString()}</li>
                             </ul>
@@ -50,7 +52,7 @@ The Little Pets Team
                         <h3>Next Steps:</h3>
                         <ol style="line-height: 1.6;">
                             <li>We will contact you within the next 24-48 hours to schedule a visit.</li>
-                            <li>During the visit, you'll meet your future pet and we'll complete the necessary paperwork.</li>
+                            <li>During the visit, you'll meet ${adoptionRequest.petId.name} and we'll complete the necessary paperwork.</li>
                             <li>We'll explain all the details about your new pet's care and adaptation process.</li>
                         </ol>
                         
@@ -63,16 +65,17 @@ The Little Pets Team
                 `
             },
             rejected: {
-                subject: 'Update on your adoption request',
+                subject: `Update on your adoption request for ${adoptionRequest.petId.name}`,
                 text: `
 Dear ${adoptionRequest.firstName},
 
-We are writing regarding your adoption request.
+We are writing regarding your adoption request for ${adoptionRequest.petId.name}.
 
 After careful review, we regret to inform you that we cannot proceed with your application at this time.
 
 Request Details:
 - Applicant Name: ${adoptionRequest.firstName} ${adoptionRequest.lastName}
+- Pet Name: ${adoptionRequest.petId.name}
 - Request ID: ${adoptionRequest._id}
 - Request Date: ${new Date(adoptionRequest.createdAt).toLocaleDateString()}
 
@@ -88,11 +91,11 @@ The Little Pets Team
                 `,
                 html: `
                     <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-                        <h2 style="color: #FF8A2B;">Update on your adoption request</h2>
+                        <h2 style="color: #FF8A2B;">Update on your adoption request for ${adoptionRequest.petId.name}</h2>
                         
                         <p>Dear ${adoptionRequest.firstName},</p>
                         
-                        <p>We are writing regarding your adoption request.</p>
+                        <p>We are writing regarding your adoption request for <strong>${adoptionRequest.petId.name}</strong>.</p>
                         
                         <p>After careful review, we regret to inform you that we cannot proceed with your application at this time.</p>
                         
@@ -100,6 +103,7 @@ The Little Pets Team
                             <h3 style="margin-top: 0;">Request Details:</h3>
                             <ul style="list-style: none; padding-left: 0;">
                                 <li>📝 <strong>Applicant Name:</strong> ${adoptionRequest.firstName} ${adoptionRequest.lastName}</li>
+                                <li>🐾 <strong>Pet Name:</strong> ${adoptionRequest.petId.name}</li>
                                 <li>🔢 <strong>Request ID:</strong> ${adoptionRequest._id}</li>
                                 <li>📅 <strong>Request Date:</strong> ${new Date(adoptionRequest.createdAt).toLocaleDateString()}</li>
                             </ul>
