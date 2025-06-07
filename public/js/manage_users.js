@@ -309,50 +309,143 @@ function initializeUserManagement(token) {
     
     // Function to validate the form
     function validateForm() {
-        // Validate that required fields are completed
-        if (!nameInput.value || !emailInput.value || !cedulaInput.value) {
+        const name = nameInput.value.trim();
+        const email = emailInput.value.trim();
+        const cedula = cedulaInput.value.trim();
+        const password = passwordInput.value;
+        const confirmPassword = confirmPasswordInput.value;
+        
+        // Validar nombre
+        if (!name) {
             Swal.fire({
-                title: 'Error',
-                text: 'Please complete all required fields (name, email and cédula)',
+                title: 'Validation Error',
+                text: 'Please enter the user name',
                 icon: 'error',
                 confirmButtonColor: '#dc3545'
             });
+            nameInput.focus();
+            return false;
+        }
+
+        if (name.length < 2 || name.length > 50) {
+            Swal.fire({
+                title: 'Validation Error',
+                text: 'Name must be between 2 and 50 characters',
+                icon: 'error',
+                confirmButtonColor: '#dc3545'
+            });
+            nameInput.focus();
+            return false;
+        }
+
+        // Validar cédula
+        if (!cedula) {
+            Swal.fire({
+                title: 'Validation Error',
+                text: 'Please enter the ID number (cédula)',
+                icon: 'error',
+                confirmButtonColor: '#dc3545'
+            });
+            cedulaInput.focus();
+            return false;
+        }
+
+        // Validar que la cédula solo contenga números
+        const idNumberPattern = /^\d+$/;
+        if (!idNumberPattern.test(cedula)) {
+            Swal.fire({
+                title: 'Validation Error',
+                text: 'The ID number must only contain numbers',
+                icon: 'error',
+                confirmButtonColor: '#dc3545'
+            });
+            cedulaInput.focus();
             return false;
         }
         
-        // Validate email format
+        if (cedula.length < 8 || cedula.length > 15) {
+            Swal.fire({
+                title: 'Validation Error',
+                text: 'ID number must be between 8 and 15 digits',
+                icon: 'error',
+                confirmButtonColor: '#dc3545'
+            });
+            cedulaInput.focus();
+            return false;
+        }
+        
+        // Validar email
+        if (!email) {
+            Swal.fire({
+                title: 'Validation Error',
+                text: 'Please enter the email address',
+                icon: 'error',
+                confirmButtonColor: '#dc3545'
+            });
+            emailInput.focus();
+            return false;
+        }
+
+        // Validar formato de email
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(emailInput.value)) {
+        if (!emailRegex.test(email)) {
             Swal.fire({
-                title: 'Error',
-                text: 'Please enter a valid email',
+                title: 'Validation Error',
+                text: 'Please enter a valid email address',
                 icon: 'error',
                 confirmButtonColor: '#dc3545'
             });
+            emailInput.focus();
             return false;
         }
         
-        // If it's a new user or the password is being changed
-        if (!selectedUserId || passwordInput.value) {
-            // Validate that the password has at least 8 characters
-            if (passwordInput.value.length < 8) {
+        // Si es un nuevo usuario o se está cambiando la contraseña
+        if (!selectedUserId || password) {
+            // Validar contraseña
+            if (!password) {
                 Swal.fire({
-                    title: 'Error',
+                    title: 'Validation Error',
+                    text: 'Password is required for new users',
+                    icon: 'error',
+                    confirmButtonColor: '#dc3545'
+                });
+                passwordInput.focus();
+                return false;
+            }
+
+            if (password.length < 8) {
+                Swal.fire({
+                    title: 'Validation Error',
                     text: 'Password must be at least 8 characters long',
                     icon: 'error',
                     confirmButtonColor: '#dc3545'
                 });
+                passwordInput.focus();
                 return false;
             }
-            
-            // Validate that the passwords match
-            if (passwordInput.value !== confirmPasswordInput.value) {
+
+            // Validar complejidad de la contraseña
+            const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d@$!%*?&]{8,}$/;
+            if (!passwordRegex.test(password)) {
                 Swal.fire({
-                    title: 'Error',
+                    title: 'Validation Error',
+                    text: 'Password must contain at least one uppercase letter, one lowercase letter, and one number',
+                    icon: 'error',
+                    confirmButtonColor: '#dc3545'
+                });
+                passwordInput.focus();
+                return false;
+            }
+
+            // Validar confirmación de contraseña
+            if (password !== confirmPassword) {
+                Swal.fire({
+                    title: 'Validation Error',
                     text: 'Passwords do not match',
                     icon: 'error',
                     confirmButtonColor: '#dc3545'
                 });
+                confirmPasswordInput.focus();
                 return false;
             }
         }
@@ -622,5 +715,121 @@ function initializeUserManagement(token) {
             // Add the row to the table
             usersTable.appendChild(row);
         });
+    }
+
+    function setupRealTimeValidation() {
+        const inputs = [nameInput, emailInput, cedulaInput, passwordInput, confirmPasswordInput];
+        
+        inputs.forEach(input => {
+            if (!input) return; // Skip if input doesn't exist
+            
+            // Agregar clases de validación visual
+            input.addEventListener('blur', () => {
+                validateInput(input);
+            });
+            
+            // Limpiar estado de validación al empezar a escribir
+            input.addEventListener('input', () => {
+                input.classList.remove('is-invalid', 'is-valid');
+                const feedback = input.nextElementSibling;
+                if (feedback && feedback.classList.contains('validation-feedback')) {
+                    feedback.remove();
+                }
+            });
+        });
+    }
+
+    function validateInput(input) {
+        let isValid = true;
+        let message = '';
+        
+        const value = input.value.trim();
+        
+        switch (input.id) {
+            case 'name':
+                if (!value) {
+                    isValid = false;
+                    message = 'Name is required';
+                } else if (value.length < 2 || value.length > 50) {
+                    isValid = false;
+                    message = 'Name must be between 2 and 50 characters';
+                }
+                break;
+                
+            case 'email':
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!value) {
+                    isValid = false;
+                    message = 'Email is required';
+                } else if (!emailRegex.test(value)) {
+                    isValid = false;
+                    message = 'Please enter a valid email address';
+                }
+                break;
+                
+            case 'cedula':
+                const idNumberPattern = /^\d+$/;
+                if (!value) {
+                    isValid = false;
+                    message = 'ID number is required';
+                } else if (!idNumberPattern.test(value)) {
+                    isValid = false;
+                    message = 'ID number must only contain numbers';
+                } else if (value.length < 8 || value.length > 15) {
+                    isValid = false;
+                    message = 'ID number must be between 8 and 15 digits';
+                }
+                break;
+                
+            case 'password':
+                if (!selectedUserId) { // Solo validar para nuevos usuarios
+                    if (!value) {
+                        isValid = false;
+                        message = 'Password is required for new users';
+                    } else if (value.length < 8) {
+                        isValid = false;
+                        message = 'Password must be at least 8 characters long';
+                    } else {
+                        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d@$!%*?&]{8,}$/;
+                        if (!passwordRegex.test(value)) {
+                            isValid = false;
+                            message = 'Password must contain uppercase, lowercase and numbers';
+                        }
+                    }
+                }
+                break;
+                
+            case 'confirm-password':
+                const password = passwordInput.value;
+                if (!selectedUserId && password && value !== password) {
+                    isValid = false;
+                    message = 'Passwords do not match';
+                }
+                break;
+        }
+        
+        // Actualizar clases y mensaje de validación
+        updateValidationUI(input, isValid, message);
+        
+        return isValid;
+    }
+
+    function updateValidationUI(input, isValid, message) {
+        // Remover clases y feedback existentes
+        input.classList.remove('is-invalid', 'is-valid');
+        const existingFeedback = input.nextElementSibling;
+        if (existingFeedback && existingFeedback.classList.contains('validation-feedback')) {
+            existingFeedback.remove();
+        }
+        
+        // Agregar nueva clase y feedback
+        input.classList.add(isValid ? 'is-valid' : 'is-invalid');
+        
+        if (!isValid && message) {
+            const feedback = document.createElement('div');
+            feedback.className = 'validation-feedback invalid-feedback';
+            feedback.textContent = message;
+            input.parentNode.insertBefore(feedback, input.nextSibling);
+        }
     }
 }
