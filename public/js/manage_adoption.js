@@ -645,12 +645,21 @@ function createPetDetailHTML(pet) {
                 <img src="${pet.image || '../media/images/default-pet.jpg'}" alt="${pet.name}">
             </div>
             <div class="pet-detail-info">
-                <h4 class="pet-detail-name">${pet.name}</h4>
-                <p class="pet-detail-breed">${pet.breed} · ${pet.age} years · ${pet.gender}</p>
+                <h4 class="pet-detail-name">
+                    <i class="fas fa-paw"></i>
+                    ${pet.name}
+                </h4>
+                <p class="pet-detail-breed">
+                    <i class="fas fa-tag"></i>
+                    ${pet.breed} · ${pet.age} years · ${pet.gender}
+                </p>
             </div>
         </div>
         <div class="pet-detail-description">
-            <h5><i class="fas fa-info-circle"></i> About ${pet.name}</h5>
+            <h5>
+                <i class="fas fa-heart"></i>
+                About ${pet.name}
+            </h5>
             <p>${pet.description || 'No description available.'}</p>
         </div>
     `;
