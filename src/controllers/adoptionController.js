@@ -118,7 +118,7 @@ exports.getAdoptionRequestById = async (req, res) => {
 exports.updateAdoptionRequestStatus = async (req, res) => {
   try {
     const { status, reviewComments } = req.body;
-    
+
     if (!["pending", "approved", "rejected"].includes(status)) {
       return res.status(400).json({
         success: false,
@@ -128,14 +128,14 @@ exports.updateAdoptionRequestStatus = async (req, res) => {
     
     const adoptionRequest = await AdoptionRequest.findById(req.params.id)
       .populate("petId", "name type breed image availability");
-    
+
     if (!adoptionRequest) {
       return res.status(404).json({
         success: false,
         message: "Adoption request not found",
       });
     }
-    
+
     // Update status and comments
     adoptionRequest.status = status;
     if (reviewComments) {
@@ -145,7 +145,7 @@ exports.updateAdoptionRequestStatus = async (req, res) => {
     adoptionRequest.reviewDate = Date.now();
     
     await adoptionRequest.save();
-    
+
     // If request is approved, update pet status to "adopted"
     if (status === "approved" && adoptionRequest.petId) {
       try {
@@ -162,7 +162,7 @@ exports.updateAdoptionRequestStatus = async (req, res) => {
         // Don't interrupt main flow if there's an error updating the pet
       }
     }
-    
+
     // Send email notification
     try {
       await sendAdoptionStatusEmail(adoptionRequest, status);
@@ -171,7 +171,7 @@ exports.updateAdoptionRequestStatus = async (req, res) => {
       console.error('Error sending status notification email:', emailError);
       // Continue execution even if email fails
     }
-    
+
     res.status(200).json({
       success: true,
       message: "Adoption request status updated successfully",
@@ -182,6 +182,30 @@ exports.updateAdoptionRequestStatus = async (req, res) => {
     res.status(500).json({
       success: false,
       message: "Error updating adoption request status",
+      error: error.message,
+    });
+  }
+};
+
+// Get adoption requests by user email
+exports.getAdoptionRequestsByEmail = async (req, res) => {
+  try {
+    const { email } = req.params;
+    
+    const adoptionRequests = await AdoptionRequest.find({ email })
+      .sort({ createdAt: -1 })
+      .populate("petId", "name type breed image");
+    
+    res.status(200).json({
+      success: true,
+      count: adoptionRequests.length,
+      data: adoptionRequests,
+    });
+  } catch (error) {
+    console.error("Error fetching adoption requests by email:", error);
+    res.status(500).json({
+      success: false,
+      message: "Failed to fetch adoption requests",
       error: error.message,
     });
   }
@@ -214,30 +238,6 @@ exports.servePdf = async (req, res) => {
       success: false, 
       message: "Error serving PDF", 
       error: error.message 
-    });
-  }
-};
-
-// Get adoption requests by user email
-exports.getAdoptionRequestsByEmail = async (req, res) => {
-  try {
-    const { email } = req.params;
-    
-    const adoptionRequests = await AdoptionRequest.find({ email })
-      .sort({ createdAt: -1 })
-      .populate("petId", "name type breed image");
-    
-    res.status(200).json({
-      success: true,
-      count: adoptionRequests.length,
-      data: adoptionRequests,
-    });
-  } catch (error) {
-    console.error("Error fetching adoption requests by email:", error);
-    res.status(500).json({
-      success: false,
-      message: "Failed to fetch adoption requests",
-      error: error.message,
     });
   }
 };
