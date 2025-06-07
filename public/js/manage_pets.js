@@ -95,6 +95,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 closeModal();
             }
         });
+
+        // Agregar validación en tiempo real
+        setupRealTimeValidation();
     }
     
     // Load pet list from API
@@ -452,65 +455,235 @@ document.addEventListener('DOMContentLoaded', function() {
         const size = document.getElementById('pet-size').value.trim();
         const typeChecked = document.querySelector('input[name="pet-type"]:checked');
         const sexChecked = document.querySelector('input[name="pet-sex"]:checked');
+        const vaccinatedChecked = document.querySelector('input[name="pet-vaccinated"]:checked');
+        const sterilizedChecked = document.querySelector('input[name="pet-sterilized"]:checked');
+        const availabilityChecked = document.querySelector('input[name="pet-availability"]:checked');
+        const personality = document.getElementById('pet-personality').value.trim();
+        const imageInput = document.getElementById('pet-images');
         
+        // Validar nombre
         if (!name) {
             Swal.fire({
-                title: 'Error',
-                text: 'Pet name is required',
+                title: 'Validation Error',
+                text: 'Please enter the pet name',
                 icon: 'error',
                 confirmButtonColor: '#dc3545'
             });
+            document.getElementById('pet-name').focus();
+            return false;
+        }
+
+        if (name.length < 2 || name.length > 50) {
+            Swal.fire({
+                title: 'Validation Error',
+                text: 'Pet name must be between 2 and 50 characters',
+                icon: 'error',
+                confirmButtonColor: '#dc3545'
+            });
+            document.getElementById('pet-name').focus();
             return false;
         }
         
+        // Validar raza
         if (!breed) {
             Swal.fire({
-                title: 'Error',
-                text: 'Pet breed is required',
+                title: 'Validation Error',
+                text: 'Please enter the pet breed',
                 icon: 'error',
                 confirmButtonColor: '#dc3545'
             });
+            document.getElementById('pet-breed').focus();
+            return false;
+        }
+
+        if (breed.length < 2 || breed.length > 50) {
+            Swal.fire({
+                title: 'Validation Error',
+                text: 'Breed must be between 2 and 50 characters',
+                icon: 'error',
+                confirmButtonColor: '#dc3545'
+            });
+            document.getElementById('pet-breed').focus();
             return false;
         }
         
+        // Validar edad
         if (!age) {
             Swal.fire({
-                title: 'Error',
-                text: 'Pet age is required',
+                title: 'Validation Error',
+                text: 'Please enter the pet age',
                 icon: 'error',
                 confirmButtonColor: '#dc3545'
             });
+            document.getElementById('pet-age').focus();
+            return false;
+        }
+
+        // Validar que la edad sea un número válido
+        const ageNum = parseFloat(age);
+        if (isNaN(ageNum) || ageNum < 0 || ageNum > 30) {
+            Swal.fire({
+                title: 'Validation Error',
+                text: 'Please enter a valid age between 0 and 30 years',
+                icon: 'error',
+                confirmButtonColor: '#dc3545'
+            });
+            document.getElementById('pet-age').focus();
             return false;
         }
         
+        // Validar tamaño
         if (!size) {
             Swal.fire({
-                title: 'Error',
-                text: 'Pet size is required',
+                title: 'Validation Error',
+                text: 'Please enter the pet size',
                 icon: 'error',
                 confirmButtonColor: '#dc3545'
             });
+            document.getElementById('pet-size').focus();
+            return false;
+        }
+
+        // Validar que el tamaño sea uno de los valores permitidos
+        const validSizes = ['Small', 'Medium', 'Large'];
+        if (!validSizes.includes(size)) {
+            Swal.fire({
+                title: 'Validation Error',
+                text: 'Size must be Small, Medium, or Large',
+                icon: 'error',
+                confirmButtonColor: '#dc3545'
+            });
+            document.getElementById('pet-size').focus();
             return false;
         }
         
+        // Validar tipo (cat/dog)
         if (!typeChecked) {
             Swal.fire({
-                title: 'Error',
-                text: 'You must select if it is a cat or dog',
+                title: 'Validation Error',
+                text: 'Please select if the pet is a cat or dog',
                 icon: 'error',
                 confirmButtonColor: '#dc3545'
             });
             return false;
         }
         
+        // Validar sexo
         if (!sexChecked) {
             Swal.fire({
-                title: 'Error',
-                text: 'You must select the pet gender',
+                title: 'Validation Error',
+                text: 'Please select the pet gender',
                 icon: 'error',
                 confirmButtonColor: '#dc3545'
             });
             return false;
+        }
+        
+        // Validar estado de vacunación
+        if (!vaccinatedChecked) {
+            Swal.fire({
+                title: 'Validation Error',
+                text: 'Please indicate if the pet is vaccinated',
+                icon: 'error',
+                confirmButtonColor: '#dc3545'
+            });
+            return false;
+        }
+        
+        // Validar estado de esterilización
+        if (!sterilizedChecked) {
+            Swal.fire({
+                title: 'Validation Error',
+                text: 'Please indicate if the pet is sterilized',
+                icon: 'error',
+                confirmButtonColor: '#dc3545'
+            });
+            return false;
+        }
+        
+        // Validar disponibilidad
+        if (!availabilityChecked) {
+            Swal.fire({
+                title: 'Validation Error',
+                text: 'Please select the pet availability status',
+                icon: 'error',
+                confirmButtonColor: '#dc3545'
+            });
+            return false;
+        }
+        
+        // Validar personalidad
+        if (!personality) {
+            Swal.fire({
+                title: 'Validation Error',
+                text: 'Please describe the pet personality',
+                icon: 'error',
+                confirmButtonColor: '#dc3545'
+            });
+            document.getElementById('pet-personality').focus();
+            return false;
+        }
+
+        if (personality.length < 10 || personality.length > 500) {
+            Swal.fire({
+                title: 'Validation Error',
+                text: 'Personality description must be between 10 and 500 characters',
+                icon: 'error',
+                confirmButtonColor: '#dc3545'
+            });
+            document.getElementById('pet-personality').focus();
+            return false;
+        }
+        
+        // Validar imágenes
+        if (!isEditMode && (!imageInput.files || imageInput.files.length === 0)) {
+            Swal.fire({
+                title: 'Validation Error',
+                text: 'Please select at least one image for the pet',
+                icon: 'error',
+                confirmButtonColor: '#dc3545'
+            });
+            return false;
+        }
+
+        if (imageInput.files && imageInput.files.length > 3) {
+            Swal.fire({
+                title: 'Validation Error',
+                text: 'You can only upload a maximum of 3 images',
+                icon: 'error',
+                confirmButtonColor: '#dc3545'
+            });
+            return false;
+        }
+
+        // Validar el tamaño y tipo de las imágenes
+        if (imageInput.files && imageInput.files.length > 0) {
+            const maxSize = 5 * 1024 * 1024; // 5MB
+            const allowedTypes = ['image/jpeg', 'image/png', 'image/jpg'];
+            
+            for (let i = 0; i < imageInput.files.length; i++) {
+                const file = imageInput.files[i];
+                
+                if (file.size > maxSize) {
+                    Swal.fire({
+                        title: 'Validation Error',
+                        text: `Image ${file.name} is too large. Maximum size is 5MB`,
+                        icon: 'error',
+                        confirmButtonColor: '#dc3545'
+                    });
+                    return false;
+                }
+                
+                if (!allowedTypes.includes(file.type)) {
+                    Swal.fire({
+                        title: 'Validation Error',
+                        text: `Invalid file type for ${file.name}. Only JPG and PNG are allowed`,
+                        icon: 'error',
+                        confirmButtonColor: '#dc3545'
+                    });
+                    return false;
+                }
+            }
         }
         
         return true;
@@ -833,5 +1006,199 @@ document.addEventListener('DOMContentLoaded', function() {
                 });
             }
         });
+    }
+
+    // Función para configurar la validación en tiempo real
+    function setupRealTimeValidation() {
+        const textInputs = ['pet-name', 'pet-breed', 'pet-age', 'pet-size', 'pet-personality'];
+        const radioGroups = ['pet-type', 'pet-sex', 'pet-vaccinated', 'pet-sterilized', 'pet-availability'];
+        
+        // Validar campos de texto
+        textInputs.forEach(inputId => {
+            const input = document.getElementById(inputId);
+            if (input) {
+                input.addEventListener('input', function() {
+                    validateField(this);
+                });
+                
+                input.addEventListener('blur', function() {
+                    validateField(this, true);
+                });
+            }
+        });
+        
+        // Validar grupos de radio buttons
+        radioGroups.forEach(groupName => {
+            const radios = document.querySelectorAll(`input[name="${groupName}"]`);
+            radios.forEach(radio => {
+                radio.addEventListener('change', function() {
+                    validateRadioGroup(groupName);
+                });
+            });
+        });
+        
+        // Validar imágenes
+        const imageInput = document.getElementById('pet-images');
+        if (imageInput) {
+            imageInput.addEventListener('change', function() {
+                validateImages(this);
+            });
+        }
+    }
+
+    // Función para validar un campo individual
+    function validateField(input, showError = false) {
+        let isValid = true;
+        let errorMessage = '';
+        
+        switch(input.id) {
+            case 'pet-name':
+                if (!input.value.trim()) {
+                    isValid = false;
+                    errorMessage = 'Pet name is required';
+                } else if (input.value.length < 2 || input.value.length > 50) {
+                    isValid = false;
+                    errorMessage = 'Name must be between 2 and 50 characters';
+                }
+                break;
+                
+            case 'pet-breed':
+                if (!input.value.trim()) {
+                    isValid = false;
+                    errorMessage = 'Breed is required';
+                } else if (input.value.length < 2 || input.value.length > 50) {
+                    isValid = false;
+                    errorMessage = 'Breed must be between 2 and 50 characters';
+                }
+                break;
+                
+            case 'pet-age':
+                const age = parseFloat(input.value);
+                if (!input.value.trim()) {
+                    isValid = false;
+                    errorMessage = 'Age is required';
+                } else if (isNaN(age) || age < 0 || age > 30) {
+                    isValid = false;
+                    errorMessage = 'Please enter a valid age between 0 and 30 years';
+                }
+                break;
+                
+            case 'pet-size':
+                const validSizes = ['Small', 'Medium', 'Large'];
+                if (!input.value.trim()) {
+                    isValid = false;
+                    errorMessage = 'Size is required';
+                } else if (!validSizes.includes(input.value)) {
+                    isValid = false;
+                    errorMessage = 'Size must be Small, Medium, or Large';
+                }
+                break;
+                
+            case 'pet-personality':
+                if (!input.value.trim()) {
+                    isValid = false;
+                    errorMessage = 'Personality description is required';
+                } else if (input.value.length < 10 || input.value.length > 500) {
+                    isValid = false;
+                    errorMessage = 'Description must be between 10 and 500 characters';
+                }
+                break;
+        }
+        
+        // Actualizar clases y mensajes de validación
+        updateFieldValidationUI(input, isValid, errorMessage, showError);
+        
+        return isValid;
+    }
+
+    // Función para validar un grupo de radio buttons
+    function validateRadioGroup(groupName) {
+        const radios = document.querySelectorAll(`input[name="${groupName}"]`);
+        const radioGroup = radios[0].closest('.radio-group');
+        const isValid = Array.from(radios).some(radio => radio.checked);
+        
+        if (radioGroup) {
+            if (isValid) {
+                radioGroup.classList.remove('invalid');
+            } else {
+                radioGroup.classList.add('invalid');
+            }
+        }
+        
+        return isValid;
+    }
+
+    // Función para validar imágenes
+    function validateImages(input) {
+        const imageHelpText = document.querySelector('.image-help-text');
+        let isValid = true;
+        let errorMessage = '';
+        
+        if (!isEditMode && (!input.files || input.files.length === 0)) {
+            isValid = false;
+            errorMessage = 'Please select at least one image';
+        } else if (input.files && input.files.length > 3) {
+            isValid = false;
+            errorMessage = 'You can only upload a maximum of 3 images';
+        } else if (input.files && input.files.length > 0) {
+            const maxSize = 5 * 1024 * 1024; // 5MB
+            const allowedTypes = ['image/jpeg', 'image/png', 'image/jpg'];
+            
+            for (let i = 0; i < input.files.length; i++) {
+                const file = input.files[i];
+                
+                if (file.size > maxSize) {
+                    isValid = false;
+                    errorMessage = `Image ${file.name} is too large. Maximum size is 5MB`;
+                    break;
+                }
+                
+                if (!allowedTypes.includes(file.type)) {
+                    isValid = false;
+                    errorMessage = `Invalid file type for ${file.name}. Only JPG and PNG are allowed`;
+                    break;
+                }
+            }
+        }
+        
+        // Actualizar UI para las imágenes
+        if (imageHelpText) {
+            if (!isValid) {
+                imageHelpText.classList.add('invalid');
+                imageHelpText.textContent = errorMessage;
+            } else {
+                imageHelpText.classList.remove('invalid');
+                imageHelpText.textContent = 'Select up to 3 images. The first image will be the main image.';
+            }
+        }
+        
+        return isValid;
+    }
+
+    // Función para actualizar la UI de validación de un campo
+    function updateFieldValidationUI(input, isValid, errorMessage, showError) {
+        // Remover clases existentes
+        input.classList.remove('valid', 'invalid');
+        
+        // Obtener o crear el elemento de mensaje de validación
+        let validationMessage = input.nextElementSibling;
+        if (!validationMessage || !validationMessage.classList.contains('validation-message')) {
+            validationMessage = document.createElement('div');
+            validationMessage.className = 'validation-message';
+            input.parentNode.insertBefore(validationMessage, input.nextSibling);
+        }
+        
+        if (isValid) {
+            input.classList.add('valid');
+            validationMessage.style.display = 'none';
+        } else {
+            input.classList.add('invalid');
+            if (showError) {
+                validationMessage.textContent = errorMessage;
+                validationMessage.style.display = 'block';
+            } else {
+                validationMessage.style.display = 'none';
+            }
+        }
     }
 });
