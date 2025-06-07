@@ -8,12 +8,29 @@ Visita la aplicación en vivo: [https://little-pets.onrender.com](https://little
 
 ## 📋 Características
 
+### Gestión de Mascotas
 - **Catálogo de mascotas**: Explora perros y gatos disponibles para adopción
 - **Perfiles detallados**: Información completa sobre cada mascota (edad, raza, personalidad, etc.)
+- **Gestión de imágenes**: Soporte para múltiples imágenes por mascota (hasta 3)
+- **Estados de disponibilidad**: Available, Adopted, Fostered, Pending
+
+### Sistema de Adopción
 - **Proceso de adopción**: Formulario paso a paso con generación de PDF
+- **Gestión de solicitudes**: Panel de control para aprobar/rechazar solicitudes
+- **Notificaciones por correo**: Emails personalizados con el nombre de la mascota
+- **Seguimiento de estado**: Monitoreo del estado de las solicitudes
+
+### Usuarios y Seguridad
 - **Sistema de usuarios**: Registro, inicio de sesión y perfiles de usuario
 - **Roles y permisos**: Diferentes niveles de acceso (usuario, manager, administrador)
+- **Logout seguro**: Confirmación de cierre de sesión con notificaciones
+- **Validación de datos**: Verificación de cédula y email únicos
+
+### Interfaz y Experiencia de Usuario
+- **Diseño responsivo**: Adaptable a dispositivos móviles y de escritorio
+- **Notificaciones Toastify**: Feedback visual para acciones del usuario
 - **Formulario de contacto**: Comunicación directa con la fundación
+- **Navegación intuitiva**: Menú hamburguesa para dispositivos móviles
 
 ## 🛠️ Tecnologías
 
@@ -22,11 +39,13 @@ Visita la aplicación en vivo: [https://little-pets.onrender.com](https://little
 - **MongoDB** y **Mongoose**: Base de datos NoSQL y ODM
 - **JWT**: Autenticación basada en tokens
 - **bcrypt**: Encriptación segura de contraseñas
-- **SendGrid**: Envío de correos electrónicos
+- **SendGrid**: Envío de correos electrónicos personalizados
+- **Cloudinary**: Almacenamiento y gestión de imágenes y PDFs
 
 ### Frontend
 - **HTML5**, **CSS3** y **JavaScript** (vanilla)
-- **Diseño responsivo**: Adaptable a dispositivos móviles y de escritorio
+- **Toastify**: Notificaciones elegantes
+- **SweetAlert2**: Diálogos de confirmación mejorados
 - **jsPDF**: Generación de documentos PDF para solicitudes de adopción
 
 ## 🚀 Instalación
@@ -49,6 +68,9 @@ JWT_SECRET=tu_clave_secreta_jwt
 SENDGRID_API_KEY=tu_api_key_sendgrid
 FROM_EMAIL=email_remitente@ejemplo.com
 TO_EMAIL=email_destino@ejemplo.com
+CLOUDINARY_CLOUD_NAME=tu_cloud_name
+CLOUDINARY_API_KEY=tu_api_key
+CLOUDINARY_API_SECRET=tu_api_secret
 ```
 
 4. Inicia el servidor de desarrollo:
@@ -68,10 +90,11 @@ little-pets/
 │   ├── media/            # Imágenes y recursos multimedia
 │   └── pages/            # Páginas HTML
 ├── src/                  # Código del servidor
-│   ├── config/           # Configuraciones (DB, etc.)
+│   ├── config/           # Configuraciones (DB, Cloudinary)
 │   ├── controllers/      # Controladores
 │   ├── middlewares/      # Middlewares (auth, roles)
 │   ├── models/           # Modelos de datos
+│   ├── services/         # Servicios (email, storage)
 │   └── routes/           # Rutas de la API
 ├── .env                  # Variables de entorno (no incluido en git)
 ├── .gitignore            # Archivos ignorados por git
@@ -87,9 +110,9 @@ little-pets/
 
 ### Usuarios
 - `GET /api/users/profile`: Obtener perfil del usuario autenticado
-- `GET /api/users/admin`: Ruta protegida para administradores
-- `GET /api/users/manager`: Ruta protegida para managers
-- `GET /api/users/user`: Ruta protegida para usuarios
+- `GET /api/users`: Obtener lista de usuarios (admin)
+- `PUT /api/users/:id`: Actualizar usuario (admin)
+- `DELETE /api/users/:id`: Eliminar usuario (admin)
 
 ### Mascotas
 - `GET /api/pets`: Obtener todas las mascotas
@@ -98,14 +121,34 @@ little-pets/
 - `PUT /api/pets/:id`: Actualizar una mascota (admin/manager)
 - `DELETE /api/pets/:id`: Eliminar una mascota (admin/manager)
 
+### Adopciones
+- `POST /api/adoptions`: Crear solicitud de adopción
+- `GET /api/adoptions`: Listar solicitudes (admin/manager)
+- `PUT /api/adoptions/:id/status`: Actualizar estado de solicitud
+- `GET /api/adoptions/:id/pdf`: Obtener PDF de solicitud
+
 ### Contacto
 - `POST /api/contact`: Enviar mensaje de contacto
 
 ## 👥 Roles de Usuario
 
-- **Usuario**: Puede ver mascotas y enviar solicitudes de adopción
-- **Manager**: Puede gestionar mascotas (crear, editar, eliminar)
-- **Administrador**: Acceso completo al sistema, incluida la gestión de usuarios
+- **Usuario**: 
+  - Ver catálogo de mascotas
+  - Enviar solicitudes de adopción
+  - Gestionar su perfil
+  - Enviar mensajes de contacto
+
+- **Manager**: 
+  - Todo lo del usuario normal
+  - Gestionar mascotas (CRUD)
+  - Aprobar/rechazar solicitudes
+  - Ver estadísticas básicas
+
+- **Administrador**: 
+  - Todo lo del manager
+  - Gestión completa de usuarios
+  - Acceso a todas las estadísticas
+  - Configuración del sistema
 
 ## 📱 Capturas de Pantalla
 
