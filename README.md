@@ -10,7 +10,7 @@ Visita la aplicación en vivo: [https://little-pets.onrender.com](https://little
 
 ### Gestión de Mascotas
 - **Catálogo de mascotas**: Explora perros y gatos disponibles para adopción
-- **Perfiles detallados**: Información completa sobre cada mascota (edad, raza, personalidad, etc.)
+- **Perfiles detallados**: Información completa sobre cada mascota (edad, raza, personalidad, tamaño, etc.)
 - **Gestión de imágenes**: Soporte para múltiples imágenes por mascota (hasta 3)
 - **Estados de disponibilidad**: Available, Adopted, Fostered, Pending
 
