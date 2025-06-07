@@ -201,6 +201,19 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Create adoption request card
     function createAdoptionRequestCard(request) {
+        // Debugging para ver la estructura de los datos
+        console.log('Request object:', request);
+        
+        // Asegurarse de obtener el objeto pet correctamente
+        const pet = request.pet || request.petId;
+        console.log('Pet data:', pet);
+
+        // Formatear la fecha
+        const adoptionDate = new Date(request.createdAt || request.date).toLocaleDateString();
+        
+        // Obtener el estado
+        const status = request.status || 'pending';
+        
         // Create card element
         const card = document.createElement('div');
         card.className = 'adoption-request-card';
@@ -216,7 +229,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Status badge class and text
         let statusClass = '';
         let statusText = '';
-        switch(request.status) {
+        switch(status) {
             case 'pending':
                 statusClass = 'status-pending';
                 statusText = 'Pending';
@@ -235,15 +248,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         
         // Pet information
-        const petInfo = request.petId ? 
-            `<div class="pet-info">
-                <img src="${request.petId.image || '../media/images/default-pet.jpg'}" alt="${request.petId.name}" class="pet-image">
-                <div>
-                    <p class="pet-name">${request.petId.name}</p>
-                    <p class="pet-breed">${request.petId.breed} (${request.petId.type})</p>
-                </div>
-            </div>` : 
-            '<p class="no-pet-info">No pet information available</p>';
+        const petSection = createPetSectionHTML(pet);
         
         // Build card HTML
         card.innerHTML = `
@@ -262,8 +267,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     </div>
                 </div>
                 <div class="pet-section">
-                    <h5>Pet Being Adopted</h5>
-                    ${petInfo}
+                    ${petSection}
                 </div>
             </div>
             <div class="card-footer">
@@ -481,7 +485,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 <div class="alert alert-success">
                     <i class="fas fa-check-circle"></i>
                     <strong>Approving Adoption Request</strong>
-                    <p>You are about to approve this adoption request. The applicant will be notified.</p>
+                    <p>You are about to approve this adoption request.</p>
                 </div>
             `;
         } else {
@@ -489,7 +493,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 <div class="alert alert-danger">
                     <i class="fas fa-times-circle"></i>
                     <strong>Rejecting Adoption Request</strong>
-                    <p>You are about to reject this adoption request. The applicant will be notified.</p>
+                    <p>You are about to reject this adoption request.</p>
                 </div>
             `;
         }
@@ -584,3 +588,214 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize
     checkAuthAndRole();
 });
+
+function createPetPreviewHTML(pet) {
+    if (!pet) {
+        return `
+            <div class="pet-preview">
+                <div class="pet-preview-info">
+                    <p class="text-muted"><i class="fas fa-info-circle"></i> No pet information available</p>
+                </div>
+            </div>
+        `;
+    }
+
+    return `
+        <div class="pet-preview">
+            <div class="pet-preview-image">
+                <img src="${pet.image || '../media/images/default-pet.jpg'}" alt="${pet.name}">
+            </div>
+            <div class="pet-preview-info">
+                <h5 class="pet-preview-name">
+                    <i class="fas fa-paw"></i>
+                    ${pet.name}
+                </h5>
+                <div class="pet-preview-details">
+                    <span class="pet-preview-detail">
+                        <i class="fas fa-dog"></i>
+                        ${pet.breed}
+                    </span>
+                    <span class="pet-preview-detail">
+                        <i class="fas fa-birthday-cake"></i>
+                        ${pet.age} years
+                    </span>
+                    <span class="pet-preview-detail">
+                        <i class="fas fa-venus-mars"></i>
+                        ${pet.gender}
+                    </span>
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+function createPetDetailHTML(pet) {
+    if (!pet) {
+        return `
+            <div class="alert alert-info">
+                <i class="fas fa-info-circle"></i>
+                No pet information available
+            </div>
+        `;
+    }
+
+    return `
+        <div class="pet-detail-header">
+            <div class="pet-detail-image">
+                <img src="${pet.image || '../media/images/default-pet.jpg'}" alt="${pet.name}">
+            </div>
+            <div class="pet-detail-info">
+                <h4 class="pet-detail-name">${pet.name}</h4>
+                <p class="pet-detail-breed">${pet.breed} · ${pet.age} years · ${pet.gender}</p>
+            </div>
+        </div>
+        <div class="pet-detail-description">
+            <h5><i class="fas fa-info-circle"></i> About ${pet.name}</h5>
+            <p>${pet.description || 'No description available.'}</p>
+        </div>
+    `;
+}
+
+function createPetSectionHTML(pet) {
+    if (!pet) {
+        return `
+            <div class="pet-section">
+                <div class="pet-section-header">
+                    <i class="fas fa-paw"></i>
+                    <h5 class="pet-section-title">Pet Information</h5>
+                </div>
+                <div class="no-pet-info">
+                    <i class="fas fa-info-circle"></i> No pet information available
+                </div>
+            </div>
+        `;
+    }
+
+    // Función auxiliar para manejar valores undefined o null
+    const formatValue = (value, defaultValue = 'N/A') => {
+        return value !== undefined && value !== null ? value : defaultValue;
+    };
+
+    // Formatear la edad
+    const formatAge = (age) => {
+        if (!age && age !== 0) return 'N/A';
+        return age === 1 ? '1 year' : `${age} years`;
+    };
+
+    // Obtener el ícono correcto según el tipo de mascota
+    const getPetIcon = (type) => {
+        return type && type.toLowerCase() === 'cat' ? 'fa-cat' : 'fa-dog';
+    };
+
+    // Formatear el tipo de mascota
+    const formatType = (type) => {
+        if (!type) return '';
+        return type.charAt(0).toUpperCase() + type.slice(1).toLowerCase();
+    };
+
+    return `
+        <div class="pet-section">
+            <div class="pet-section-header">
+                <i class="fas fa-paw"></i>
+                <h5 class="pet-section-title">Pet Information</h5>
+            </div>
+            <div class="pet-info-container">
+                <div class="pet-image-container">
+                    <img src="${pet.image || '../media/images/pets/default.jpg'}" alt="${formatValue(pet.name)}">
+                </div>
+                <div class="pet-details-container">
+                    <h6 class="pet-name">
+                        <i class="fas ${getPetIcon(pet.type)}"></i>
+                        ${formatValue(pet.name)}
+                    </h6>
+                    <div class="pet-info-grid">
+                        <div class="pet-info-item">
+                            <i class="fas ${getPetIcon(pet.type)}"></i>
+                            <span>${formatValue(pet.breed)}</span>
+                        </div>
+                        <div class="pet-info-item">
+                            <i class="fas fa-birthday-cake"></i>
+                            <span>${formatAge(pet.age)}</span>
+                        </div>
+                        <div class="pet-info-item">
+                            <i class="fas fa-venus-mars"></i>
+                            <span>${formatValue(pet.gender)}</span>
+                        </div>
+                        <div class="pet-info-item">
+                            <i class="fas fa-tag"></i>
+                            <span>${formatType(pet.type)}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+async function handleAdoptionAction(adoptionId, action) {
+    const title = action === 'approve' ? 'Approve Request?' : 'Reject Request?';
+    const text = action === 'approve' ? 
+        'This action will approve the adoption request.' : 
+        'This action will reject the adoption request.';
+
+    const result = await Swal.fire({
+        title,
+        text,
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonColor: action === 'approve' ? '#28a745' : '#dc3545',
+        cancelButtonColor: '#6c757d',
+        confirmButtonText: action === 'approve' ? 'Yes, approve' : 'Yes, reject',
+        cancelButtonText: 'Cancel',
+        input: 'textarea',
+        inputLabel: 'Comments (optional)',
+        inputPlaceholder: 'Enter additional comments...',
+        inputAttributes: {
+            'aria-label': 'Comments'
+        }
+    });
+
+    if (result.isConfirmed) {
+        try {
+            const response = await fetch(`/api/adoptions/${adoptionId}/status`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+                },
+                body: JSON.stringify({
+                    status: action === 'approve' ? 'approved' : 'rejected',
+                    comments: result.value || ''
+                })
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.message || 'Error updating adoption status');
+            }
+
+            // Mostrar mensaje de éxito
+            const statusText = action === 'approve' ? 'approved' : 'rejected';
+            
+            await Swal.fire({
+                icon: 'success',
+                title: 'Status Updated!',
+                text: `The request has been ${statusText}`,
+                confirmButtonColor: '#FF8A2B'
+            });
+
+            // Recargar la página para mostrar los cambios
+            window.location.reload();
+
+        } catch (error) {
+            console.error('Error:', error);
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: error.message || 'There was a problem updating the adoption status',
+                confirmButtonColor: '#FF8A2B'
+            });
+        }
+    }
+}
