@@ -176,13 +176,14 @@ function renderPets(pets) {
   const petsGridContainer = document.getElementById("petsGrid");
   petsGridContainer.innerHTML = "";
 
-  // Filtrar para mostrar solo mascotas disponibles
-  const availablePets = pets.filter(pet => pet.availability === "available");
+  // Filtrar para mostrar solo mascotas disponibles o con solicitudes pendientes
+  const availablePets = pets.filter(pet => pet.availability !== "adopted");
 
   if (availablePets && availablePets.length > 0) {
     availablePets.forEach((pet) => {
       const cardLink = document.createElement("a");
       cardLink.href = `pet_details.html?id=${pet._id}`;
+      cardLink.classList.add("pet-link");
 
       const card = document.createElement("div");
       card.classList.add("pet-card");
@@ -196,24 +197,57 @@ function renderPets(pets) {
       const img = document.createElement("img");
       img.src = pet.image || "../media/images/pets/default.jpg";
       img.alt = pet.name || "Unnamed pet";
+      img.loading = "lazy"; // Lazy loading for better performance
 
+      // Add status badge
+      const statusBadge = document.createElement("div");
+      statusBadge.classList.add("status-badge");
+      
+      if (pet.adoptionStatus === "pending") {
+        statusBadge.classList.add("pending");
+        statusBadge.innerHTML = '<i class="fas fa-clock"></i> Pending';
+      } else {
+        statusBadge.classList.add("available");
+        statusBadge.innerHTML = '<i class="fas fa-heart"></i> Available';
+      }
+      
       petImageDiv.appendChild(img);
+      petImageDiv.appendChild(statusBadge);
 
-      const petInfoDiv = document.createElement("div");
-      petInfoDiv.classList.add("pet-info");
+      const petInfo = document.createElement("div");
+      petInfo.classList.add("pet-info");
 
-      const nameEl = document.createElement("h3");
-      nameEl.textContent = pet.name || "Unnamed";
+      const name = document.createElement("h3");
+      name.textContent = pet.name || "Unnamed pet";
 
-      petInfoDiv.appendChild(nameEl);
+      const breed = document.createElement("p");
+      breed.classList.add("breed");
+      breed.textContent = pet.breed || "Unknown breed";
+
+      const age = document.createElement("p");
+      age.classList.add("age");
+      age.textContent = pet.age ? `${pet.age} ${pet.age === 1 ? 'year' : 'years'} old` : "Age unknown";
+
+      petInfo.appendChild(name);
+      petInfo.appendChild(breed);
+      petInfo.appendChild(age);
 
       card.appendChild(petImageDiv);
-      card.appendChild(petInfoDiv);
+      card.appendChild(petInfo);
       cardLink.appendChild(card);
       petsGridContainer.appendChild(cardLink);
     });
   } else {
-    petsGridContainer.innerHTML = "<p>No pets found with the selected filters.</p>";
+    const noResults = document.createElement("div");
+    noResults.classList.add("no-results");
+    noResults.innerHTML = `
+      <img src="../media/images/no_results.png" alt="No results found">
+      <p>No pets found matching your criteria.</p>
+      <button onclick="resetFilters()" class="reset-filters-btn">
+        <i class="fas fa-undo"></i> Reset Filters
+      </button>
+    `;
+    petsGridContainer.appendChild(noResults);
   }
 }
 

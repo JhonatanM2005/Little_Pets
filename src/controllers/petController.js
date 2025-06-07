@@ -1,4 +1,5 @@
 const Pet = require("../models/petModel");
+const AdoptionRequest = require("../models/adoptionRequestModel");
 
 exports.getPets = async (req, res) => {
   try {
@@ -296,5 +297,47 @@ exports.deletePet = async (req, res) => {
   } catch (error) {
     console.error("Error al eliminar mascota:", error);
     res.status(500).json({ mensaje: "Error al eliminar mascota", error: error.message });
+  }
+};
+
+exports.getAllPets = async (req, res) => {
+  try {
+    const pets = await Pet.find();
+    
+    // Get adoption requests for each pet
+    const petsWithStatus = await Promise.all(pets.map(async (pet) => {
+      const petObj = pet.toObject();
+      
+      // Find the latest adoption request for this pet
+      const latestRequest = await AdoptionRequest.findOne({ petId: pet._id })
+        .sort({ createdAt: -1 });
+      
+      if (latestRequest) {
+        if (latestRequest.status === "pending") {
+          petObj.adoptionStatus = "pending";
+        } else if (latestRequest.status === "approved") {
+          petObj.adoptionStatus = "adopted";
+        } else {
+          // If the latest request was rejected, check if there are any pending requests
+          const pendingRequest = await AdoptionRequest.findOne({
+            petId: pet._id,
+            status: "pending"
+          });
+          petObj.adoptionStatus = pendingRequest ? "pending" : "available";
+        }
+      } else {
+        petObj.adoptionStatus = "available";
+      }
+      
+      return petObj;
+    }));
+    
+    res.status(200).json(petsWithStatus);
+  } catch (error) {
+    console.error("Error getting pets:", error);
+    res.status(500).json({
+      message: "Error getting pets",
+      error: error.message,
+    });
   }
 };
