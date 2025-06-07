@@ -17,6 +17,12 @@ document.addEventListener('DOMContentLoaded', function() {
     const currentImagesContainer = document.getElementById('current-images-container');
     const currentImagesGrid = document.getElementById('current-images-grid');
     
+    // Mostrar el enlace de logout
+    const logoutLink = document.getElementById('logout-link');
+    if (logoutLink) {
+        logoutLink.style.display = 'block';
+    }
+    
     // Check if the user is authenticated and has appropriate permissions
     function getToken() {
         return localStorage.getItem('token');
